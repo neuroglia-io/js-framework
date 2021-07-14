@@ -30,14 +30,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/logging/tsconfig.lib.json",
-              "projects/neuroglia/logging/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/logging/**/*.ts",
+              "projects/neuroglia/logging/**/*.html"
             ]
           }
         }
@@ -70,14 +67,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/logging-transport-console/tsconfig.lib.json",
-              "projects/neuroglia/logging-transport-console/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/logging-transport-console/**/*.ts",
+              "projects/neuroglia/logging-transport-console/**/*.html"
             ]
           }
         }
@@ -110,14 +104,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/string-formatter/tsconfig.lib.json",
-              "projects/neuroglia/string-formatter/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/string-formatter/**/*.ts",
+              "projects/neuroglia/string-formatter/**/*.html"
             ]
           }
         }
@@ -150,14 +141,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/angular-logging/tsconfig.lib.json",
-              "projects/neuroglia/angular-logging/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-logging/**/*.ts",
+              "projects/neuroglia/angular-logging/**/*.html"
             ]
           }
         }
@@ -190,14 +178,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/angular-common/tsconfig.lib.json",
-              "projects/neuroglia/angular-common/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-common/**/*.ts",
+              "projects/neuroglia/angular-common/**/*.html"
             ]
           }
         }
@@ -230,14 +215,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/common/tsconfig.lib.json",
-              "projects/neuroglia/common/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/common/**/*.ts",
+              "projects/neuroglia/common/**/*.html"
             ]
           }
         }
@@ -270,14 +252,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/angular-oidc/tsconfig.lib.json",
-              "projects/neuroglia/angular-oidc/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-oidc/**/*.ts",
+              "projects/neuroglia/angular-oidc/**/*.html"
             ]
           }
         }
@@ -310,14 +289,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/angular-rest-core/tsconfig.lib.json",
-              "projects/neuroglia/angular-rest-core/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-rest-core/**/*.ts",
+              "projects/neuroglia/angular-rest-core/**/*.html"
             ]
           }
         }
@@ -350,19 +326,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/neuroglia/angular-signalr/tsconfig.lib.json",
-              "projects/neuroglia/angular-signalr/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-signalr/**/*.ts",
+              "projects/neuroglia/angular-signalr/**/*.html"
             ]
           }
         }
       }
     }
   },
-  "defaultProject": "@neuroglia/logging"
+  "defaultProject": "@neuroglia/logging",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
