@@ -1,0 +1,70 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "paths": {
+      "@neuroglia/angular-common": [
+        "dist/neuroglia/angular-common/neuroglia-angular-common",
+        "dist/neuroglia/angular-common"
+      ],
+      "@neuroglia/angular-logging": [
+        "dist/neuroglia/angular-logging/neuroglia-angular-logging",
+        "dist/neuroglia/angular-logging"
+      ],
+      "@neuroglia/angular-oidc": [
+        "dist/neuroglia/angular-oidc/neuroglia-angular-oidc",
+        "dist/neuroglia/angular-oidc"
+      ],
+      "@neuroglia/angular-rest-core": [
+        "dist/neuroglia/angular-rest-core/neuroglia-angular-rest-core",
+        "dist/neuroglia/angular-rest-core"
+      ],
+      "@neuroglia/angular-signalr": [
+        "dist/neuroglia/angular-signalr/neuroglia-angular-signalr",
+        "dist/neuroglia/angular-signalr"
+      ],
+      "@neuroglia/common": [
+        "dist/neuroglia/common/neuroglia-common",
+        "dist/neuroglia/common"
+      ],
+      "@neuroglia/logging": [
+        "dist/neuroglia/logging/neuroglia-logging",
+        "dist/neuroglia/logging"
+      ],
+      "@neuroglia/logging-transport-console": [
+        "dist/neuroglia/logging-transport-console/neuroglia-logging-transport-console",
+        "dist/neuroglia/logging-transport-console"
+      ],
+      "@neuroglia/string-formatter": [
+        "dist/neuroglia/string-formatter/neuroglia-string-formatter",
+        "dist/neuroglia/string-formatter"
+      ]
+    },
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom",
+      "dom.Iterable"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

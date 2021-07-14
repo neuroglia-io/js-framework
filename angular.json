@@ -1,0 +1,368 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "@neuroglia/logging": {
+      "projectType": "library",
+      "root": "projects/neuroglia/logging",
+      "sourceRoot": "projects/neuroglia/logging/src",
+      "prefix": "neuroglia-logging",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/logging/tsconfig.lib.json",
+            "project": "projects/neuroglia/logging/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/logging/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/logging/src/test.ts",
+            "tsConfig": "projects/neuroglia/logging/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/logging/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/logging/tsconfig.lib.json",
+              "projects/neuroglia/logging/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/logging-transport-console": {
+      "projectType": "library",
+      "root": "projects/neuroglia/logging-transport-console",
+      "sourceRoot": "projects/neuroglia/logging-transport-console/src",
+      "prefix": "neuroglia-logging-transport-console",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/logging-transport-console/tsconfig.lib.json",
+            "project": "projects/neuroglia/logging-transport-console/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/logging-transport-console/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/logging-transport-console/src/test.ts",
+            "tsConfig": "projects/neuroglia/logging-transport-console/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/logging-transport-console/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/logging-transport-console/tsconfig.lib.json",
+              "projects/neuroglia/logging-transport-console/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/string-formatter": {
+      "projectType": "library",
+      "root": "projects/neuroglia/string-formatter",
+      "sourceRoot": "projects/neuroglia/string-formatter/src",
+      "prefix": "neuroglia-string-formatter",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/string-formatter/tsconfig.lib.json",
+            "project": "projects/neuroglia/string-formatter/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/string-formatter/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/string-formatter/src/test.ts",
+            "tsConfig": "projects/neuroglia/string-formatter/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/string-formatter/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/string-formatter/tsconfig.lib.json",
+              "projects/neuroglia/string-formatter/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-logging": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-logging",
+      "sourceRoot": "projects/neuroglia/angular-logging/src",
+      "prefix": "neuroglia-angular-logging",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-logging/tsconfig.lib.json",
+            "project": "projects/neuroglia/angular-logging/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-logging/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/angular-logging/src/test.ts",
+            "tsConfig": "projects/neuroglia/angular-logging/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/angular-logging/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/angular-logging/tsconfig.lib.json",
+              "projects/neuroglia/angular-logging/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-common": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-common",
+      "sourceRoot": "projects/neuroglia/angular-common/src",
+      "prefix": "neuroglia-angular-common",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-common/tsconfig.lib.json",
+            "project": "projects/neuroglia/angular-common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-common/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/angular-common/src/test.ts",
+            "tsConfig": "projects/neuroglia/angular-common/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/angular-common/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/angular-common/tsconfig.lib.json",
+              "projects/neuroglia/angular-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/common": {
+      "projectType": "library",
+      "root": "projects/neuroglia/common",
+      "sourceRoot": "projects/neuroglia/common/src",
+      "prefix": "neuroglia-common",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/common/tsconfig.lib.json",
+            "project": "projects/neuroglia/common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/common/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/common/src/test.ts",
+            "tsConfig": "projects/neuroglia/common/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/common/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/common/tsconfig.lib.json",
+              "projects/neuroglia/common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-oidc": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-oidc",
+      "sourceRoot": "projects/neuroglia/angular-oidc/src",
+      "prefix": "neuroglia-angular-oidc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-oidc/tsconfig.lib.json",
+            "project": "projects/neuroglia/angular-oidc/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-oidc/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/angular-oidc/src/test.ts",
+            "tsConfig": "projects/neuroglia/angular-oidc/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/angular-oidc/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/angular-oidc/tsconfig.lib.json",
+              "projects/neuroglia/angular-oidc/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-rest-core": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-rest-core",
+      "sourceRoot": "projects/neuroglia/angular-rest-core/src",
+      "prefix": "neuroglia-angular-rest-core",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-rest-core/tsconfig.lib.json",
+            "project": "projects/neuroglia/angular-rest-core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-rest-core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/angular-rest-core/src/test.ts",
+            "tsConfig": "projects/neuroglia/angular-rest-core/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/angular-rest-core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/angular-rest-core/tsconfig.lib.json",
+              "projects/neuroglia/angular-rest-core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-signalr": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-signalr",
+      "sourceRoot": "projects/neuroglia/angular-signalr/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-signalr/tsconfig.lib.json",
+            "project": "projects/neuroglia/angular-signalr/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-signalr/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/angular-signalr/src/test.ts",
+            "tsConfig": "projects/neuroglia/angular-signalr/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/angular-signalr/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/neuroglia/angular-signalr/tsconfig.lib.json",
+              "projects/neuroglia/angular-signalr/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "@neuroglia/logging"
+}

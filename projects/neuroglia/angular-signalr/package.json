@@ -1,0 +1,25 @@
+{
+  "name": "@neuroglia/angular-signalr",
+  "description": "Provides base implementation and helpers for SignalR clients",
+  "version": "0.0.1",
+  "author": {
+    "name": "JB Bianchi - Neuroglia SPRL",
+    "email": "jb.bianchi@neuroglia.io",
+    "url": "https://neuroglia.io"
+  },
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "peerDependencies": {
+    "@angular/common": "^11.2.4",
+    "@angular/core": "^11.2.4",
+    "@microsoft/signalr": "^5.0.3",
+    "@neuroglia/angular-common": "*",
+    "@neuroglia/angular-logging": "*",
+    "@neuroglia/angular-rest-core": "*",
+    "@neuroglia/common": "*",
+    "@neuroglia/logging": "*",
+    "date-fns": "^2.18.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

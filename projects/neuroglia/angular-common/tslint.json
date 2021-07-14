@@ -1,0 +1,17 @@
+{
+  "extends": "../../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "neurogliaAngularCommon",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "neuroglia-angular-common",
+      "kebab-case"
+    ]
+  }
+}

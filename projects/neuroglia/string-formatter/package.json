@@ -1,0 +1,14 @@
+{
+  "name": "@neuroglia/string-formatter",
+  "description": "Utility to format strings",
+  "version": "0.0.1",
+  "author": {
+    "name": "JB Bianchi - Neuroglia SPRL",
+    "email": "jb.bianchi@neuroglia.io",
+    "url": "https://neuroglia.io"
+  },
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
