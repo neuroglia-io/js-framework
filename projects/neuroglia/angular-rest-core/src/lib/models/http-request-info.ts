@@ -1,12 +1,10 @@
-import { ModelConstructor } from "@neuroglia/common";
+import { ModelConstructor } from '@neuroglia/common';
 import { HttpParams } from '@angular/common/http';
 
 /**
-* Describes an http request
-*/
-export class HttpRequestInfo extends ModelConstructor
- {
-
+ * Describes an http request
+ */
+export class HttpRequestInfo extends ModelConstructor {
   constructor(model?: any) {
     super(model);
   }
@@ -29,10 +27,10 @@ export class HttpRequestInfo extends ModelConstructor
     if (this.formData && Array.from(this.formData.keys()).length) {
       info += ` - formData: `;
       info += Array.from(this.formData.entries())
-        .map(kva => {
+        .map((kva) => {
           let s = kva[0] + '=';
           if (typeof kva[1] === typeof '') {
-            s += kva[1]
+            s += kva[1];
           } else {
             s += (kva[1] as File).name;
           }
@@ -42,5 +40,4 @@ export class HttpRequestInfo extends ModelConstructor
     }
     return info;
   }
-
 }

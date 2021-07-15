@@ -1,13 +1,11 @@
-import { ModelConstructor } from "@neuroglia/common";
+import { ModelConstructor } from '@neuroglia/common';
 import { HttpRequestInfo } from './http-request-info';
 import { HttpErrorResponse } from '@angular/common/http';
 
 /**
-* Describes an http error
-*/
-export class HttpErrorInfo extends ModelConstructor
- {
-
+ * Describes an http error
+ */
+export class HttpErrorInfo extends ModelConstructor {
   constructor(model?: any) {
     super(model);
     this.request = new HttpRequestInfo(model?.request || {});
@@ -16,5 +14,4 @@ export class HttpErrorInfo extends ModelConstructor
 
   request: HttpRequestInfo;
   error: HttpErrorResponse;
-
 }

@@ -133,5 +133,4 @@ describe('StorageHandler', () => {
     expect(entry).toBeFalsy();
     expect(window.sessionStorage.getItem(sessionStorageKey)).toBeFalsy();
   });
-
 });

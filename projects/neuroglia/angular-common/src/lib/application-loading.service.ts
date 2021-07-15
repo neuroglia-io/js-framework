@@ -7,10 +7,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
  * Provides application wide loading state mecanisms
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApplicationLoadingService {
-
   /** Stores the list of emitted loading tokens */
   private loadingTokens: string[] = [];
   /** The loading state */
@@ -22,14 +21,12 @@ export class ApplicationLoadingService {
   /** An instance of @see ILogger */
   private logger: ILogger;
 
-  constructor(
-    private namedLoggingServiceFactory: NamedLoggingServiceFactory
-  ) { 
+  constructor(private namedLoggingServiceFactory: NamedLoggingServiceFactory) {
     this.logger = this.namedLoggingServiceFactory.create('ApplicationLoadingService');
   }
 
-  /** 
-   * Generates a loading token and switches the loading state to true 
+  /**
+   * Generates a loading token and switches the loading state to true
    */
   startLoading(): string {
     const token = this.generateToken();
@@ -71,5 +68,4 @@ export class ApplicationLoadingService {
   private generateToken(): string {
     return Math.random().toString(36).substring(7);
   }
-
 }

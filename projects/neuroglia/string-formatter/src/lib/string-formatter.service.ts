@@ -6,9 +6,7 @@
 export function strFormat(message: string, ...params: any[]): string {
   if (!message) return '';
   if (!params || !params.length) return message;
-  return message.replace(/{(\d+)}/g, (pattern, index) =>
-    params[index] || pattern
-  );
+  return message.replace(/{(\d+)}/g, (pattern, index) => params[index] || pattern);
 }
 
 /**
@@ -19,9 +17,7 @@ export function strFormat(message: string, ...params: any[]): string {
 export function strformatNamed(message: string, params: any): string {
   if (!message) return '';
   if (!params) return message;
-  return message.replace(/\${(\w+)}/g, (pattern, match) =>
-    params[match] || pattern
-  );
+  return message.replace(/\${(\w+)}/g, (pattern, match) => params[match] || pattern);
 }
 
 /**

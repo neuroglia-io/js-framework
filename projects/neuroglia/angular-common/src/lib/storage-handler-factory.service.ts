@@ -6,10 +6,9 @@ import { StorageHandler, IStorageHandler } from '@neuroglia/common';
  * The injectable service used to create IStorageHandlers
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageHandlerFactoryService {
-
   /**
    * Creates a new IStorageHandler
    * @param key The assigned key in the storage
@@ -19,5 +18,4 @@ export class StorageHandlerFactoryService {
   create<T>(key: string, expiresIn: number | null = null, storage: Storage = window.localStorage): IStorageHandler<T> {
     return new StorageHandler(key, expiresIn, storage);
   }
-
 }
