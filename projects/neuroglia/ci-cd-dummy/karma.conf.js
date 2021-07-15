@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../../coverage/neuroglia/string-formatter'),
+      dir: require('path').join(__dirname, '../../../coverage/neuroglia/ci-cd-dummy'),
       subdir: '.',
       reporters: [
         { type: 'html' },

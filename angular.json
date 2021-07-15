@@ -335,6 +335,46 @@
           }
         }
       }
+    },
+    "@neuroglia/ci-cd-dummy": {
+      "projectType": "library",
+      "root": "projects/neuroglia/ci-cd-dummy",
+      "sourceRoot": "projects/neuroglia/ci-cd-dummy/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/ci-cd-dummy/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/ci-cd-dummy/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/ci-cd-dummy/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/neuroglia/ci-cd-dummy/src/test.ts",
+            "tsConfig": "projects/neuroglia/ci-cd-dummy/tsconfig.spec.json",
+            "karmaConfig": "projects/neuroglia/ci-cd-dummy/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/ci-cd-dummy/**/*.ts",
+              "projects/neuroglia/ci-cd-dummy/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "@neuroglia/logging",
