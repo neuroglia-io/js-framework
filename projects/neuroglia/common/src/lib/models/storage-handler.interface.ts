@@ -4,7 +4,7 @@
 export interface IStorageHandler<T> {
   /**
    * Sets the value of the underlying storage item
-   * @param value 
+   * @param value
    */
   setItem(value: T): void;
   /**

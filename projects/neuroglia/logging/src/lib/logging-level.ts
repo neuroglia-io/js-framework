@@ -9,5 +9,5 @@ export enum LoggingLevel {
   warning = 3,
   information = 4,
   debug = 5,
-  trace = 6
-};
+  trace = 6,
+}

@@ -2,8 +2,7 @@
  * Decimal is used to help decimal operations
  */
 export class Decimal {
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Returns a decimal from a floating number
@@ -13,5 +12,4 @@ export class Decimal {
   static convert(floating: number): number {
     return Math.round(floating * 100) / 100;
   }
-  
 }

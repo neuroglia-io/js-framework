@@ -1,5 +1,7 @@
 # AngularSignalr
 
+Provides base implementation and helpers for SignalR clients
+
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
 
 ## Code scaffolding

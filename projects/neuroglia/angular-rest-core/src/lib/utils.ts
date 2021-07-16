@@ -9,7 +9,7 @@ import { HttpErrorObserverService } from './http-error-observer.service';
  * The default http options
  */
 export const defaultHttpOptions = {
-	headers: { 'Content-Type': 'application/json-patch+json' }
+  headers: { 'Content-Type': 'application/json-patch+json' },
 };
 
 /**
@@ -20,7 +20,12 @@ export const defaultHttpOptions = {
  * @param httpRequestInfo the http request info
  * @returns the provided observalbe http request
  */
-export function logHttpRequest<T>(logger: ILogger, errorObserver: HttpErrorObserverService, httpRequest: Observable<T>, httpRequestInfo: HttpRequestInfo): Observable<T> {
+export function logHttpRequest<T>(
+  logger: ILogger,
+  errorObserver: HttpErrorObserverService,
+  httpRequest: Observable<T>,
+  httpRequestInfo: HttpRequestInfo
+): Observable<T> {
   logger.log(`${httpRequestInfo.info} | call.`, httpRequestInfo);
   return httpRequest.pipe(
     tap({
@@ -28,7 +33,7 @@ export function logHttpRequest<T>(logger: ILogger, errorObserver: HttpErrorObser
       error: (err: HttpErrorResponse) => {
         errorObserver.next(new HttpErrorInfo({ request: httpRequestInfo, error: err }));
         logger.error(`${httpRequestInfo.info} | failed: ${err.message}`, httpRequestInfo);
-      }
+      },
     })
   );
 }

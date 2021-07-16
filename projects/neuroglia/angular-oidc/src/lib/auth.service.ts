@@ -12,10 +12,9 @@ import { OidcOptions } from './models/oidc-options';
  * The service used to manage user authorization
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private logger: ILogger;
   private userManager: UserManager;
   private returnUrlStorageKey = 'oidc_return_url';
@@ -29,7 +28,6 @@ export class AuthService {
     private namedLoggingFactory: NamedLoggingServiceFactory,
     private oidcOptions: OidcOptions,
     private storageService: StorageHandlerFactoryService
-
   ) {
     this.logger = this.namedLoggingFactory.create('AuthService');
     Log.logger = this.logger;
@@ -49,13 +47,15 @@ export class AuthService {
    */
   getUser(): Observable<User | null> {
     if (this.user) return of(this.user);
-    this.userRequest = this.userRequest || from(this.userManager.getUser()).pipe(
-      tap((user: User | null) => {
-        this.user = user;
-        this.userSource.next(this.user);
-      }),
-      shareReplay(1)
-    );
+    this.userRequest =
+      this.userRequest ||
+      from(this.userManager.getUser()).pipe(
+        tap((user: User | null) => {
+          this.user = user;
+          this.userSource.next(this.user);
+        }),
+        shareReplay(1)
+      );
     return this.userRequest;
   }
 
@@ -96,11 +96,7 @@ export class AuthService {
     return from(this.userManager.signinRedirectCallback()).pipe(
       tap(
         () => {
-          window.history.replaceState(
-            {},
-            window.document.title,
-            window.location.origin
-          );
+          window.history.replaceState({}, window.document.title, window.location.origin);
           const returnUrl = this.returnUrlStorage.getItem() || '/';
           this.logger.debug(`Login successful, redirecting to '${returnUrl}'`);
           window.location.href = returnUrl;
@@ -194,5 +190,4 @@ export class AuthService {
   private onUserSessionChanged() {
     this.logger.debug('User session changed');
   }
-
 }

@@ -23,6 +23,10 @@
         "dist/neuroglia/angular-signalr/neuroglia-angular-signalr",
         "dist/neuroglia/angular-signalr"
       ],
+      "@neuroglia/ci-cd-dummy": [
+        "dist/neuroglia/ci-cd-dummy/neuroglia-ci-cd-dummy",
+        "dist/neuroglia/ci-cd-dummy"
+      ],
       "@neuroglia/common": [
         "dist/neuroglia/common/neuroglia-common",
         "dist/neuroglia/common"

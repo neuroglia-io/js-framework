@@ -23,5 +23,4 @@ describe('StorageHandlerFactoryService', () => {
     const instance = service.create('key');
     expect(instance).toBeTruthy();
   });
-
 });

@@ -1,4 +1,11 @@
-import { UserManagerSettings, WebStorageStateStore, StateStore, ResponseValidatorCtor, MetadataServiceCtor, OidcMetadata } from 'oidc-client';
+import {
+  UserManagerSettings,
+  WebStorageStateStore,
+  StateStore,
+  ResponseValidatorCtor,
+  MetadataServiceCtor,
+  OidcMetadata,
+} from 'oidc-client';
 
 /**
  * Abstract class used to provide an injectable 'UserManagerSettings' interface, see https://angular.io/guide/dependency-injection-in-action#class-interface

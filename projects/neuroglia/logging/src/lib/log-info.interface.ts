@@ -4,7 +4,6 @@ import { LoggingLevel } from './logging-level';
  * Defines the interface of a log info
  */
 export interface ILogInfo {
-
   /**
    * The moment the log has been created
    */
@@ -21,5 +20,4 @@ export interface ILogInfo {
    * Extended properties
    */
   [key: string]: any;
-
 }

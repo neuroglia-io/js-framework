@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 
-
 @NgModule({
   declarations: [],
   imports: [],
-  exports: []
+  exports: [],
 })
-export class NeurogliaNgOidcModule { }
+export class NeurogliaNgOidcModule {}

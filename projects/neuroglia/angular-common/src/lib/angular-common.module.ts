@@ -5,6 +5,6 @@ import { ApplicationHostService } from './application-host.service';
 @NgModule({
   declarations: [],
   imports: [],
-  exports: []
+  exports: [],
 })
-export class NeurogliaNgCommonModule { }
+export class NeurogliaNgCommonModule {}
