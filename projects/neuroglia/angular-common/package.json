@@ -1,7 +1,7 @@
 {
   "name": "@neuroglia/angular-common",
   "description": "Common Angular helpers with no or low dependencies",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Neuroglia",
     "url": "https://neuroglia.io"
