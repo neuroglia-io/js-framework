@@ -1,10 +1,32 @@
 import { NgModule } from '@angular/core';
-import { StorageHandlerFactoryService } from '.';
-import { ApplicationHostService } from './application-host.service';
+import { CamelCasePipe } from './pipes/camel-case.pipe';
+import { HumanCasePipe } from './pipes/human-case.pipe';
+import { KebabCasePipe } from './pipes/kebab-case.pipe';
+import { PascalCasePipe } from './pipes/pascal-case.pipe';
+import { SnakeCasePipe } from './pipes/snake-case.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CamelCasePipe,
+    HumanCasePipe,
+    KebabCasePipe,
+    PascalCasePipe,
+    SnakeCasePipe
+  ],
   imports: [],
-  exports: [],
+  exports: [
+    CamelCasePipe,
+    HumanCasePipe,
+    KebabCasePipe,
+    PascalCasePipe,
+    SnakeCasePipe
+  ],
+  providers: [
+    CamelCasePipe,
+    HumanCasePipe,
+    KebabCasePipe,
+    PascalCasePipe,
+    SnakeCasePipe
+  ]
 })
 export class NeurogliaNgCommonModule {}
