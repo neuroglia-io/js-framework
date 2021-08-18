@@ -10,6 +10,6 @@ import { pascalCase } from './pascal-case';
 export const camelCase = (source: string, convertionOptions: CaseConvertionOptions = defaultConvertingOptions): string => {
   if (!source) return '';
   return pascalCase(source, convertionOptions)
-    .replace(/\w/, (s) => s.toUpperCase())
+    .replace(/\w/, (s) => s.toLowerCase())
     ;
 };
