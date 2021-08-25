@@ -6,6 +6,7 @@ export * from './get';
 export * from './human-case';
 export * from './is-object';
 export * from './kebab-case';
+export * from './merge';
 export * from './omit';
 export * from './pascal-case';
 export * from './snake-case';
