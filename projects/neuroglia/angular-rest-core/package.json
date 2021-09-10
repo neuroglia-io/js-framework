@@ -1,7 +1,7 @@
 {
   "name": "@neuroglia/angular-rest-core",
   "description": "Provides base implementation and helpers for RESTful clients",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "Neuroglia",
     "url": "https://neuroglia.io"

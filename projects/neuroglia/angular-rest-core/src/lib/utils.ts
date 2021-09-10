@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ILogger } from '@neuroglia/logging';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
 import { HttpErrorInfo, HttpRequestInfo } from './models';
 import { HttpErrorObserverService } from './http-error-observer.service';
 
@@ -25,9 +25,10 @@ export function logHttpRequest<T>(
   errorObserver: HttpErrorObserverService,
   httpRequest: Observable<T>,
   httpRequestInfo: HttpRequestInfo
-): Observable<T> {
-  logger.log(`${httpRequestInfo.info} | call.`, httpRequestInfo);
-  return httpRequest.pipe(
+): Observable<T> {  
+  return of(null).pipe(
+    tap(() => logger.log(`${httpRequestInfo.info} | call.`, httpRequestInfo)),
+    mergeMap(() => httpRequest),
     tap({
       next: () => logger.log(`${httpRequestInfo.info} | succeeded.`, httpRequestInfo),
       error: (err: HttpErrorResponse) => {
