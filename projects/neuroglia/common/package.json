@@ -1,7 +1,7 @@
 {
   "name": "@neuroglia/common",
   "description": "Common helpers with no or low dependencies",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": {
     "name": "Neuroglia",
     "url": "https://neuroglia.io"
