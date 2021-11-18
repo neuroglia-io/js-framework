@@ -48,7 +48,7 @@
    * @param b The divider
    * @returns The quotient
    */
-  static dev(a: number, b: number): number {
+  static div(a: number, b: number): number {
     return (Math.round(a * 100) / Math.round(b * 100));
   }
   
