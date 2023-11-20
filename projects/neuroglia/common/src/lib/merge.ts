@@ -1,19 +1,18 @@
-import { isObject } from "./is-object";
+import { isObject } from './is-object';
 
 /**
  * Merges nested objects
- * @param obj1 
- * @param obj2 
+ * @param obj1
+ * @param obj2
  */
 export const merge = (obj1: any, obj2: any): any => {
-  const merged = {...obj1};
+  const merged = { ...obj1 };
   Object.entries(obj2).forEach(([prop, value]) => {
     if (!isObject(value) || !merged[prop]) {
       merged[prop] = value;
-    }
-    else {
+    } else {
       merged[prop] = merge(merged[prop], value);
     }
-  })
+  });
   return merged;
 };

@@ -14,7 +14,7 @@ export class StorageHandler<T> implements IStorageHandler<T> {
   constructor(
     private key: string,
     private expiresIn: number | null = null,
-    private storage: Storage = window.localStorage
+    private storage: Storage = window.localStorage,
   ) {}
 
   setItem(value: T): void {

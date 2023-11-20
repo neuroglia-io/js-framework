@@ -9,4 +9,3 @@ export * from './pipes/human-case.pipe';
 export * from './pipes/kebab-case.pipe';
 export * from './pipes/pascal-case.pipe';
 export * from './pipes/snake-case.pipe';
-

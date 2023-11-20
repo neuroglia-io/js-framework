@@ -7,11 +7,15 @@
 export const humanCase = (source: string, keepCapitalLetters: boolean = false): string => {
   if (!source) return '';
   let transformable = source.trim();
-  transformable = transformable[0].toUpperCase() + transformable.slice(1).replace(/([A-Z])/g, ' $1').replace(/\s+/g, ' ');
+  transformable =
+    transformable[0].toUpperCase() +
+    transformable
+      .slice(1)
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/\s+/g, ' ');
   if (keepCapitalLetters) {
     return transformable;
-  }
-  else {
+  } else {
     return transformable.toLowerCase();
   }
 };

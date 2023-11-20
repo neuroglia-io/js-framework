@@ -27,7 +27,7 @@ export class AuthService {
   constructor(
     private namedLoggingFactory: NamedLoggingServiceFactory,
     private oidcOptions: OidcOptions,
-    private storageService: StorageHandlerFactoryService
+    private storageService: StorageHandlerFactoryService,
   ) {
     this.logger = this.namedLoggingFactory.create('AuthService');
     Log.logger = this.logger;
@@ -54,7 +54,7 @@ export class AuthService {
           this.user = user;
           this.userSource.next(this.user);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     return this.userRequest;
   }
@@ -103,8 +103,8 @@ export class AuthService {
         },
         (err) => {
           this.logger.error(`An error occured while logging in`, err);
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -119,8 +119,8 @@ export class AuthService {
         },
         (err) => {
           this.logger.error(`An error occured during silent renew`, err);
-        }
-      )
+        },
+      ),
     );
   }
 

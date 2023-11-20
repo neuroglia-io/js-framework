@@ -6,27 +6,9 @@ import { PascalCasePipe } from './pipes/pascal-case.pipe';
 import { SnakeCasePipe } from './pipes/snake-case.pipe';
 
 @NgModule({
-  declarations: [
-    CamelCasePipe,
-    HumanCasePipe,
-    KebabCasePipe,
-    PascalCasePipe,
-    SnakeCasePipe
-  ],
+  declarations: [CamelCasePipe, HumanCasePipe, KebabCasePipe, PascalCasePipe, SnakeCasePipe],
   imports: [],
-  exports: [
-    CamelCasePipe,
-    HumanCasePipe,
-    KebabCasePipe,
-    PascalCasePipe,
-    SnakeCasePipe
-  ],
-  providers: [
-    CamelCasePipe,
-    HumanCasePipe,
-    KebabCasePipe,
-    PascalCasePipe,
-    SnakeCasePipe
-  ]
+  exports: [CamelCasePipe, HumanCasePipe, KebabCasePipe, PascalCasePipe, SnakeCasePipe],
+  providers: [CamelCasePipe, HumanCasePipe, KebabCasePipe, PascalCasePipe, SnakeCasePipe],
 })
 export class NeurogliaNgCommonModule {}

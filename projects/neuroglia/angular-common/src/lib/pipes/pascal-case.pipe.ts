@@ -5,13 +5,11 @@ import { pascalCase } from '@neuroglia/common';
  * A pipe to transform text into PascalCase
  */
 @Pipe({
-  name: 'pascalCase'
+  name: 'pascalCase',
 })
 export class PascalCasePipe implements PipeTransform {
-
   transform(source: string): string {
     if (!source) return '';
     return pascalCase(source);
   }
-
 }

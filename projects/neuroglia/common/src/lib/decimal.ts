@@ -1,8 +1,7 @@
 /**
  * Decimal is used to help decimal operations
  */
- export class Decimal {
-
+export class Decimal {
   /**
    * Returns a decimal from a floating number
    * @param floating the floating number to convert
@@ -49,7 +48,6 @@
    * @returns The quotient
    */
   static div(a: number, b: number): number {
-    return (Math.round(a * 100) / Math.round(b * 100));
+    return Math.round(a * 100) / Math.round(b * 100);
   }
-  
 }

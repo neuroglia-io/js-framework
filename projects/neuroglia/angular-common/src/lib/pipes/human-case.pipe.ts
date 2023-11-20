@@ -5,13 +5,11 @@ import { humanCase } from '@neuroglia/common';
  * A pipe to transform text into "Human case"
  */
 @Pipe({
-  name: 'humanCase'
+  name: 'humanCase',
 })
 export class HumanCasePipe implements PipeTransform {
-
   transform(source: string, keepCapitalLetters: boolean = false): string {
     if (!source) return '';
     return humanCase(source, keepCapitalLetters);
   }
-
 }

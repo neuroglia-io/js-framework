@@ -10,7 +10,7 @@ import { WS_URL_TOKEN } from './ws-url-token';
 import { LABEL_TOKEN } from './label-token';
 
 const defaultReconnectPolicyFactory: (delays?: (number | null)[]) => signalR.IRetryPolicy = (
-  delays = [0, 2000, 10000, 30000]
+  delays = [0, 2000, 10000, 30000],
 ) => ({
   nextRetryDelayInMilliseconds(retryContext: signalR.RetryContext): number | null {
     return [...delays, null][retryContext.previousRetryCount];
@@ -44,7 +44,7 @@ export abstract class SignalRService implements OnDestroy {
     @Inject(WS_URL_TOKEN) protected wsUrl: string,
     protected errorObserver: HttpErrorObserverService,
     protected namedLoggingServiceFactory: NamedLoggingServiceFactory,
-    @Inject(LABEL_TOKEN) protected label: string
+    @Inject(LABEL_TOKEN) protected label: string,
   ) {
     //super(wsUrl, errorObserver, namedLoggingServiceFactory, label);
     this.logger = this.namedLoggingServiceFactory.create(label);
@@ -65,7 +65,7 @@ export abstract class SignalRService implements OnDestroy {
     hubProtocol: signalR.IHubProtocol | null = null,
     onReconnectingCallback: Function | null = null,
     onReconnectedCallback: Function | null = null,
-    onCloseCallback: Function | null = null
+    onCloseCallback: Function | null = null,
   ): Observable<void> {
     const httpRequestInfo: HttpRequestInfo = new HttpRequestInfo({
       clientServiceName: 'SignalRService',
@@ -142,7 +142,7 @@ export abstract class SignalRService implements OnDestroy {
               return throwError(error);
             }
             return timer(nextDelay);
-          })
+          }),
         );
     }
     const repeatableConnect = new Observable<void>((subscribe) => {
@@ -161,8 +161,8 @@ export abstract class SignalRService implements OnDestroy {
         (err: any) => {
           this.logger.error(`Connection error '${JSON.stringify(err)}'`);
           this.notifyConnectionState(false);
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -176,7 +176,7 @@ export abstract class SignalRService implements OnDestroy {
     return from(this.connection.stop()).pipe(
       tap(() => {
         this.notifyConnectionState(false);
-      })
+      }),
     );
   }
 
@@ -212,7 +212,7 @@ export abstract class SignalRService implements OnDestroy {
       this.logger,
       this.errorObserver,
       from(this.connection.send(method, ...args)),
-      httpRequestInfo
+      httpRequestInfo,
     );
   }
 
@@ -237,7 +237,7 @@ export abstract class SignalRService implements OnDestroy {
       this.logger,
       this.errorObserver,
       from(this.connection.invoke(method, ...args)),
-      httpRequestInfo
+      httpRequestInfo,
     );
   }
 
@@ -268,7 +268,7 @@ export abstract class SignalRService implements OnDestroy {
           complete: () => observer.complete(),
         });
       }),
-      httpRequestInfo
+      httpRequestInfo,
     );
   }
 

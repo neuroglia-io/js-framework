@@ -24,8 +24,8 @@ export function logHttpRequest<T>(
   logger: ILogger,
   errorObserver: HttpErrorObserverService,
   httpRequest: Observable<T>,
-  httpRequestInfo: HttpRequestInfo
-): Observable<T> {  
+  httpRequestInfo: HttpRequestInfo,
+): Observable<T> {
   return of(null).pipe(
     tap(() => logger.log(`${httpRequestInfo.info} | call.`, httpRequestInfo)),
     mergeMap(() => httpRequest),
@@ -35,6 +35,6 @@ export function logHttpRequest<T>(
         errorObserver.next(new HttpErrorInfo({ request: httpRequestInfo, error: err }));
         logger.error(`${httpRequestInfo.info} | failed: ${err.message}`, httpRequestInfo);
       },
-    })
+    }),
   );
 }

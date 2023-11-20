@@ -22,5 +22,5 @@ export const defaultConvertingOptions = {
   keepUnderscores: false,
   capitalizeAfterUnderscores: false,
   keepDots: true,
-  capitalizeAfterDots: true
+  capitalizeAfterDots: true,
 } as CaseConvertionOptions;

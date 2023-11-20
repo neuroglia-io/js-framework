@@ -5,8 +5,4 @@ import { Component, OnInit } from '@angular/core';
   template: ` <p>ci-cd-dummy works!</p> `,
   styles: [],
 })
-export class CiCdDummyComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class CiCdDummyComponent {}
