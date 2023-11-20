@@ -2,16 +2,6 @@
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../dist/neuroglia/angular-oidc",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "@angular/common": "angular-common",
-      "@angular/core": "angular-core",
-      "@neuroglia/angular-common": "neuroglia-angular-common",
-      "@neuroglia/angular-logging": "neuroglia-angular-logging",
-      "@neuroglia/angular-oidc": "neuroglia-angular-oidc",
-      "@neuroglia/common": "neuroglia-common",
-      "@neuroglia/logging": "neuroglia-logging",
-      "date-fns": "date-fns"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

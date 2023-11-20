@@ -2,9 +2,6 @@
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../dist/neuroglia/common",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "date-fns": "date-fns"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

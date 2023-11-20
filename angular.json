@@ -377,7 +377,6 @@
       }
     }
   },
-  "defaultProject": "@neuroglia/logging",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }
