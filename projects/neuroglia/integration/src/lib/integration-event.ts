@@ -4,7 +4,7 @@ import { IIntegrationEvent } from './integration-event.interface';
 /**
  * Represents the base class for all integration events
  */
-export class IntergrationEvent<T = string> extends DataTransferObject implements IIntegrationEvent<T> {
+export class IntegrationEvent<T = string> extends DataTransferObject implements IIntegrationEvent<T> {
   constructor(model?: any) {
     super(model);
   }
