@@ -1,9 +1,9 @@
-﻿import { DataTransfertObject } from './data-transfer-object';
+﻿import { DataTransferObject } from './data-transfer-object';
 
 /**
  * Represents the base class for Data Transfer Objects used to describe an entity
  */
-export class EntityDataTransferObject<T = string> extends DataTransfertObject {
+export class EntityDataTransferObject<T = string> extends DataTransferObject {
   constructor(model?: any) {
     super(model);
   }
