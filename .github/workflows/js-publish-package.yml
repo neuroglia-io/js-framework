@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: Cache build
-        uses: actions/cache@v3
+      - name: Restore build artifacts
+        uses: actions/cache/restore@v3
         with:
-          path: ${{ format('{0}/{1}/', inputs.path, 'dist') }}
+          path: ${{ format('{0}{1}/', inputs.path, 'dist') }}
           key: ${{ inputs.name }}-dist
       
       - name: Publish package
