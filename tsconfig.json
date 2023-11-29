@@ -57,7 +57,7 @@
     "strictPropertyInitialization": false,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "esnext",
     "module": "es2020",
     "lib": [
       "es2018",
