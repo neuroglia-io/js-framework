@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr';
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
 import { Observable, BehaviorSubject, from, Subject, Observer, of, throwError, timer } from 'rxjs';
 import { mergeMap, retryWhen, tap } from 'rxjs/operators';
 
@@ -8,6 +8,7 @@ import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, HttpRequestInfo, logHttpRequest } from '@neuroglia/angular-rest-core';
 import { WS_URL_TOKEN } from './ws-url-token';
 import { LABEL_TOKEN } from './label-token';
+import { ACCESS_TOKEN_FACTORY_TOKEN } from './access-token-factory-token';
 
 const defaultReconnectPolicyFactory: (delays?: (number | null)[]) => signalR.IRetryPolicy = (
   delays = [0, 2000, 10000, 30000],
@@ -35,7 +36,7 @@ export abstract class SignalRService implements OnDestroy {
 
   /**
    * Creates a new SignalRService instance
-   * @param apiUrl the base url of the websocket API, e.g.: https://server.com/websockets
+   * @param wsUrl the base url of the websocket API, e.g.: https://server.com/websockets
    * @param errorObserver  an instance of @see HttpErrorObserverService
    * @param namedLoggingServiceFactory an instance of @see NamedLoggingServiceFactory
    * @param loggingLabel the label used for logging for the current instance
@@ -45,6 +46,7 @@ export abstract class SignalRService implements OnDestroy {
     protected errorObserver: HttpErrorObserverService,
     protected namedLoggingServiceFactory: NamedLoggingServiceFactory,
     @Inject(LABEL_TOKEN) protected label: string,
+    @Optional() @Inject(ACCESS_TOKEN_FACTORY_TOKEN) protected accessTokenFactory: () => string | Promise<string>,
   ) {
     //super(wsUrl, errorObserver, namedLoggingServiceFactory, label);
     this.logger = this.namedLoggingServiceFactory.create(label);
@@ -78,7 +80,7 @@ export abstract class SignalRService implements OnDestroy {
       return of();
     }
     let builder: signalR.HubConnectionBuilder = new signalR.HubConnectionBuilder()
-      .withUrl(this.url)
+      .withUrl(this.url, { accessTokenFactory: this.accessTokenFactory })
       .configureLogging(logLevel);
     if (withAutomaticReconnect) {
       if (typeof withAutomaticReconnect === typeof true) {

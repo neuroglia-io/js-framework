@@ -1,3 +1,5 @@
+import { get, isObject } from '@neuroglia/common';
+
 /**
  * Formats the provided message with the provided array of parameters
  * @param message the message with numeric arguments like {0}, {1}...
@@ -9,15 +11,26 @@ export function strFormat(message: string, ...params: any[]): string {
   return message.replace(/{(\d+)}/g, (pattern, index) => params[index] || pattern);
 }
 
+function replacer(payload: any, pattern: string, ...matches: any[]): string {
+  const value = get(payload, matches[0], pattern);
+  if (!value) {
+    return '';
+  }
+  if (typeof value !== 'object') {
+    return value;
+  }
+  return JSON.stringify(value);
+}
 /**
  * Formats the provided message with the provided object
  * @param message the message with string interpolation like placeholders (eg: ${name})
  * @param params the object to format the message with
  */
-export function strformatNamed(message: string, params: any): string {
+export function strFormatNamed(message: string, params: any): string {
   if (!message) return '';
   if (!params) return message;
-  return message.replace(/\${(\w+)}/g, (pattern, match) => params[match] || pattern);
+  const needle = /\$\{([^}]*)\}/g;
+  return message.replace(needle, replacer.bind(null, params));
 }
 
 /**
@@ -25,7 +38,7 @@ export function strformatNamed(message: string, params: any): string {
  * @param message the message with string interpolation like placeholders (eg: ${name})
  * @param params the object to format the message with
  */
-export function strformatNamedUnsafe(message: string, params: any): string {
+export function strFormatNamedUnsafe(message: string, params: any): string {
   if (!message || !params) return message || '';
   const renderer = new Function('p', 'return `' + message.replace(/\$\{/g, '${p.') + '`;');
   return renderer(params);
