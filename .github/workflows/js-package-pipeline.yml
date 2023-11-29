@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
+        description: The name of the package, without @neuroglia prefix, as described in .github/js-packages.json
         required: true
         type: string
   workflow_call:
