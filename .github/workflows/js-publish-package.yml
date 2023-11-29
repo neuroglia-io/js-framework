@@ -41,5 +41,3 @@ jobs:
           version=$(npm view ${{ inputs.name }} version 2>/dev/null) && npm version $version || true
           npm version patch # patch current version
           npm publish --access=public
-          version=$(npm view ${{ inputs.name }} version)
-          echo "Published ${{ inputs.name }}@$version"

@@ -1,3 +1,5 @@
+# See js-main.yml first
+
 name: Pipeline for JS packages
 
 on:
