@@ -99,6 +99,7 @@ jobs:
        - build
       #  - test
       #  - lint
+    uses: ./.github/workflows/js-cleanup-cache.yml
     with:
       name: ${{ fromJSON(needs.config.outputs.package-config).name }}
       path: ${{ fromJSON(needs.config.outputs.package-config).path }}
@@ -108,6 +109,7 @@ jobs:
     needs:
        - config
        - publish
+    uses: ./.github/workflows/js-cleanup-cache.yml
     with:
       name: ${{ fromJSON(needs.config.outputs.package-config).name }}
       path: ${{ fromJSON(needs.config.outputs.package-config).path }}
