@@ -30,7 +30,7 @@ jobs:
       - name: Read packages configuration file
         id: package-config
         run: |
-          package=`cat ./.github/js-packages.json | jq '.${{ inputs.package }}' --compact-output`
+          package=`cat ./.github/js-packages.json | jq '."${{ inputs.package }}"' --compact-output`
           echo "package=$package" >> "$GITHUB_OUTPUT"
       
       - name: Defined output 'package-config' as
