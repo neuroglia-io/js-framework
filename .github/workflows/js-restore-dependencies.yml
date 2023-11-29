@@ -9,6 +9,10 @@ on:
       name:
         required: true
         type: string
+      dependencies:
+        required: false
+        type: string
+        default: ''
 
 jobs:
   restore:
@@ -26,6 +30,12 @@ jobs:
         run: |
           cd ${{ inputs.path }}
           npm ci
+  
+      - name: Install internal dependencies
+        if: inputs.dependencies != ''
+        run: |
+          cd ${{ inputs.path }}
+          npm i ${{ inputs.dependencies }}
 
       - name: Cache dependencies
         uses: actions/cache@v3

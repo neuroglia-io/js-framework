@@ -1,42 +1,76 @@
 {
   "common": {
     "name": "@neuroglia/common",
-    "path": "./"
+    "path": "./",
+    "dependencies": []
   },
   "string-formatter": {
     "name": "@neuroglia/string-formatter",
-    "path": "./"
+    "path": "./",
+    "dependencies": []
   },
   "logging": {
     "name": "@neuroglia/logging",
-    "path": "./"
+    "path": "./",
+    "dependencies": []
   },
   "logging-transport-console": {
     "name": "@neuroglia/logging-transport-console",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/logging"
+    ]
   },
   "integration": {
     "name": "@neuroglia/integration",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/common"
+    ]
   },
   "angular-logging": {
     "name": "@neuroglia/angular-logging",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/logging"
+    ]
   },
   "angular-common": {
     "name": "@neuroglia/angular-common",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/common"
+    ]
   },
   "angular-oidc": {
     "name": "@neuroglia/angular-oidc",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/angular-common",
+      "@neuroglia/angular-logging",
+      "@neuroglia/common",
+      "@neuroglia/logging"
+    ]
   },
   "angular-rest-core": {
     "name": "@neuroglia/angular-rest-core",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/angular-common",
+      "@neuroglia/angular-logging",
+      "@neuroglia/common",
+      "@neuroglia/logging"
+    ]
   },
   "angular-signalr": {
     "name": "@neuroglia/angular-signalr",
-    "path": "./"
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/angular-common",
+      "@neuroglia/angular-logging",
+      "@neuroglia/angular-rest-core",
+      "@neuroglia/common",
+      "@neuroglia/logging"
+    ]
   }
 }
