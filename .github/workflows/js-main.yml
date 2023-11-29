@@ -65,7 +65,6 @@ jobs:
 
   pipeline:
     needs: changes
-    continue-on-error: true
     strategy:
       max-parallel: 1
       fail-fast: false
