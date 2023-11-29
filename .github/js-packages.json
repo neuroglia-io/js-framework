@@ -7,7 +7,9 @@
   "string-formatter": {
     "name": "@neuroglia/string-formatter",
     "path": "./",
-    "dependencies": []
+    "dependencies": [
+      "@neuroglia/common"
+    ]
   },
   "logging": {
     "name": "@neuroglia/logging",

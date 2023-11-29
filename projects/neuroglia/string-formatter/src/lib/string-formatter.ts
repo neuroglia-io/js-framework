@@ -1,4 +1,4 @@
-import { get, isObject } from '@neuroglia/common';
+import { get } from '@neuroglia/common';
 
 /**
  * Formats the provided message with the provided array of parameters
