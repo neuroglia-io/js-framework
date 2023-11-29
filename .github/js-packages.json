@@ -1,0 +1,42 @@
+{
+  "common": {
+    "name": "@neuroglia/common",
+    "path": "./"
+  },
+  "string-formatter": {
+    "name": "@neuroglia/string-formatter",
+    "path": "./"
+  },
+  "logging": {
+    "name": "@neuroglia/logging",
+    "path": "./"
+  },
+  "logging-transport-console": {
+    "name": "@neuroglia/logging-transport-console",
+    "path": "./"
+  },
+  "integration": {
+    "name": "@neuroglia/integration",
+    "path": "./"
+  },
+  "angular-logging": {
+    "name": "@neuroglia/angular-logging",
+    "path": "./"
+  },
+  "angular-common": {
+    "name": "@neuroglia/angular-common",
+    "path": "./"
+  },
+  "angular-oidc": {
+    "name": "@neuroglia/angular-oidc",
+    "path": "./"
+  },
+  "angular-rest-core": {
+    "name": "@neuroglia/angular-rest-core",
+    "path": "./"
+  },
+  "angular-signalr": {
+    "name": "@neuroglia/angular-signalr",
+    "path": "./"
+  }
+}

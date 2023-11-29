@@ -1,0 +1,55 @@
+name: Continous integration entry point for JS
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'projects/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'projects/**'
+
+jobs:
+  changes:
+    # Skip if it's not running in the `neuroglia-io/js-framework` repo
+    if: github.repository == 'neuroglia-io/js-framework'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      packages: ${{ steps.detection.outputs.changes }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Detect changes
+        id: detection
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            common: 'projects/neuroglia/common/**'
+            string-formatter: 'projects/neuroglia/string-formatter/**'
+            logging: 'projects/neuroglia/logging/**'
+            logging-transport-console: 'projects/neuroglia/logging-transport-console/**'
+            integration: 'projects/neuroglia/integration/**'
+            angular-logging: 'projects/neuroglia/angular-logging/**'
+            angular-common: 'projects/neuroglia/angular-common/**'
+            angular-oidc: 'projects/neuroglia/angular-oidc/**'
+            angular-rest-core: 'projects/neuroglia/angular-rest-core/**'
+            angular-signalr: 'projects/neuroglia/angular-signalr/**'
+      
+      - name: Defined output 'packages' as
+        run: echo "${{ steps.detection.outputs.changes }}"
+
+  pipeline:
+    needs: changes
+    strategy:
+      max-parallel: 1
+      matrix:
+        package: ${{ fromJSON(needs.changes.outputs.packages) }}
+    uses: ./.github/workflows/js-package-pipeline.yml
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    with:
+      package: ${{ matrix.package }}
