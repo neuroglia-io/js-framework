@@ -31,6 +31,9 @@
         "dist/neuroglia/common/neuroglia-common",
         "dist/neuroglia/common"
       ],
+      "@neuroglia/integration": [
+        "./dist/neuroglia/integration"
+      ],
       "@neuroglia/logging": [
         "dist/neuroglia/logging/neuroglia-logging",
         "dist/neuroglia/logging"

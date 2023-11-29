@@ -7,6 +7,7 @@ const projects = [
   '@neuroglia/string-formatter',
   '@neuroglia/logging',
   '@neuroglia/logging-transport-console',
+  '@neuroglia/integration',
   '@neuroglia/angular-logging',
   '@neuroglia/angular-common',
   '@neuroglia/angular-oidc',

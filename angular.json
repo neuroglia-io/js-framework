@@ -335,6 +335,48 @@
           }
         }
       }
+    },
+    "@neuroglia/integration": {
+      "projectType": "library",
+      "root": "projects/neuroglia/integration",
+      "sourceRoot": "projects/neuroglia/integration/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/integration/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/integration/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/integration/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/integration/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/integration/**/*.ts",
+              "projects/neuroglia/integration/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
