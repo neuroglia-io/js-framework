@@ -1,7 +1,7 @@
 import { ApplicationConfig, ApplicationRef, NgZone, Type, reflectComponentType } from '@angular/core';
 import { bootstrapApplication, createApplication } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { NgElementConfig, NgElementConstructor, createCustomElement } from '@angular/elements';
+import { NgElementConstructor, createCustomElement } from '@angular/elements';
 import { BootstrapFederatedApplicationOptions, BootstrapFederatedWebComponentOptions } from './models';
 import { connectRouter } from './router-utils';
 
@@ -41,7 +41,6 @@ export function bootstrapFederatedApplication<TRootComponent>(
 export function bootstrapFederatedWebComponent<TRootComponent>(
   component: Type<TRootComponent>,
   appConfig: ApplicationConfig,
-  elementConfig: NgElementConfig,
   options: BootstrapFederatedWebComponentOptions,
 ): Promise<{ appRef: ApplicationRef; elementCtr: NgElementConstructor<TRootComponent> }> {
   let { appType, enableNgZoneSharing } = options;
@@ -68,8 +67,7 @@ export function bootstrapFederatedWebComponent<TRootComponent>(
         connectRouter(router, useHash);
       }
     }
-    elementConfig.injector = elementConfig.injector || appRef.injector;
-    const elementCtr = createCustomElement<TRootComponent>(component, elementConfig);
+    const elementCtr = createCustomElement<TRootComponent>(component, { injector: appRef.injector });
     const componentType = reflectComponentType(component);
     customElements.define(componentType?.selector || options.elementName, elementCtr);
     return { appRef, elementCtr };
