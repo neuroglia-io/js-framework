@@ -11,6 +11,9 @@
         "dist/neuroglia/angular-logging/neuroglia-angular-logging",
         "dist/neuroglia/angular-logging"
       ],
+      "@neuroglia/angular-native-federation-tools": [
+        "./dist/neuroglia/angular-native-federation-tools"
+      ],
       "@neuroglia/angular-oidc": [
         "dist/neuroglia/angular-oidc/neuroglia-angular-oidc",
         "dist/neuroglia/angular-oidc"

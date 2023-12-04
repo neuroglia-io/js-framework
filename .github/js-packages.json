@@ -56,6 +56,16 @@
       "@neuroglia/logging"
     ]
   },
+  "angular-native-federation-tools": {
+    "name": "@neuroglia/angular-native-federation-tools",
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/angular-common",
+      "@neuroglia/angular-logging",
+      "@neuroglia/common",
+      "@neuroglia/logging"
+    ]
+  },
   "angular-rest-core": {
     "name": "@neuroglia/angular-rest-core",
     "path": "./",

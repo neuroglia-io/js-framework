@@ -1,0 +1,20 @@
+{
+  "name": "@neuroglia/angular-native-federation-tools",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular-architects/native-federation": "^17.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/platform-browser": "^17.0.0",
+    "@angular/router": "^17.0.0",
+    "@neuroglia/angular-common": "*",
+    "@neuroglia/angular-logging": "*",
+    "@neuroglia/common": "*",
+    "@neuroglia/logging": "*",
+    "date-fns": "^2.18.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

@@ -59,6 +59,7 @@ jobs:
             angular-oidc: 'projects/neuroglia/angular-oidc/**'
             angular-rest-core: 'projects/neuroglia/angular-rest-core/**'
             angular-signalr: 'projects/neuroglia/angular-signalr/**'
+            angular-native-federation-tools: 'projects/neuroglia/angular-native-federation-tools/**'
       
       - name: Defined output 'packages' as
         run: echo "${{ steps.detection.outputs.changes }}"

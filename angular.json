@@ -377,6 +377,48 @@
           }
         }
       }
+    },
+    "@neuroglia/angular-native-federation-tools": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-native-federation-tools",
+      "sourceRoot": "projects/neuroglia/angular-native-federation-tools/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-native-federation-tools/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-native-federation-tools/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-native-federation-tools/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-native-federation-tools/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-native-federation-tools/**/*.ts",
+              "projects/neuroglia/angular-native-federation-tools/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
