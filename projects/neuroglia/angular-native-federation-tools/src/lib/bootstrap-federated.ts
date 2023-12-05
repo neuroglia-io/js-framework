@@ -13,11 +13,9 @@ export function bootstrapFederatedApplication<TRootComponent>(
   let { appType, enableNgZoneSharing } = options;
   enableNgZoneSharing = enableNgZoneSharing !== false;
   if (enableNgZoneSharing && appType === 'microfrontend') {
+    const ngZoneProvider = (globalThis as any).ngZone ? { provide: NgZone, useValue: (globalThis as any).ngZone } : [];
     appConfig = { ...appConfig };
-    appConfig.providers = [
-      (globalThis as any).ngZone ? { provide: NgZone, useValue: (globalThis as any).ngZone } : [],
-      ...appConfig.providers,
-    ];
+    appConfig.providers = [ngZoneProvider, ...appConfig.providers];
   }
   return bootstrapApplication(component, appConfig).then((appRef: ApplicationRef) => {
     if (appType === 'shell') {
@@ -46,11 +44,9 @@ export function bootstrapFederatedWebComponent<TRootComponent>(
   let { appType, enableNgZoneSharing } = options;
   enableNgZoneSharing = enableNgZoneSharing !== false;
   if (enableNgZoneSharing && appType === 'microfrontend') {
+    const ngZoneProvider = (globalThis as any).ngZone ? { provide: NgZone, useValue: (globalThis as any).ngZone } : [];
     appConfig = { ...appConfig };
-    appConfig.providers = [
-      (globalThis as any).ngZone ? { provide: NgZone, useValue: (globalThis as any).ngZone } : [],
-      ...appConfig.providers,
-    ];
+    appConfig.providers = [ngZoneProvider, ...appConfig.providers];
   }
   return createApplication(appConfig).then((appRef: ApplicationRef) => {
     if (appType === 'shell') {

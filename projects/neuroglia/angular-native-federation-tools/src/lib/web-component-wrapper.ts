@@ -4,12 +4,14 @@ import { loadRemoteModule } from '@angular-architects/native-federation';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { ILogger } from '@neuroglia/logging';
 import { WebComponentWrapperConfig } from './models/web-component-wrapper-config';
+import { CommonModule } from '@angular/common';
 
 type EventHandlers = { [event: string]: (event: Event) => void };
 
 @Component({
   selector: 'web-component-wrapper',
   standalone: true,
+  imports: [CommonModule],
   template: `<div #host></div>`,
 })
 export class WebComponentWrapper implements OnChanges, OnInit {
