@@ -75,7 +75,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
   protected unbindEventHandlers(handlers: EventHandlers): void {
     if (!this.webComponent) return;
     for (const event in handlers) {
-      this.webComponent.removeEventListener(event, this.handlers[event]);
+      this.webComponent.removeEventListener(event, handlers[event]);
     }
   }
 }
