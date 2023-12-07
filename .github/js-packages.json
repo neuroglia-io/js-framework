@@ -86,5 +86,15 @@
       "@neuroglia/common",
       "@neuroglia/logging"
     ]
+  },
+  "angular-ngrx": {
+    "name": "@neuroglia/angular-ngrx",
+    "path": "./",
+    "dependencies": [
+      "@neuroglia/angular-common",
+      "@neuroglia/angular-logging",
+      "@neuroglia/common",
+      "@neuroglia/logging"
+    ]
   }
 }

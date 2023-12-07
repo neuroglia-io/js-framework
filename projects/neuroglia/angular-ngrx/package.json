@@ -1,7 +1,7 @@
 {
-  "name": "@neuroglia/angular-native-federation-tools",
-  "description": "Set of tools to help with native federation",
-  "version": "0.0.1",
+  "name": "@neuroglia/angular-ngrx",
+  "version": "0.0.1",  
+  "description": "Helpers to use ngrx",
   "author": {
     "name": "Neuroglia",
     "url": "https://neuroglia.io"
@@ -22,11 +22,8 @@
     "url": "https://github.com/neuroglia-io/js-framework/issues"
   },
   "peerDependencies": {
-    "@angular-architects/native-federation": "^17.0.0",
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
-    "@angular/platform-browser": "^17.0.0",
-    "@angular/router": "^17.0.0",
     "@neuroglia/angular-common": "*",
     "@neuroglia/angular-logging": "*",
     "@neuroglia/common": "*",
@@ -34,7 +31,6 @@
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
     "@ngrx/store": "^17.0.1",
-    "@ngrx/store-devtools": "^17.0.1",
     "date-fns": "^2.18.0"
   },
   "dependencies": {

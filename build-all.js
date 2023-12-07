@@ -12,7 +12,9 @@ const projects = [
   '@neuroglia/angular-common',
   '@neuroglia/angular-oidc',
   '@neuroglia/angular-rest-core',
-  '@neuroglia/angular-signalr'
+  '@neuroglia/angular-signalr', 
+  '@neuroglia/angular-native-federation-tools',
+  '@neuroglia/angular-ngrx'
 ];
 const ngBuild = (project) => () => new Promise((resolve, reject) => {
 	console.log(`========== ${project} ==========`);
