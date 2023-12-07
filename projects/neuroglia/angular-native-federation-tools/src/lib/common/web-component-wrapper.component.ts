@@ -2,13 +2,13 @@
  * See https://www.angulararchitects.io/blog/micro-frontends-with-modern-angular-part-2-multi-version-and-multi-framework-solutions-with-angular-elements-and-web-components/
  */
 
+import { CommonModule } from '@angular/common';
 import { OnInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { loadRemoteModule } from '@angular-architects/native-federation';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { ILogger } from '@neuroglia/logging';
 import { WebComponentWrapperConfig } from '../models/web-component-wrapper-config';
-import { CommonModule } from '@angular/common';
+import { loadRemoteModule } from './load-remote-module';
 
 type EventHandlers = { [event: string]: (event: Event) => void };
 
