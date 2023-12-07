@@ -93,6 +93,7 @@
     "dependencies": [
       "@neuroglia/angular-common",
       "@neuroglia/angular-logging",
+      "@neuroglia/angular-rest-core",
       "@neuroglia/common",
       "@neuroglia/logging"
     ]
