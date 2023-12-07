@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { processRemoteInfo } from './init-federation';
-import { getDirectory, joinPaths } from '../utils/path-utils';
-import { getRemote, getRemoteNameByBaseUrl, isRemoteInitialized } from '../utils/remotes-utils';
-import { ImportMap } from '../models/import-map';
+import { getDirectory, joinPaths } from './utils/path-utils';
+import { getRemote, getRemoteNameByBaseUrl, isRemoteInitialized } from './utils/remotes-utils';
+import { ImportMap } from './models/import-map';
+import { ExposesInfo } from './models/federation-info';
 
 declare function importShim<Default, Exports extends object>(
   specifier: string,
@@ -38,7 +39,7 @@ export async function loadRemoteModule<T extends object = any>(
     throw new Error('unknown remote ' + remoteName);
   }
 
-  const exposed = remote.exposes.find((e) => e.key === options.exposedModule);
+  const exposed = remote.exposes.find((e: ExposesInfo) => e.key === options.exposedModule);
 
   if (!exposed) {
     throw new Error(`Unknown exposed module ${options.exposedModule} in remote ${remoteName}`);

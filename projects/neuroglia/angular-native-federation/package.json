@@ -1,0 +1,31 @@
+{
+  "name": "@neuroglia/angular-native-federation",
+  "description": "Enables native federation",
+  "version": "0.0.1",
+  "author": {
+    "name": "Neuroglia",
+    "url": "https://neuroglia.io"
+  },
+  "contributors": [
+    {
+      "name": "JB Bianchi",
+      "email": "jb.bianchi@neuroglia.io",
+      "url": "https://neuroglia.io"
+    }
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuroglia-io/js-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroglia-io/js-framework/issues"
+  },
+  "peerDependencies": {
+    "semver": "^7.5.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

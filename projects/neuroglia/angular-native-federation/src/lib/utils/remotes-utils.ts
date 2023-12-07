@@ -1,8 +1,4 @@
-import { FederationInfo } from '@angular-architects/native-federation';
-
-export type Remote = FederationInfo & {
-  baseUrl: string;
-};
+import { Remote } from '../models/federation-info';
 
 const remoteNamesToRemote = new Map<string, Remote>();
 const baseUrlToRemoteNames = new Map<string, string>();

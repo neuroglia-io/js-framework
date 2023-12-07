@@ -461,6 +461,48 @@
           }
         }
       }
+    },
+    "@neuroglia/angular-native-federation": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-native-federation",
+      "sourceRoot": "projects/neuroglia/angular-native-federation/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-native-federation/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-native-federation/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-native-federation/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-native-federation/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-native-federation/**/*.ts",
+              "projects/neuroglia/angular-native-federation/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

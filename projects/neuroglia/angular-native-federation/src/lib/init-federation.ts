@@ -1,9 +1,9 @@
 import * as semver from 'semver';
-import { mergeImportMaps } from '../utils/import-map-utils';
-import { getDirectory, joinPaths } from '../utils/path-utils';
-import { addRemote } from '../utils/remotes-utils';
-import { FederationInfo } from '@angular-architects/native-federation';
-import { ImportMap, Imports, Scopes } from '../models/import-map';
+import { mergeImportMaps } from './utils/import-map-utils';
+import { getDirectory, joinPaths } from './utils/path-utils';
+import { addRemote } from './utils/remotes-utils';
+import { ImportMap, Imports, Scopes } from './models/import-map';
+import { FederationInfo } from './models/federation-info';
 
 declare function importShim<Default, Exports extends object>(
   specifier: string,

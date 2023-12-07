@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { ILogger } from '@neuroglia/logging';
 import { WebComponentWrapperConfig } from '../models/web-component-wrapper-config';
-import { loadRemoteModule } from './load-remote-module';
+import { loadRemoteModule } from '@neuroglia/angular-native-federation';
 
 type EventHandlers = { [event: string]: (event: Event) => void };
 

@@ -13,6 +13,7 @@ const projects = [
   '@neuroglia/angular-oidc',
   '@neuroglia/angular-rest-core',
   '@neuroglia/angular-signalr', 
+  '@neuroglia/angular-native-federation',
   '@neuroglia/angular-native-federation-tools',
   '@neuroglia/angular-ngrx'
 ];

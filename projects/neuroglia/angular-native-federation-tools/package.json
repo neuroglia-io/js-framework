@@ -29,12 +29,14 @@
     "@angular/router": "^17.0.0",
     "@neuroglia/angular-common": "*",
     "@neuroglia/angular-logging": "*",
+    "@neuroglia/angular-native-federation": "*",
     "@neuroglia/common": "*",
     "@neuroglia/logging": "*",
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
     "@ngrx/store": "^17.0.1",
     "@ngrx/store-devtools": "^17.0.1",
+    "semver": "^7.5.4",
     "date-fns": "^2.18.0"
   },
   "dependencies": {
