@@ -3,10 +3,18 @@ import { mergeImportMaps } from '../utils/import-map-utils';
 import { getDirectory, joinPaths } from '../utils/path-utils';
 import { addRemote } from '../utils/remotes-utils';
 import { FederationInfo } from '@angular-architects/native-federation';
+import { ImportMap, Imports, Scopes } from '../models/import-map';
 
-export type Imports = Record<string, string>;
+declare function importShim<Default, Exports extends object>(
+  specifier: string,
+  parentUrl?: string,
+): Promise<{ default: Default } & Exports>;
 
-export type Scopes = Record<string, Imports>;
+declare namespace importShim {
+  const resolve: (id: string, parentURL?: string) => string;
+  const addImportMap: (importMap: Partial<ImportMap>) => void;
+  const getImportMap: () => ImportMap;
+}
 
 export async function initFederation(remotesOrManifestUrl: Record<string, string> | string = {}): Promise<ImportMap> {
   const remotes =

@@ -2,6 +2,18 @@
 import { processRemoteInfo } from './init-federation';
 import { getDirectory, joinPaths } from '../utils/path-utils';
 import { getRemote, getRemoteNameByBaseUrl, isRemoteInitialized } from '../utils/remotes-utils';
+import { ImportMap } from '../models/import-map';
+
+declare function importShim<Default, Exports extends object>(
+  specifier: string,
+  parentUrl?: string,
+): Promise<{ default: Default } & Exports>;
+
+declare namespace importShim {
+  const resolve: (id: string, parentURL?: string) => string;
+  const addImportMap: (importMap: Partial<ImportMap>) => void;
+  const getImportMap: () => ImportMap;
+}
 
 export type LoadRemoteModuleOptions = {
   remoteEntry?: string;
