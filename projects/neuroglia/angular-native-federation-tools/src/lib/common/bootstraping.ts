@@ -2,9 +2,16 @@ import { ApplicationConfig, ApplicationRef, NgZone, Type, reflectComponentType }
 import { bootstrapApplication, createApplication } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgElementConstructor, createCustomElement } from '@angular/elements';
-import { BootstrapFederatedApplicationOptions, BootstrapFederatedWebComponentOptions } from './models';
+import { BootstrapFederatedApplicationOptions, BootstrapFederatedWebComponentOptions } from '../models';
 import { connectRouter } from './router-utils';
 
+/**
+ * Bootstraps a federated application with a standalone component entry point
+ * @param component The standalone component to bootstrap the application for
+ * @param appConfig The {@link ApplicationConfig} to bootstrap the application with
+ * @param options The {@link BootstrapFederatedApplicationOptions} use to bootstrap the federation
+ * @returns the bootstraped {@link ApplicationRef}
+ */
 export function bootstrapFederatedApplication<TRootComponent>(
   component: Type<TRootComponent>,
   appConfig: ApplicationConfig,
@@ -36,6 +43,13 @@ export function bootstrapFederatedApplication<TRootComponent>(
   });
 }
 
+/**
+ * Bootstraps a federated application with an Angular Elements based web component entry point
+ * @param component The web component to bootstrap the application for
+ * @param appConfig The {@link ApplicationConfig} to bootstrap the application with
+ * @param options The {@link BootstrapFederatedApplicationOptions} use to bootstrap the federation
+ * @returns the bootstraped {@link ApplicationRef} and {@link NgElementConstructor<TRootComponent>}
+ */
 export function bootstrapFederatedWebComponent<TRootComponent>(
   component: Type<TRootComponent>,
   appConfig: ApplicationConfig,

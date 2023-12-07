@@ -1,13 +1,20 @@
+/**
+ * See https://www.angulararchitects.io/blog/micro-frontends-with-modern-angular-part-2-multi-version-and-multi-framework-solutions-with-angular-elements-and-web-components/
+ */
+
 import { OnInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { loadRemoteModule } from '@angular-architects/native-federation';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { ILogger } from '@neuroglia/logging';
-import { WebComponentWrapperConfig } from './models/web-component-wrapper-config';
+import { WebComponentWrapperConfig } from '../models/web-component-wrapper-config';
 import { CommonModule } from '@angular/common';
 
 type EventHandlers = { [event: string]: (event: Event) => void };
 
+/**
+ * A component used to load a web component
+ */
 @Component({
   selector: 'web-component-wrapper',
   standalone: true,
@@ -15,21 +22,31 @@ type EventHandlers = { [event: string]: (event: Event) => void };
   template: `<div #host></div>`,
 })
 export class WebComponentWrapper implements OnChanges, OnInit {
-  @ViewChild('host', { read: ElementRef, static: true }) host: ElementRef;
+  /** The web component host */
+  @ViewChild('host', { read: ElementRef, static: true }) host: ElementRef | undefined;
 
-  @Input() config: WebComponentWrapperConfig;
-  @Input() props: { [prop: string]: unknown };
-  @Input() handlers: EventHandlers;
+  /** The web component config */
+  @Input() config: WebComponentWrapperConfig | undefined;
+  /** The web component inputs/attributes */
+  @Input() props: { [prop: string]: unknown } | undefined;
+  /** The web component outputs/events handlers */
+  @Input() handlers: EventHandlers | undefined;
 
-  webComponent: HTMLElement | undefined;
+  /** The web component instance */
+  protected webComponent: HTMLElement | undefined;
+  /** The current activated route */
   protected route = inject(ActivatedRoute);
+  /** The {@link ILogger} factory */
   protected namedLoggingServiceFactory = inject(NamedLoggingServiceFactory);
+  /** The current {@link ILogger} */
   protected logger: ILogger = this.namedLoggingServiceFactory.create('WebComponentWrapper<unknown>');
 
+  /** Implements OnInit */
   async ngOnInit(): Promise<void> {
     await this.loadWebComponent();
   }
 
+  /** Implements OnChanges */
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (!this.webComponent) return;
     const { config, handlers } = changes;
@@ -43,6 +60,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
     this.bindProps();
   }
 
+  /** Loads the remote using the {@link WebComponentWrapperConfig} and create an instance of the web component */
   protected async loadWebComponent(): Promise<void> {
     const config = this.config || (this.route.snapshot.data as WebComponentWrapperConfig);
     if (!config) return;
@@ -58,6 +76,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
     }
   }
 
+  /** Binds input/attributes to the web component instance */
   protected bindProps(): void {
     if (!this.webComponent) return;
     for (const prop in this.props) {
@@ -65,6 +84,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
     }
   }
 
+  /** Binds outputs/events handlers to the web component instance */
   protected bindEventHandlers(): void {
     if (!this.webComponent) return;
     for (const event in this.handlers) {
@@ -72,6 +92,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
     }
   }
 
+  /** Clears the previous outputs/events handlers of the web component instance */
   protected unbindEventHandlers(handlers: EventHandlers): void {
     if (!this.webComponent) return;
     for (const event in handlers) {

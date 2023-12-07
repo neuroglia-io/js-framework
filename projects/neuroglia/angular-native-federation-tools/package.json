@@ -11,6 +11,10 @@
     "@neuroglia/angular-logging": "*",
     "@neuroglia/common": "*",
     "@neuroglia/logging": "*",
+    "@ngrx/effects": "^17.0.1",
+    "@ngrx/router-store": "^17.0.1",
+    "@ngrx/store": "^17.0.1",
+    "@ngrx/store-devtools": "^17.0.1",
     "date-fns": "^2.18.0"
   },
   "dependencies": {
