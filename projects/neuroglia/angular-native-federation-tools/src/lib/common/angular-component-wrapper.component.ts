@@ -33,7 +33,7 @@ export class AngularComponentWrapper extends WebComponentWrapper {
     this.logger = this.namedLoggingServiceFactory.create(`WebComponentWrapper<${config.elementName}>`);
     try {
       if (!customElements.get(config.elementName)) {
-        const angularComponent = (await loadRemoteModule(config)) as AngularComponentConfig;
+        const angularComponent = (await loadRemoteModule(config)).default as AngularComponentConfig;
         const injector = Injector.create({
           name: 'CmpInjector',
           parent: this.injector,
