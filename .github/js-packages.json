@@ -90,7 +90,8 @@
       "@neuroglia/angular-logging",
       "@neuroglia/angular-native-federation",
       "@neuroglia/common",
-      "@neuroglia/logging"
+      "@neuroglia/logging",
+      "@neuroglia/logging-transport-console"
     ]
   },
   "angular-ngrx": {
