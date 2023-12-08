@@ -6,6 +6,9 @@ import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 import { StoreDevtoolsOptions, provideStoreDevtools } from '@ngrx/store-devtools';
 import { IS_RUNNING_IN_SHELL_TOKEN } from './is-running-in-shell-token';
+import { AbstractLogger, NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
+import { ConsoleLogger } from '@neuroglia/logging-transport-console';
+import { ILogger, LoggingLevel } from '@neuroglia/logging';
 
 /** The default {@link StoreDevtoolsOptions} */
 export const defaultStoreDevtoolsOptions: StoreDevtoolsOptions = {
@@ -33,8 +36,25 @@ export const getShellProviders = (
   provideEffects(),
   provideRouterStore(),
   provideStoreDevtools({ ...defaultStoreDevtoolsOptions, ...storeDevtoolsOptions }),
-  { provide: IS_RUNNING_IN_SHELL_TOKEN, useValue: isRunningInShell },
-
+  {
+    provide: IS_RUNNING_IN_SHELL_TOKEN,
+    useValue: isRunningInShell,
+  },
+  {
+    provide: AbstractLogger,
+    useFactory: () =>
+      new ConsoleLogger('[${logInfo.timestamp.toISOString()}] ${logInfo.levelName} | ${logInfo.name}: ${message}'),
+  },
+  {
+    provide: NamedLoggingServiceFactory,
+    useFactory: (...transports: ILogger[]) => {
+      const factory = new NamedLoggingServiceFactory();
+      factory.loggingLevel = LoggingLevel.trace;
+      factory.transports = transports;
+      return factory;
+    },
+    deps: [AbstractLogger],
+  },
   /** Other samples: */
 
   /** Provide token */
