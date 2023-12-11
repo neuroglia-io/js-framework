@@ -23,9 +23,9 @@ const providers: Array<Provider | EnvironmentProviders> = [
 /**
  * Startup the application with the provided configuration file
  * @param applicationConfigFile The configuration file URL to start the application with
- * @returns A promise resolving if the application startup succeeded and the user is authenticated
+ * @returns A promise of providers (@see {@link Provider} and @see {@link EnvironmentProviders}) containing the application config token and keycloak services/interceptors
  */
-export const startupApplication = (applicationConfigFile: string): Promise<boolean> =>
+export const startupApplication = (applicationConfigFile: string): Promise<Array<Provider | EnvironmentProviders>> =>
   fetch(applicationConfigFile)
     .then((res) => {
       if (res.status === 200) return res.json();
@@ -50,7 +50,7 @@ export const startupApplication = (applicationConfigFile: string): Promise<boole
     })
     .then((authenticated: boolean) => {
       if (authenticated) {
-        return Promise.resolve(true);
+        return Promise.resolve(providers);
       }
       return keycloakService
         .login({
