@@ -10,7 +10,7 @@ import { AbstractLogger, NamedLoggingServiceFactory } from '@neuroglia/angular-l
 import { ConsoleLogger } from '@neuroglia/logging-transport-console';
 import { ILogger, LoggingLevel } from '@neuroglia/logging';
 
-/** The default {@link StoreDevtoolsOptions} */
+/** The default @see {@link StoreDevtoolsOptions} */
 export const defaultStoreDevtoolsOptions: StoreDevtoolsOptions = {
   maxAge: 50,
   // logOnly: false,      // default, can be omitted
@@ -20,9 +20,9 @@ export const defaultStoreDevtoolsOptions: StoreDevtoolsOptions = {
 
 /**
  * The service providers used by the shell. Also useful when running microfronted isolated.
- * @param routes The {@link Routes} used by the application
+ * @param routes The @see {@link Routes} used by the application
  * @param isRunningInShell Defines if the app is running inside a shell
- * @param storeDevtoolsOptions The {@link StoreDevtoolsOptions} to use
+ * @param storeDevtoolsOptions The @see {@link StoreDevtoolsOptions} to use
  * @returns
  */
 export const getShellProviders = (

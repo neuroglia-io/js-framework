@@ -7,9 +7,9 @@ import { Router, UrlMatchResult, UrlMatcher, UrlSegment } from '@angular/router'
 const flatten = (url: UrlSegment[]): string => url.map((u) => u.path).join('/');
 
 /**
- * A {@link UrlMatcher} factory used to match routes starting with the provided prefix
+ * A @see {@link UrlMatcher} factory used to match routes starting with the provided prefix
  * @param prefix The prefix to match the route with
- * @returns An {@link UrlMatcher}
+ * @returns An @see {@link UrlMatcher}
  */
 export function startsWith(prefix: string): UrlMatcher {
   return (url: UrlSegment[]): UrlMatchResult | null => {
@@ -21,9 +21,9 @@ export function startsWith(prefix: string): UrlMatcher {
 }
 
 /**
- * A {@link UrlMatcher} factory used to match routes starting with the provided suffix
+ * A @see {@link UrlMatcher} factory used to match routes starting with the provided suffix
  * @param suffix The suffix to match the route with
- * @returns An {@link UrlMatcher}
+ * @returns An @see {@link UrlMatcher}
  */
 export function endsWith(suffix: string): UrlMatcher {
   return (url: UrlSegment[]): UrlMatchResult | null => {
@@ -35,8 +35,8 @@ export function endsWith(suffix: string): UrlMatcher {
 }
 
 /**
- * Connects the Angular {@see Router} to the current navigation events
- * @param router the Angular {@see Router}
+ * Connects the Angular @see {@link Router} to the current navigation events
+ * @param router the Angular @see {@link Router}
  * @param useHash if the navigation uses hashtags
  */
 export function connectRouter(router: Router, useHash = false): void {

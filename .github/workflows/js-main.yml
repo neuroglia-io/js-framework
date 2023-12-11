@@ -61,6 +61,7 @@ jobs:
             angular-native-federation: 'projects/neuroglia/angular-native-federation/**'
             angular-native-federation-tools: 'projects/neuroglia/angular-native-federation-tools/**'
             angular-ngrx: 'projects/neuroglia/angular-ngrx/**'
+            angular-application-common: 'projects/neuroglia/angular-application-common/**'
       
       - name: Defined output 'packages' as
         run: echo "${{ steps.detection.outputs.changes }}"

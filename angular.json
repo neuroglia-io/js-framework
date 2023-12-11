@@ -503,6 +503,48 @@
           }
         }
       }
+    },
+    "@neuroglia/angular-application-common": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-application-common",
+      "sourceRoot": "projects/neuroglia/angular-application-common/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-application-common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-application-common/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-application-common/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-application-common/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-application-common/**/*.ts",
+              "projects/neuroglia/angular-application-common/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

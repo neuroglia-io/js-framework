@@ -36,9 +36,9 @@ export class WebComponentWrapper implements OnChanges, OnInit {
   protected webComponent: HTMLElement | undefined;
   /** The current activated route */
   protected route = inject(ActivatedRoute);
-  /** The {@link ILogger} factory */
+  /** The @see {@link ILogger} factory */
   protected namedLoggingServiceFactory = inject(NamedLoggingServiceFactory);
-  /** The current {@link ILogger} */
+  /** The current @see {@link ILogger} */
   protected logger: ILogger = this.namedLoggingServiceFactory.create('WebComponentWrapper<unknown>');
 
   /** Implements OnInit */
@@ -60,7 +60,7 @@ export class WebComponentWrapper implements OnChanges, OnInit {
     this.bindProps();
   }
 
-  /** Loads the remote using the {@link WebComponentWrapperConfig} and create an instance of the web component */
+  /** Loads the remote using the @see {@link WebComponentWrapperConfig} and create an instance of the web component */
   protected async loadWebComponent(): Promise<void> {
     const config = this.config || (this.route.snapshot.data as WebComponentWrapperConfig);
     if (!config) return;

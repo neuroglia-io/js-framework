@@ -31,6 +31,10 @@
     "name": "@neuroglia/angular-oidc",
     "path": "./"
   },
+  "angular-application-common": {
+    "name": "@neuroglia/angular-application-common",
+    "path": "./"
+  },
   "angular-rest-core": {
     "name": "@neuroglia/angular-rest-core",
     "path": "./"

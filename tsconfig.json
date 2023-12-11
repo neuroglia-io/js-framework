@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@neuroglia/angular-application-common": [
+        "./dist/neuroglia/angular-application-common"
+      ],
       "@neuroglia/angular-common": [
         "dist/neuroglia/angular-common/neuroglia-angular-common",
         "dist/neuroglia/angular-common"

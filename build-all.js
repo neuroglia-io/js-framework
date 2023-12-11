@@ -11,6 +11,7 @@ const projects = [
   '@neuroglia/angular-logging',
   '@neuroglia/angular-common',
   '@neuroglia/angular-oidc',
+  '@neuroglia/angular-application-common',
   '@neuroglia/angular-rest-core',
   '@neuroglia/angular-signalr', 
   '@neuroglia/angular-native-federation',

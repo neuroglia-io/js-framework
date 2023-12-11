@@ -6,6 +6,6 @@ export type AppType = 'shell' | 'microfrontend';
 export type BootstrapFederatedApplicationOptions = {
   /** The type of federated application */
   appType: AppType;
-  /** If the global instance of {@link NgZone} should be shared or not */
+  /** If the global instance of @see {@link NgZone} should be shared or not */
   enableNgZoneSharing?: boolean;
 };

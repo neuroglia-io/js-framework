@@ -1,0 +1,37 @@
+{
+  "name": "@neuroglia/angular-application-common",
+  "description": "Holds the application configuration mecanism",
+  "version": "0.0.1",
+  "author": {
+    "name": "Neuroglia",
+    "url": "https://neuroglia.io"
+  },
+  "contributors": [
+    {
+      "name": "JB Bianchi",
+      "email": "jb.bianchi@neuroglia.io",
+      "url": "https://neuroglia.io"
+    }
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuroglia-io/js-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroglia-io/js-framework/issues"
+  },
+  "homepage": "https://neuroglia.io",
+  "peerDependencies": {
+    "@angular/common": ">=11.0.0",
+    "@angular/core": ">=11.0.0",
+    "@neuroglia/common": "*",
+    "date-fns": "^2.18.0",
+    "keycloak-angular": "^15.0.0",
+    "keycloak-js": "^22.0.5"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
