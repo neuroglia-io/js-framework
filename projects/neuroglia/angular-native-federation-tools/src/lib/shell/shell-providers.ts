@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { EnvironmentProviders, Provider, importProvidersFrom } from '@angular/core';
 import { Routes, provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
@@ -30,7 +30,7 @@ export const getShellProviders = (
   isRunningInShell: boolean,
   storeDevtoolsOptions: StoreDevtoolsOptions | undefined = {},
 ): Array<Provider | EnvironmentProviders> => [
-  provideHttpClient(),
+  provideHttpClient(withInterceptorsFromDi()),
   provideRouter(routes),
   provideStore(),
   provideEffects(),
