@@ -34,9 +34,10 @@ export function bootstrapFederatedApplication<TRootComponent>(
       }
     } else if (appType === 'microfrontend') {
       const router = appRef.injector.get(Router);
+      const ngZone = appRef.injector.get(NgZone);
       if (router) {
         const useHash = location.href.includes('#');
-        connectRouter(router, useHash);
+        connectRouter(router, useHash, ngZone);
       }
     }
     return appRef;
@@ -72,9 +73,10 @@ export function bootstrapFederatedWebComponent<TRootComponent>(
       }
     } else if (appType === 'microfrontend') {
       const router = appRef.injector.get(Router);
+      const ngZone = appRef.injector.get(NgZone);
       if (router) {
         const useHash = location.href.includes('#');
-        connectRouter(router, useHash);
+        connectRouter(router, useHash, ngZone);
       }
     }
     const elementCtr = createCustomElement<TRootComponent>(component, { injector: appRef.injector });
