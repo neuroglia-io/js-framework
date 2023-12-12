@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, EnvironmentProviders, Provider, enableProdMode, importProvidersFrom } from '@angular/core';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { KeycloakAngularModule, KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { IApplicationConfig } from './models';
 import { APPLICATION_CONFIG_TOKEN } from './providers';
 import { defaultKeycloakInitOptions } from './default-keycloak-options';
@@ -12,7 +12,7 @@ function getBaseUrl() {
 /** Basic providers for BASE_URL. The array will be extented in the startup process */
 const providers: Array<Provider | EnvironmentProviders> = [{ provide: 'BASE_URL', useFactory: getBaseUrl }];
 
-/** The factory used to initialize the keycloak service */
+/** The factory used to initialize the keycloak */
 const initKeycloak = (config: IApplicationConfig, keycloak: KeycloakService) => () =>
   keycloak
     .init({
@@ -24,10 +24,23 @@ const initKeycloak = (config: IApplicationConfig, keycloak: KeycloakService) => 
       },
     })
     .then((authenticated: boolean) => {
-      if (authenticated) {
-        return Promise.resolve();
+      if (!authenticated) {
+        return keycloak.login({ redirectUri: window.location.href }).then(() => Promise.reject());
       }
-      return keycloak.login({ redirectUri: window.location.href }).then(() => Promise.reject());
+      // Token verification, try to renew when expired, if it fails, redirect to the login page
+      keycloak.keycloakEvents$.subscribe({
+        next(event: KeycloakEvent) {
+          if (event.type === KeycloakEventType.OnTokenExpired) {
+            keycloak.updateToken(10).then((hasBeenRenewed) => {
+              if (hasBeenRenewed) {
+                return Promise.resolve();
+              }
+              return keycloak.login({ redirectUri: window.location.href });
+            });
+          }
+        },
+      });
+      return Promise.resolve();
     });
 /**
  * Startup the application with the provided configuration file
