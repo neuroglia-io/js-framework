@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr';
-import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
+import { Inject, InjectFlags, Injectable, OnDestroy, Optional, inject } from '@angular/core';
 import { Observable, BehaviorSubject, from, Subject, Observer, of, throwError, timer } from 'rxjs';
 import { mergeMap, retryWhen, tap } from 'rxjs/operators';
 
@@ -34,22 +34,25 @@ export abstract class SignalRService implements OnDestroy {
   protected listerners: { [eventName: string]: Subject<any> } = {};
   protected logger: ILogger;
 
+  /** The base url of the websocket API, e.g.: https://server.com/websockets */
+  protected wsUrl: string = inject(WS_URL_TOKEN);
+  /** An instance of @see HttpErrorObserverService */
+  protected errorObserver = inject(HttpErrorObserverService);
+  /** An instance of @see NamedLoggingServiceFactory */
+  protected namedLoggingServiceFactory = inject(NamedLoggingServiceFactory);
+  /** The label used for logging for the current instance */
+  protected label: string = inject(LABEL_TOKEN);
+  /** A function returning an access token */
+  protected accessTokenFactory: (() => string | Promise<string>) | null = inject<() => string | Promise<string>>(
+    ACCESS_TOKEN_FACTORY_TOKEN,
+    { optional: true },
+  );
+
   /**
    * Creates a new SignalRService instance
-   * @param wsUrl the base url of the websocket API, e.g.: https://server.com/websockets
-   * @param errorObserver  an instance of @see HttpErrorObserverService
-   * @param namedLoggingServiceFactory an instance of @see NamedLoggingServiceFactory
-   * @param loggingLabel the label used for logging for the current instance
    */
-  constructor(
-    @Inject(WS_URL_TOKEN) protected wsUrl: string,
-    protected errorObserver: HttpErrorObserverService,
-    protected namedLoggingServiceFactory: NamedLoggingServiceFactory,
-    @Inject(LABEL_TOKEN) protected label: string,
-    @Optional() @Inject(ACCESS_TOKEN_FACTORY_TOKEN) protected accessTokenFactory: () => string | Promise<string>,
-  ) {
-    //super(wsUrl, errorObserver, namedLoggingServiceFactory, label);
-    this.logger = this.namedLoggingServiceFactory.create(label);
+  constructor() {
+    this.logger = this.namedLoggingServiceFactory.create(this.label);
   }
 
   /**
@@ -80,7 +83,7 @@ export abstract class SignalRService implements OnDestroy {
       return of();
     }
     let builder: signalR.HubConnectionBuilder = new signalR.HubConnectionBuilder()
-      .withUrl(this.url, { accessTokenFactory: this.accessTokenFactory })
+      .withUrl(this.url, this.accessTokenFactory ? { accessTokenFactory: this.accessTokenFactory } : {})
       .configureLogging(logLevel);
     if (withAutomaticReconnect) {
       if (typeof withAutomaticReconnect === typeof true) {

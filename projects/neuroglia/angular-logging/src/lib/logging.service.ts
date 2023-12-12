@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoggingService as NeurogliLoggingService } from '@neuroglia/logging';
+import { LoggingService as NeurogliaLoggingService } from '@neuroglia/logging';
 
 /**
  * Wraps a LoggingService so it can be injected by Angular
@@ -8,7 +8,7 @@ import { LoggingService as NeurogliLoggingService } from '@neuroglia/logging';
   providedIn: 'root',
 })
 export class LoggingService {
-  logger: NeurogliLoggingService = new NeurogliLoggingService();
+  logger: NeurogliaLoggingService = new NeurogliaLoggingService();
 
   constructor() {}
 }

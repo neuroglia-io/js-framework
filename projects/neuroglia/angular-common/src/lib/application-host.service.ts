@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 /**
  * Exposes the application root URL (e.g.: https://domain:port)
@@ -11,7 +11,10 @@ export class ApplicationHostService {
   /** The application root URL */
   rootUrl: string;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+  /** The plateform ID */
+  platformId: object = inject(PLATFORM_ID);
+
+  constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.rootUrl = `${window.location.protocol}//${window.location.host}`;
     } else {

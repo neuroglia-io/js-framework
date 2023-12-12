@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StorageHandlerFactoryService } from '@neuroglia/angular-common';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { IStorageHandler } from '@neuroglia/common';
@@ -24,11 +24,11 @@ export class AuthService {
   private userSource: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(this.user);
   user$: Observable<User | null> = this.userSource.asObservable();
 
-  constructor(
-    private namedLoggingFactory: NamedLoggingServiceFactory,
-    private oidcOptions: OidcOptions,
-    private storageService: StorageHandlerFactoryService,
-  ) {
+  private namedLoggingFactory = inject(NamedLoggingServiceFactory);
+  private oidcOptions = inject(OidcOptions);
+  private storageService = inject(StorageHandlerFactoryService);
+
+  constructor() {
     this.logger = this.namedLoggingFactory.create('AuthService');
     Log.logger = this.logger;
     this.userManager = new UserManager(this.oidcOptions);

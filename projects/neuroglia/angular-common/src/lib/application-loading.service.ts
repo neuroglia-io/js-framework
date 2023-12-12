@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { ILogger } from '@neuroglia/logging';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,10 +18,12 @@ export class ApplicationLoadingService {
   private loadingSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.loading);
   /** The loading state observable */
   loading$: Observable<boolean> = this.loadingSource.asObservable();
+  /** The service used to create a named logger */
+  private namedLoggingServiceFactory = inject(NamedLoggingServiceFactory);
   /** An instance of @see ILogger */
   private logger: ILogger;
 
-  constructor(private namedLoggingServiceFactory: NamedLoggingServiceFactory) {
+  constructor() {
     this.logger = this.namedLoggingServiceFactory.create('ApplicationLoadingService');
   }
 
