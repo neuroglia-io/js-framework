@@ -25,6 +25,7 @@
   "peerDependencies": {
     "@angular/common": ">=11.0.0",
     "@angular/core": ">=11.0.0",
+    "@neuroglia/angular-logging": "*",
     "@neuroglia/common": "*",
     "date-fns": "^2.18.0"
   },
