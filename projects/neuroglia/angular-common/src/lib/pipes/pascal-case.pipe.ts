@@ -6,6 +6,7 @@ import { pascalCase } from '@neuroglia/common';
  */
 @Pipe({
   name: 'pascalCase',
+  standalone: true,
 })
 export class PascalCasePipe implements PipeTransform {
   transform(source: string): string {

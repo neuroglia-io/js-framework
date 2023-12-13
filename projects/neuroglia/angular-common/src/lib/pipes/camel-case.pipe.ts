@@ -6,6 +6,7 @@ import { camelCase } from '@neuroglia/common';
  */
 @Pipe({
   name: 'camelCase',
+  standalone: true,
 })
 export class CamelCasePipe implements PipeTransform {
   transform(source: string): string {

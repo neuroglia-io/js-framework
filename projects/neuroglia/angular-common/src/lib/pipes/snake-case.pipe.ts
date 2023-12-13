@@ -6,6 +6,7 @@ import { snakeCase } from '@neuroglia/common';
  */
 @Pipe({
   name: 'snakeCase',
+  standalone: true,
 })
 export class SnakeCasePipe implements PipeTransform {
   transform(source: string): string {

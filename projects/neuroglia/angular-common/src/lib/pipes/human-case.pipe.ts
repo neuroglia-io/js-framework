@@ -6,6 +6,7 @@ import { humanCase } from '@neuroglia/common';
  */
 @Pipe({
   name: 'humanCase',
+  standalone: true,
 })
 export class HumanCasePipe implements PipeTransform {
   transform(value: string, keepCapitalLetters: boolean = false, removeUnions: boolean = false): string {

@@ -6,6 +6,7 @@ import { kebabCase } from '@neuroglia/common';
  */
 @Pipe({
   name: 'kebabCase',
+  standalone: true,
 })
 export class KebabCasePipe implements PipeTransform {
   transform(source: string): string {
