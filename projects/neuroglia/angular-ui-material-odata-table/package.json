@@ -36,6 +36,7 @@
     "@neuroglia/authorization-rule": "*",
     "@neuroglia/common": "*",
     "@neuroglia/logging": "*",
+    "@neuroglia/string-formatter": "*",
     "@ngrx/component-store": "^17.0.1",
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
