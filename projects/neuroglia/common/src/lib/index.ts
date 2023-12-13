@@ -5,6 +5,7 @@ export * from './decimal';
 export * from './get';
 export * from './human-case';
 export * from './is-object';
+export * from './is-set';
 export * from './kebab-case';
 export * from './kvp-to-object';
 export * from './merge';

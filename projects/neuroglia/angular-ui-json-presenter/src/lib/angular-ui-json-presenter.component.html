@@ -1,0 +1,44 @@
+<ng-template #dataPresenter>  
+  <span *ngIf="type === TargetType.Value">
+    {{ target }}
+  </span>   
+  <span *ngIf="type === TargetType.Date">
+    {{ target | date:'short' }}
+  </span>  
+  <ul *ngIf="type === TargetType.Object">
+    <li *ngFor="let prop of properties">
+      <b>{{ prop | humanCase:true:true }}:</b> <neuroglia-json-presenter [json]="target[prop]" [isRoot]="false"></neuroglia-json-presenter>
+    </li>
+  </ul>
+  <ol *ngIf="type === TargetType.Array">
+    <li *ngFor="let t of target">
+      <neuroglia-json-presenter [json]="t" [isRoot]="false" [isFromArray]="true"></neuroglia-json-presenter>
+    </li>
+  </ol>
+</ng-template>
+<ng-template #json>
+  <pre>{{ target | json }}</pre>
+</ng-template>
+<ng-template #expand>
+  <span class="cursor-pointer" *ngIf="!isExpanded" (click)="toggle()">&#8862;</span>
+  <ng-container *ngIf="isExpanded">
+    <span class="cursor-pointer" (click)="toggle()">&#8863;</span>
+    <ng-container *ngTemplateOutlet='dataPresenter'></ng-container>
+  </ng-container>
+</ng-template>
+<ng-container *ngIf="!asJson; else json">
+  <ng-container *ngIf="isRoot || isFromArray || type === TargetType.Value || type === TargetType.Date; else expand">
+    <ng-container *ngTemplateOutlet='dataPresenter'></ng-container>
+  </ng-container>
+</ng-container>
+
+<div *ngIf="isRoot" class="row half-margin-top ">
+  <div class="col">
+      <label class="header-switch switch justify-content-center">
+        <span class="header-switch__label switch__label hidden-xs">As JSON<span class="icon-eye-closed"></span></span>
+        <input type="checkbox" (click)="onToggleJson()">
+        <span class="header-switch__input switch__input"></span>
+        <span class="header-switch__label switch__label hidden-xs"><span class="icon-eye"></span></span>
+      </label>
+  </div>  
+</div>

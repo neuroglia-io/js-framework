@@ -1,0 +1,58 @@
+:host{
+  display: block;
+  height: 100%;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  left: 0;
+}
+
+.mat-row:hover:not(.expanded-row-container, .expanded-row) {
+  background-color: var(--cui-background-hover);
+  td:first-child {
+    border-left: var(--cui-accent-thickness) solid var(--cui-accent-color);
+  }
+}
+
+::ng-deep{
+  .mat-sort-header-content{
+    width: 100%;
+  }
+  .mat-sort-header-arrow{
+    margin: 0 12px 0 0px !important;
+  }
+  .cui .mat-table th.mat-header-cell {
+    background: inherit;
+  }
+}
+
+tr {
+  &.expandable {
+    td {
+      border-bottom-width: 0;
+    }
+  }
+}
+/**
+ * row expansion:
+ * - tr height to 0 by default + content overflow hidden
+ * - animation trigger `animateExpand` will remove the height 0, the content will be shown as there is no more overflow
+ */
+tr.expanded-row-container {
+  height: 0;
+  td {
+    padding: 0 24px;
+    .expanded-row-content {
+      overflow: hidden;
+    }
+  }
+}
+/* End of row expansion CSS */
+
+mat-paginator {
+  margin-left: auto;
+}

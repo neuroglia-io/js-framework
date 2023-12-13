@@ -1,0 +1,6 @@
+<ng-container *ngIf="columnDefinition && row">
+  <a *ngIf="!!actionType" (click)="confirm(); $event.stopPropagation()" [routerLink]="[]" [ngClass]="buttonColor" class="btn">
+    <span *ngIf="!!buttonIcon" [ngClass]="buttonIcon"></span>
+    {{ buttonLabel }}
+  </a>
+</ng-container>

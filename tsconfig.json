@@ -10,9 +10,18 @@
         "dist/neuroglia/angular-common/neuroglia-angular-common",
         "dist/neuroglia/angular-common"
       ],
+      "@neuroglia/angular-datasource-odata": [
+        "./dist/neuroglia/angular-datasource-odata"
+      ],
+      "@neuroglia/angular-ui-json-presenter": [
+        "./dist/neuroglia/angular-ui-json-presenter"
+      ],
       "@neuroglia/angular-logging": [
         "dist/neuroglia/angular-logging/neuroglia-angular-logging",
         "dist/neuroglia/angular-logging"
+      ],
+      "@neuroglia/angular-ui-material-odata-table": [
+        "./dist/neuroglia/angular-ui-material-odata-table"
       ],
       "@neuroglia/angular-native-federation": [
         "./dist/neuroglia/angular-native-federation"
@@ -22,6 +31,9 @@
       ],
       "@neuroglia/angular-ngrx": [
         "./dist/neuroglia/angular-ngrx"
+      ],
+      "@neuroglia/angular-ngrx-component-store-odata-table": [
+        "./dist/neuroglia/angular-ngrx-component-store-odata-table"
       ],
       "@neuroglia/angular-oidc": [
         "dist/neuroglia/angular-oidc/neuroglia-angular-oidc",
@@ -34,6 +46,9 @@
       "@neuroglia/angular-signalr": [
         "dist/neuroglia/angular-signalr/neuroglia-angular-signalr",
         "dist/neuroglia/angular-signalr"
+      ],
+      "@neuroglia/authorization-rule": [
+        "./dist/neuroglia/authorization-rule"
       ],
       "@neuroglia/ci-cd-dummy": [
         "dist/neuroglia/ci-cd-dummy/neuroglia-ci-cd-dummy",
@@ -75,7 +90,7 @@
     "target": "esnext",
     "module": "es2020",
     "lib": [
-      "es2018",
+      "es2023",
       "dom",
       "dom.Iterable"
     ],

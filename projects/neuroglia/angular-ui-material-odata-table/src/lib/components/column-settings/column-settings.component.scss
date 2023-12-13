@@ -1,0 +1,55 @@
+.columns-list {
+  max-width: 100%;
+  min-height: 60px;
+  display: block;
+  overflow: hidden;
+}
+
+.columns-list__item {
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.columns-list__handle {
+  cursor: move;
+}
+
+.columns-list__placeholder {
+  background: #ddd;
+  border: dotted 2px #999;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  min-height: 45px;
+}
+
+.columns.cdk-drop-list-dragging .columns-list__item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.columns-list__item:last-child {
+  border: none;
+}
+/* uncomment this to fallback to the "default" drag & drop style with no placeholder
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+*/
+
+.mat-form-field-wrapper{
+  padding-bottom: 0;
+}

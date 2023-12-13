@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Filter {{data.columnDefinition.name | humanCase:true }}</h2>
+<div mat-dialog-content>
+  <div *ngIf="data.columnDefinition.isNullable">
+    <mat-button-toggle-group [(ngModel)]="model.isNull">
+      <mat-button-toggle [value]="''">Value</mat-button-toggle>
+      <mat-button-toggle [value]="true">Equals Null</mat-button-toggle>
+      <mat-button-toggle [value]="false">Not Equals Null</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div *ngIf="model.isNull === ''">
+    <mat-form-field>
+      <mat-label>Greater or equals</mat-label>
+      <input matInput placeholder="Greater or equals" [(ngModel)]="model.from" type="number">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Lower or equals</mat-label>
+      <input matInput placeholder="Lower or equals" [(ngModel)]="model.to" type="number">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions class="max-width flex-center">
+  <button type="button" mat-button class="btn btn--ghost" [mat-dialog-close]="''">Clear</button>
+  <button type="button" mat-button class="btn btn--primary" [mat-dialog-close]="model">Apply</button>
+</div>

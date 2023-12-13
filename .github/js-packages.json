@@ -19,6 +19,10 @@
     "name": "@neuroglia/integration",
     "path": "./"
   },
+  "authorization-rule": {
+    "name": "@neuroglia/authorization-rule",
+    "path": "./"
+  },
   "angular-logging": {
     "name": "@neuroglia/angular-logging",
     "path": "./"
@@ -43,16 +47,32 @@
     "name": "@neuroglia/angular-signalr",
     "path": "./"
   },
+  "angular-ngrx": {
+    "name": "@neuroglia/angular-ngrx",
+    "path": "./"
+  },
+  "angular-datasource-odata": {
+    "name": "@neuroglia/angular-datasource-odata",
+    "path": "./"
+  },
+  "angular-ngrx-component-store-odata-table": {
+    "name": "@neuroglia/angular-ngrx-component-store-odata-table",
+    "path": "./"
+  },
+  "angular-ui-json-presenter": {
+    "name": "@neuroglia/angular-ui-json-presenter",
+    "path": "./"
+  },
+  "angular-ui-material-odata-table": {
+    "name": "@neuroglia/angular-ui-material-odata-table",
+    "path": "./"
+  },
   "angular-native-federation": {
     "name": "@neuroglia/angular-native-federation",
     "path": "./"
   },
   "angular-native-federation-tools": {
     "name": "@neuroglia/angular-native-federation-tools",
-    "path": "./"
-  },
-  "angular-ngrx": {
-    "name": "@neuroglia/angular-ngrx",
     "path": "./"
   }
 }

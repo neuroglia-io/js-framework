@@ -53,15 +53,20 @@ jobs:
             logging: 'projects/neuroglia/logging/**'
             logging-transport-console: 'projects/neuroglia/logging-transport-console/**'
             integration: 'projects/neuroglia/integration/**'
+            authorization-rule: 'projects/neuroglia/authorization-rule/**'
             angular-logging: 'projects/neuroglia/angular-logging/**'
             angular-common: 'projects/neuroglia/angular-common/**'
             angular-oidc: 'projects/neuroglia/angular-oidc/**'
             angular-rest-core: 'projects/neuroglia/angular-rest-core/**'
             angular-signalr: 'projects/neuroglia/angular-signalr/**'
-            angular-native-federation: 'projects/neuroglia/angular-native-federation/**'
-            angular-native-federation-tools: 'projects/neuroglia/angular-native-federation-tools/**'
             angular-ngrx: 'projects/neuroglia/angular-ngrx/**'
             angular-application-common: 'projects/neuroglia/angular-application-common/**'
+            angular-datasource-odata: 'projects/neuroglia/angular-datasource-odata/**'
+            angular-ngrx-component-store-odata-table: 'projects/neuroglia/angular-ngrx-component-store-odata-table/**'
+            angular-ui-json-presenter: 'projects/neuroglia/angular-ui-json-presenter/**'
+            angular-ui-material-odata-table: 'projects/neuroglia/angular-ui-material-odata-table/**'
+            angular-native-federation: 'projects/neuroglia/angular-native-federation/**'
+            angular-native-federation-tools: 'projects/neuroglia/angular-native-federation-tools/**'
       
       - name: Defined output 'packages' as
         run: echo "${{ steps.detection.outputs.changes }}"

@@ -1,0 +1,11 @@
+<ng-container *ngIf="columnDefinition && row">
+  <ng-container *ngIf="columnDefinition.isCollection">
+    {{ row[columnDefinition.name]?.length }}
+  </ng-container>
+  <ng-container *ngIf="!columnDefinition.isCollection && columnDefinition.isNavigationProperty">
+    {{ row[columnDefinition.name] | json | slice:0:64 }}<span *ngIf="(row[columnDefinition.name] | json).length > 64">...</span>
+  </ng-container>
+  <ng-container *ngIf="!columnDefinition.isCollection && !columnDefinition.isNavigationProperty">
+    {{ row[columnDefinition.name] }}
+  </ng-container>
+</ng-container>

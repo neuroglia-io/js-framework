@@ -545,6 +545,216 @@
           }
         }
       }
+    },
+    "@neuroglia/angular-datasource-odata": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-datasource-odata",
+      "sourceRoot": "projects/neuroglia/angular-datasource-odata/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-datasource-odata/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-datasource-odata/**/*.ts",
+              "projects/neuroglia/angular-datasource-odata/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ngrx-component-store-odata-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ngrx-component-store-odata-table",
+      "sourceRoot": "projects/neuroglia/angular-ngrx-component-store-odata-table/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ngrx-component-store-odata-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-odata-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-odata-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ngrx-component-store-odata-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ngrx-component-store-odata-table/**/*.ts",
+              "projects/neuroglia/angular-ngrx-component-store-odata-table/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/authorization-rule": {
+      "projectType": "library",
+      "root": "projects/neuroglia/authorization-rule",
+      "sourceRoot": "projects/neuroglia/authorization-rule/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/authorization-rule/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/authorization-rule/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/authorization-rule/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/authorization-rule/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/authorization-rule/**/*.ts",
+              "projects/neuroglia/authorization-rule/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ui-material-odata-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ui-material-odata-table",
+      "sourceRoot": "projects/neuroglia/angular-ui-material-odata-table/src",
+      "prefix": "neuroglia-mat-odata-table",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ui-material-odata-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-odata-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-odata-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ui-material-odata-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ui-material-odata-table/**/*.ts",
+              "projects/neuroglia/angular-ui-material-odata-table/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ui-json-presenter": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ui-json-presenter",
+      "sourceRoot": "projects/neuroglia/angular-ui-json-presenter/src",
+      "prefix": "neuroglia-json-presenter",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ui-json-presenter/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ui-json-presenter/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ui-json-presenter/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ui-json-presenter/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ui-json-presenter/**/*.ts",
+              "projects/neuroglia/angular-ui-json-presenter/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

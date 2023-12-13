@@ -1,0 +1,21 @@
+:host{
+  /*text-align: left;*/
+  width: 100%;
+  /*flex-direction: column;*/
+}
+.sub-header {
+  font-weight: normal;
+  /* gap: var(--cui-spacing); */
+  .sub-col {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    inline-size: 100px;
+    min-width: 100px;
+    width: 100px;
+    max-width: 100px;
+    white-space: pre-line;
+    word-break: break-word;
+  }
+}

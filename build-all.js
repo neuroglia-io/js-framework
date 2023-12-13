@@ -8,15 +8,20 @@ const projects = [
   '@neuroglia/logging',
   '@neuroglia/logging-transport-console',
   '@neuroglia/integration',
+  '@neuroglia/authorization-rule',
   '@neuroglia/angular-logging',
   '@neuroglia/angular-common',
   '@neuroglia/angular-oidc',
   '@neuroglia/angular-application-common',
   '@neuroglia/angular-rest-core',
   '@neuroglia/angular-signalr', 
+  '@neuroglia/angular-ngrx',
+  '@neuroglia/angular-datasource-odata',
+  '@neuroglia/angular-ngrx-component-store-odata-table',
+  '@neuroglia/angular-ui-json-presenter',
+  '@neuroglia/angular-ui-material-odata-table',
   '@neuroglia/angular-native-federation',
   '@neuroglia/angular-native-federation-tools',
-  '@neuroglia/angular-ngrx'
 ];
 const ngBuild = (project) => () => new Promise((resolve, reject) => {
 	console.log(`========== ${project} ==========`);

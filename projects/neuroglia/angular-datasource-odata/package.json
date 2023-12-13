@@ -1,0 +1,41 @@
+{
+  "name": "@neuroglia/angular-datasource-odata",
+  "description": "An OData data source",
+  "version": "0.0.1",
+  "author": {
+    "name": "Neuroglia",
+    "url": "https://neuroglia.io"
+  },
+  "contributors": [
+    {
+      "name": "JB Bianchi",
+      "email": "jb.bianchi@neuroglia.io",
+      "url": "https://neuroglia.io"
+    }
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuroglia-io/js-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroglia-io/js-framework/issues"
+  },
+  "homepage": "https://neuroglia.io",
+  "peerDependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@neuroglia/angular-common": "*",
+    "@neuroglia/angular-logging": "*",
+    "@neuroglia/angular-rest-core": "*",
+    "@neuroglia/common": "*",
+    "@neuroglia/logging": "*",
+    "date-fns": "^2.18.0",
+    "odata-query": "^7.0.4",
+    "rxjs": "~7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

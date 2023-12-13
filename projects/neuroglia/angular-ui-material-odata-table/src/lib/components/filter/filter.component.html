@@ -1,0 +1,5 @@
+<ng-container *ngIf="isSupported">
+  <button mat-icon-button (click)="show(); $event.stopPropagation();" [attr.aria-label]="'Filter ' + columnDefinition.name">
+    <mat-icon [color]="isFiltered ? 'accent' : 'default'">filter_list</mat-icon>
+  </button>
+</ng-container>

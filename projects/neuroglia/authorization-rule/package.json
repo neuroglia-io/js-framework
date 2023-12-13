@@ -1,0 +1,33 @@
+{
+  "name": "@neuroglia/authorization-rule",
+  "description": "Provides a function to validate an auth token against auth rules",
+  "version": "0.0.1",
+  "author": {
+    "name": "Neuroglia",
+    "url": "https://neuroglia.io"
+  },
+  "contributors": [
+    {
+      "name": "JB Bianchi",
+      "email": "jb.bianchi@neuroglia.io",
+      "url": "https://neuroglia.io"
+    }
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuroglia-io/js-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroglia-io/js-framework/issues"
+  },
+  "homepage": "https://neuroglia.io",
+  "peerDependencies": {
+    "@neuroglia/common": "*",
+    "keycloak-js": "^22.0.5"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

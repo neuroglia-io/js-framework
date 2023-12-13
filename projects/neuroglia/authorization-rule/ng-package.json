@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../dist/neuroglia/authorization-rule",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  }
+}

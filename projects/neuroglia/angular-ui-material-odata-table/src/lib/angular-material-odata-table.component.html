@@ -1,0 +1,71 @@
+<ng-container *ngIf="{
+  columnDefinitions: columnDefinitions$ | async,
+  displayedColumns: displayedColumns$ | async,
+  data: data$ | async,
+  error: error$ | async,
+  isLoading: isLoading$ | async,
+  stickHeader: stickHeader$ | async,
+  count: count$ | async,
+  sort: matSort$ | async,
+  pageSize: pageSize$ | async,
+  pageIndex: pageIndex$ | async,
+  filters: filters$ | async,
+  serviceUrl: serviceUrl$ | async,
+  entityName: entityName$ | async,
+  enableSelection: enableSelection$ | async,
+  selectedRows: selectedRows$ | async,
+  enableRowExpansion: enableRowExpansion$ | async,
+  expandedRow: expandedRow$ | async, 
+  enableColumnSettings: enableColumnSettings$ | async
+} as viewModel">
+  <mat-expansion-panel *ngIf="viewModel.error">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="text-danger">An error occured</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        Expand for details
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <pre>{{ viewModel.error | json }}</pre>
+  </mat-expansion-panel>
+  <div *ngIf="!!title || !!interations" class="flex flex-wrap subtitle">
+    <div class="col-3" *ngIf="!!title">
+      <ng-content select='title'></ng-content>
+    </div>
+    <div *ngIf="!!interations" class="flex flex-grow-1 flex-wrap flex-middle half-gap slim-fields">
+      <ng-content select='interations'></ng-content>
+    </div>
+  </div>
+  <mat-progress-bar
+    [mode]="viewModel.isLoading ? 'query' : 'determinate'"
+    [value]="100"
+    color="accent"
+  ></mat-progress-bar>
+  <neuroglia-mat-odata-table-table
+    [odataTable]="this"
+    [dataSource]="viewModel.data"
+    [columnDefinitions]="viewModel.columnDefinitions!"
+    [displayedColumns]="viewModel.displayedColumns!"
+    [pageSize]="viewModel.pageSize"
+    [pageIndex]="viewModel.pageIndex"
+    [count]="viewModel.count!"
+    [sort]="viewModel.sort"
+    [filters]="viewModel.filters!"
+    [stickHeader]="viewModel.stickHeader!"
+    [serviceUrl]="viewModel.serviceUrl!"
+    [entityName]="viewModel.entityName!"
+    [enableSelection]="viewModel.enableSelection!"
+    [selectedRows]="viewModel.selectedRows!"
+    [enableRowExpansion]="viewModel.enableRowExpansion!"
+    [expandedRow]="viewModel.expandedRow"
+    [enableColumnSettings]="viewModel.enableColumnSettings!"
+    (rowClicked)="rowClicked.emit($event)"
+    (rowExpanded)="onExpandRow($event)"
+    (selectionChange)="onSelectionChange($event)"
+    (sortChange)="onSortChange($event)"
+    (pageChange)="onPageChange($event)"
+    (showFilter)="onShowFilter($event)"
+    (showColumnSettings)="onShowColumnSettings()"
+  ></neuroglia-mat-odata-table-table>
+</ng-container>

@@ -1,0 +1,38 @@
+{
+  "name": "@neuroglia/angular-ui-json-presenter",
+  "description": "A component used to present JSON data in a human readable way.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Neuroglia",
+    "url": "https://neuroglia.io"
+  },
+  "contributors": [
+    {
+      "name": "JB Bianchi",
+      "email": "jb.bianchi@neuroglia.io",
+      "url": "https://neuroglia.io"
+    }
+  ],
+  "license": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuroglia-io/js-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroglia-io/js-framework/issues"
+  },
+  "homepage": "https://neuroglia.io",
+  "peerDependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@neuroglia/angular-common": "*",
+    "@neuroglia/angular-logging": "*",    
+    "@neuroglia/common": "*",
+    "@neuroglia/logging": "*",
+    "date-fns": "^2.18.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,3 @@
+<ng-container *ngIf="columnDefinition && row">
+  {{ row[columnDefinition.name] | date:'short' }}
+</ng-container>
