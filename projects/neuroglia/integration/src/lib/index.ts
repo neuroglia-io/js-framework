@@ -6,3 +6,4 @@ export * from './integration-event.interface';
 export * from './integration-event';
 export * from './patch-operation';
 export * from './json-patch';
+export * from './patch-command';

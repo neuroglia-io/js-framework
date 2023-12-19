@@ -14,7 +14,7 @@ export class IntegrationEvent<T = string> extends DataTransferObject implements 
   /** The id of the aggregate, if any, that has produced the event */
   aggregateId: T;
   /** The version of the event's source aggregate, if any, at the time it produced the event */
-  aggregateVersion: string;
+  aggregateVersion: number;
   /** The type of the originating intergration event */
   type: string;
 }
