@@ -1,28 +1,26 @@
 import { Injectable, Type, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ODataTableState, ODataTableStore } from '@neuroglia/angular-ngrx-component-store-odata-table';
+import { isSet } from '@neuroglia/common';
 import {
   ColumnDefinition,
   Filter,
   Filters,
-  ODataTableState,
-  ODataTableStore,
   SerializedFilter,
-} from '@neuroglia/angular-ngrx-component-store-odata-table';
-import { isSet } from '@neuroglia/common';
-import { ColumnSettingsDialogData, FilterDialogData } from './models';
-import { ColumnSettingsComponent } from './components';
-
-/** A typeguard for @see {@link Filters}  */
-function isFilters(filters: Filters | SerializedFilter[]): filters is Filters {
-  return !Array.isArray(filters);
-}
+} from '@neuroglia/angular-ngrx-component-store-queryable-table';
+import {
+  ColumnSettingsComponent,
+  ColumnSettingsDialogData,
+  FilterDialogData,
+  isFilters,
+} from '@neuroglia/angular-ui-material-queryable-table';
 
 /** The state of an OData table specialized for AngularMaterial */
 @Injectable()
 export class MaterialODataTableStore<
   TState extends ODataTableState<TData> = ODataTableState<any>,
   TData = any,
-> extends ODataTableStore<ODataTableState<TState>> {
+> extends ODataTableStore<TState, TData> {
   protected readonly dialog = inject(MatDialog);
 
   constructor() {
@@ -68,7 +66,7 @@ export class MaterialODataTableStore<
     const dialogRef = this.dialog.open(ColumnSettingsComponent, config);
     dialogRef.afterClosed().subscribe((columnDefinitions: ColumnDefinition[] | null | undefined) => {
       if (!columnDefinitions) return;
-      this.patchState({ columnDefinitions });
+      this.patchState({ columnDefinitions } as Partial<TState>);
       if (isSet(this.columnSettingsStorage)) this.columnSettingsStorage.setItem(columnDefinitions);
     });
   }

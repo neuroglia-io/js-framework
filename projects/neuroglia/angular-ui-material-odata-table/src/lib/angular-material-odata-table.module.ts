@@ -21,60 +21,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+import { NeurogliaNgMatQueryableDataTableModule } from '@neuroglia/angular-ui-material-queryable-table';
 import { NeurogliaNgMatDataTableComponent } from './angular-material-odata-table.component';
-import {
-  CellCompiledExpressionComponent,
-  CellComponent,
-  CellDateComponent,
-  CellDefaultComponent,
-  CellExpandedComponent,
-  CellLinkComponent,
-  CellNgrxActionComponent,
-  CellNgrxActionWithConfirmComponent,
-  ColumnSettingsComponent,
-  ConfirmActionDialog,
-  FilterComponent,
-  FilterDateComponent,
-  FilterEnumComponent,
-  FilterExpressionComponent,
-  FilterGuidComponent,
-  FilterNumberComponent,
-  FilterStringComponent,
-  HeaderCompiledExpressionComponent,
-  HeaderComponent,
-  TableComponent,
-} from './components';
 
 @NgModule({
-  declarations: [
-    NeurogliaNgMatDataTableComponent,
-    TableComponent,
-    HeaderComponent,
-    HeaderCompiledExpressionComponent,
-    CellComponent,
-    CellDateComponent,
-    CellDefaultComponent,
-    CellCompiledExpressionComponent,
-    CellNgrxActionComponent,
-    FilterComponent,
-    FilterStringComponent,
-    FilterEnumComponent,
-    FilterGuidComponent,
-    FilterDateComponent,
-    FilterNumberComponent,
-    FilterExpressionComponent,
-    ColumnSettingsComponent,
-    CellLinkComponent,
-    CellExpandedComponent,
-    CellNgrxActionWithConfirmComponent,
-    ConfirmActionDialog,
-  ],
+  declarations: [NeurogliaNgMatDataTableComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     NeurogliaNgCommonModule,
+    NeurogliaNgMatQueryableDataTableModule,
 
     MatTableModule,
     MatSortModule,
@@ -94,6 +52,6 @@ import {
 
     NeurogliaNgUiJsonPresenterModule,
   ],
-  exports: [NeurogliaNgMatDataTableComponent, TableComponent],
+  exports: [NeurogliaNgMatDataTableComponent],
 })
-export class NeurogliaNgMatDataTableModule {}
+export class NeurogliaNgMatODataDataTableModule {}

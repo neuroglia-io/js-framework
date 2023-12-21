@@ -6,8 +6,9 @@ import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, HttpRequestInfo, logHttpRequest } from '@neuroglia/angular-rest-core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { expand, map, reduce, switchMap } from 'rxjs/operators';
-import { ColumnDefinition, ODataPrimitiveTypeEnum } from './models';
+import { ODataPrimitiveTypeEnum } from './models';
 import * as ODataMetadataSchema from './models/odata-metadata';
+import { ColumnDefinition } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 
 @Injectable({
   providedIn: 'root',

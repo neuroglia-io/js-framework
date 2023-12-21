@@ -10,8 +10,14 @@
         "dist/neuroglia/angular-common/neuroglia-angular-common",
         "dist/neuroglia/angular-common"
       ],
-      "@neuroglia/angular-datasource-odata": [
-        "./dist/neuroglia/angular-datasource-odata"
+      "@neuroglia/angular-data-source-graphql": [
+        "./dist/neuroglia/angular-data-source-graphql"
+      ],
+      "@neuroglia/angular-data-source-odata": [
+        "./dist/neuroglia/angular-data-source-odata"
+      ],
+      "@neuroglia/angular-data-source-queryable": [
+        "./dist/neuroglia/angular-data-source-queryable"
       ],
       "@neuroglia/angular-ui-json-presenter": [
         "./dist/neuroglia/angular-ui-json-presenter"
@@ -26,8 +32,14 @@
       "@neuroglia/angular-native-federation": [
         "./dist/neuroglia/angular-native-federation"
       ],
+      "@neuroglia/angular-ngrx-component-store-graphql-table": [
+        "./dist/neuroglia/angular-ngrx-component-store-graphql-table"
+      ],
       "@neuroglia/angular-native-federation-tools": [
         "./dist/neuroglia/angular-native-federation-tools"
+      ],
+      "@neuroglia/angular-ngrx-component-store-queryable-table": [
+        "./dist/neuroglia/angular-ngrx-component-store-queryable-table"
       ],
       "@neuroglia/angular-ngrx": [
         "./dist/neuroglia/angular-ngrx"
@@ -43,9 +55,15 @@
         "dist/neuroglia/angular-rest-core/neuroglia-angular-rest-core",
         "dist/neuroglia/angular-rest-core"
       ],
+      "@neuroglia/angular-ui-material-graphql-table": [
+        "./dist/neuroglia/angular-ui-material-graphql-table"
+      ],
       "@neuroglia/angular-signalr": [
         "dist/neuroglia/angular-signalr/neuroglia-angular-signalr",
         "dist/neuroglia/angular-signalr"
+      ],
+      "@neuroglia/angular-ui-material-queryable-table": [
+        "./dist/neuroglia/angular-ui-material-queryable-table"
       ],
       "@neuroglia/authorization-rule": [
         "./dist/neuroglia/authorization-rule"

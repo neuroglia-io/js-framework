@@ -51,20 +51,44 @@
     "name": "@neuroglia/angular-ngrx",
     "path": "./"
   },
-  "angular-datasource-odata": {
-    "name": "@neuroglia/angular-datasource-odata",
+  "angular-data-source-queryable": {
+    "name": "@neuroglia/angular-data-source-queryable",
+    "path": "./"
+  },
+  "angular-data-source-odata": {
+    "name": "@neuroglia/angular-data-source-odata",
+    "path": "./"
+  },
+  "angular-data-source-graphql": {
+    "name": "@neuroglia/angular-data-source-graphql",
+    "path": "./"
+  },
+  "angular-ngrx-component-store-queryable-table": {
+    "name": "@neuroglia/angular-ngrx-component-store-queryable-table",
     "path": "./"
   },
   "angular-ngrx-component-store-odata-table": {
     "name": "@neuroglia/angular-ngrx-component-store-odata-table",
     "path": "./"
   },
+  "angular-ngrx-component-store-graphql-table": {
+    "name": "@neuroglia/angular-ngrx-component-store-graphql-table",
+    "path": "./"
+  },
   "angular-ui-json-presenter": {
     "name": "@neuroglia/angular-ui-json-presenter",
     "path": "./"
   },
+  "angular-ui-material-queryable-table": {
+    "name": "@neuroglia/angular-ui-material-queryable-table",
+    "path": "./"
+  },
   "angular-ui-material-odata-table": {
     "name": "@neuroglia/angular-ui-material-odata-table",
+    "path": "./"
+  },
+  "angular-ui-material-graphql-table": {
+    "name": "@neuroglia/angular-ui-material-graphql-table",
     "path": "./"
   },
   "angular-native-federation": {

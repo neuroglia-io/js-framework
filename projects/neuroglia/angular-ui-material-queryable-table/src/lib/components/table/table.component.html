@@ -1,0 +1,97 @@
+<div class="responsive-table">
+  <table 
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    [multiTemplateDataRows]="enableRowExpansion"
+    (matSortChange)="matSortChanged($event)"
+    [matSortActive]="sort?.active||''"
+    [matSortDirection]="sort?.direction||''"
+    class="table"
+  >
+    <ng-container *ngFor="let columnDefinition of columnDefinitions" 
+      [matColumnDef]="columnDefinition.name"
+      [sticky]="columnDefinition.sticky === 'start'"
+      [stickyEnd]="columnDefinition.sticky === 'end'"
+    >
+      <th mat-header-cell *matHeaderCellDef [mat-sort-header]="columnDefinition.sortExpression || columnDefinition.name" [disabled]="!columnDefinition.isSortable">
+        <mat-checkbox 
+          *ngIf="columnDefinition.name === selectRowColumnDefinition.name"
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="hasSelection() && isAllSelected()"
+          [indeterminate]="hasSelection() && !isAllSelected()"
+          [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+        <ng-container *ngIf="columnDefinition.name !== selectRowColumnDefinition.name && columnDefinition.name !== expandRowColumnDefinition.name">
+          <neuroglia-mat-queryable-table-header [columnDefinition]="columnDefinition"></neuroglia-mat-queryable-table-header>
+          <neuroglia-mat-queryable-table-filter 
+            *ngIf="columnDefinition.isFilterable"
+            [columnDefinition]="columnDefinition"
+            [dataSourceType]="dataSourceType" 
+            [serviceUrl]="serviceUrl"
+            [entityName]="entityName"
+            [filters]="filters"
+            (showFilter)="showFilter.emit($event)"
+          ></neuroglia-mat-queryable-table-filter>
+        </ng-container>
+      </th>
+      <td mat-cell *matCellDef="let row" (click)="rowClicked.emit(row)">
+        <mat-checkbox 
+          *ngIf="columnDefinition.name === selectRowColumnDefinition.name"
+          (click)="$event.stopPropagation()"
+          (change)="$event ? toggleRow(row) : null"
+          [checked]="isSelected(row)"
+          [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+        <button 
+          *ngIf="columnDefinition.name === expandRowColumnDefinition.name"
+          mat-icon-button
+          aria-label="expand row" 
+          (click)="rowExpanded.emit(expandedRow === row ? null : row); $event.stopPropagation()"
+        >
+          <mat-icon *ngIf="expandedRow !== row">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedRow === row">keyboard_arrow_up</mat-icon>
+        </button>
+        <neuroglia-mat-queryable-table-cell 
+          *ngIf="columnDefinition.name !== selectRowColumnDefinition.name && columnDefinition.name !== expandRowColumnDefinition.name"
+          [table]="table"
+          [columnDefinition]="columnDefinition" 
+          [dataSourceType]="dataSourceType" 
+          [row]="row"
+          [serviceUrl]="serviceUrl"
+          [entityName]="entityName"
+        ></neuroglia-mat-queryable-table-cell>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedRowContainer">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="expanded-row-content" [@animateExpand]="row == expandedRow ? 'expanded' : 'collapsed'">
+          <neuroglia-mat-queryable-table-cell *ngIf="row == expandedRow"
+            [table]="table"
+            [columnDefinition]="expandRowColumnDefinition" 
+            [dataSourceType]="dataSourceType" 
+            [row]="row"
+            [serviceUrl]="serviceUrl"
+            [entityName]="entityName"
+          ></neuroglia-mat-queryable-table-cell>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: stickHeader"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [class.expandable]="enableRowExpansion" [class.expanded-row]="expandedRow === row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedRowContainer']; when: whenExpansionEnabled" class="expanded-row-container"></tr>
+  </table>
+</div>
+<div class="table-footer">
+  <button *ngIf="enableColumnSettings" mat-icon-button aria-label="Columns settings" (click)="showColumnSettings.emit()">
+    <mat-icon>settings</mat-icon>
+  </button>    
+  <mat-paginator
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [length]="count"  
+    (page)="pageChange.emit($event)"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

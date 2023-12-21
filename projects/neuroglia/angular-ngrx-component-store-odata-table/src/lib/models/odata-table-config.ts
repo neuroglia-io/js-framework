@@ -1,38 +1,6 @@
-import { Sort } from '@neuroglia/angular-datasource-odata';
-import { ColumnDefinition } from './column-definition';
-import { Filters } from './filters';
-import { SerializedFilter } from './serialized-filter';
+import { QueryableTableConfig } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 
 /**
  * Holds the configuration passed to the OData table component
  */
-export interface ODataTableConfig {
-  /** The address of the OData service endpoint */
-  serviceUrl: string;
-  /** The name of the entity to gather the data from */
-  entityName: string;
-  /** The name of the fully qualified entity to gather the data from */
-  entityFullyQualifiedName?: string;
-  /** Defines if the metadata should be gather to build the column definitions. If both `useMetadata` and `columnDefinitions`, they will be merged. */
-  useMetadata: boolean;
-  /** The table columns configuration */
-  columnDefinitions: ColumnDefinition[];
-  /** The endpoint to gather the data from, default is `serviceUrl` + `entityName` */
-  dataUrl?: string;
-  /** The list of navigation properties to expand */
-  expand?: string[];
-  /** The list of properties to select, all by default */
-  select?: string[];
-  /** Defines if checkboxes should be displayed in front of the rows */
-  enableSelection?: boolean;
-  /** Defines if the rows can be expanded */
-  enableRowExpansion?: boolean;
-  /** The default sorting configuration */
-  sort?: Sort | null;
-  /** The default filtering configuration */
-  filters?: Filters | SerializedFilter[] /* SerializedFilter[] actually */;
-  /** A base query string to use, if any */
-  query?: string;
-  /** Defines if the column settings should be displayed, default true */
-  enableColumnSettings?: boolean;
-}
+export interface ODataTableConfig extends QueryableTableConfig {}

@@ -11,20 +11,12 @@ import {
   ElementRef,
   inject,
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Sort as MatSort } from '@angular/material/sort';
-import { Paging, Sort } from '@neuroglia/angular-datasource-odata';
-import {
-  ColumnDefinition,
-  Filter,
-  Filters,
-  IODataTableComponent,
-  ODataTableConfig,
-  ODataTableStore,
-  ShowFilterEvent,
-} from '@neuroglia/angular-ngrx-component-store-odata-table';
+import { Paging, Sort } from '@neuroglia/angular-data-source-queryable';
+import { IODataTableComponent, ODataTableConfig } from '@neuroglia/angular-ngrx-component-store-odata-table';
 import { Observable, Subject, map } from 'rxjs';
 import { MaterialODataTableStore } from './material-odata-table.store';
+import { ColumnDefinition, Filters, ShowFilterEvent } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 
 @Component({
   selector: 'neuroglia-mat-odata-table',
@@ -44,6 +36,7 @@ export class NeurogliaNgMatDataTableComponent implements OnChanges, OnDestroy, I
   columnDefinitions$: Observable<ColumnDefinition[]> = this.store.columnDefinitions$;
   displayedColumns$: Observable<string[]> = this.store.displayedColumns$;
   data$: Observable<any> = this.store.data$;
+  dataSourceType$: Observable<string> = this.store.dataSourceType$;
   error$: Observable<string> = this.store.error$;
   isLoading$: Observable<boolean> = this.store.isLoading$;
   stickHeader$: Observable<boolean> = this.store.stickHeader$;

@@ -1,0 +1,13 @@
+<ng-container *ngIf="!!columnDefinition.headerExpression; else defaultTemplate">
+  <neuroglia-mat-queryable-table-header-compiled-expression [expression]="columnDefinition.headerExpression" [columnDefinition]="columnDefinition"></neuroglia-mat-queryable-table-header-compiled-expression>
+</ng-container>
+<ng-template #defaultTemplate>
+  {{ columnDefinition.name | humanCase:true }}
+</ng-template>
+<ng-container *ngIf="columnDefinition.metadata && columnDefinition.metadata.subHeader">
+  <div class="sub-header flex flex-around gap">
+    <div class="sub-col" *ngFor="let col of columnDefinition.metadata.subHeader">
+      {{ col }}
+    </div>
+  </div>
+</ng-container>

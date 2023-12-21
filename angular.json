@@ -546,23 +546,23 @@
         }
       }
     },
-    "@neuroglia/angular-datasource-odata": {
+    "@neuroglia/angular-data-source-odata": {
       "projectType": "library",
-      "root": "projects/neuroglia/angular-datasource-odata",
-      "sourceRoot": "projects/neuroglia/angular-datasource-odata/src",
+      "root": "projects/neuroglia/angular-data-source-odata",
+      "sourceRoot": "projects/neuroglia/angular-data-source-odata/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/neuroglia/angular-datasource-odata/ng-package.json"
+            "project": "projects/neuroglia/angular-data-source-odata/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.lib.prod.json"
+              "tsConfig": "projects/neuroglia/angular-data-source-odata/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.lib.json"
+              "tsConfig": "projects/neuroglia/angular-data-source-odata/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -570,7 +570,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/neuroglia/angular-datasource-odata/tsconfig.spec.json",
+            "tsConfig": "projects/neuroglia/angular-data-source-odata/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -581,8 +581,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/neuroglia/angular-datasource-odata/**/*.ts",
-              "projects/neuroglia/angular-datasource-odata/**/*.html"
+              "projects/neuroglia/angular-data-source-odata/**/*.ts",
+              "projects/neuroglia/angular-data-source-odata/**/*.html"
             ]
           }
         }
@@ -751,6 +751,258 @@
             "lintFilePatterns": [
               "projects/neuroglia/angular-ui-json-presenter/**/*.ts",
               "projects/neuroglia/angular-ui-json-presenter/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-data-source-queryable": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-data-source-queryable",
+      "sourceRoot": "projects/neuroglia/angular-data-source-queryable/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-data-source-queryable/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-data-source-queryable/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-data-source-queryable/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-data-source-queryable/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-data-source-queryable/**/*.ts",
+              "projects/neuroglia/angular-data-source-queryable/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-data-source-graphql": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-data-source-graphql",
+      "sourceRoot": "projects/neuroglia/angular-data-source-graphql/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-data-source-graphql/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-data-source-graphql/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-data-source-graphql/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-data-source-graphql/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-data-source-graphql/**/*.ts",
+              "projects/neuroglia/angular-data-source-graphql/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ngrx-component-store-queryable-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ngrx-component-store-queryable-table",
+      "sourceRoot": "projects/neuroglia/angular-ngrx-component-store-queryable-table/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ngrx-component-store-queryable-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-queryable-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-queryable-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ngrx-component-store-queryable-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ngrx-component-store-queryable-table/**/*.ts",
+              "projects/neuroglia/angular-ngrx-component-store-queryable-table/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ngrx-component-store-graphql-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ngrx-component-store-graphql-table",
+      "sourceRoot": "projects/neuroglia/angular-ngrx-component-store-graphql-table/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ngrx-component-store-graphql-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-graphql-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ngrx-component-store-graphql-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ngrx-component-store-graphql-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ngrx-component-store-graphql-table/**/*.ts",
+              "projects/neuroglia/angular-ngrx-component-store-graphql-table/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ui-material-queryable-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ui-material-queryable-table",
+      "sourceRoot": "projects/neuroglia/angular-ui-material-queryable-table/src",
+      "prefix": "neuroglia-mat-queryable-table",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ui-material-queryable-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-queryable-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-queryable-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ui-material-queryable-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ui-material-queryable-table/**/*.ts",
+              "projects/neuroglia/angular-ui-material-queryable-table/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "@neuroglia/angular-ui-material-graphql-table": {
+      "projectType": "library",
+      "root": "projects/neuroglia/angular-ui-material-graphql-table",
+      "sourceRoot": "projects/neuroglia/angular-ui-material-graphql-table/src",
+      "prefix": "neuroglia-mat-graphql-table",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/neuroglia/angular-ui-material-graphql-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-graphql-table/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/neuroglia/angular-ui-material-graphql-table/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/neuroglia/angular-ui-material-graphql-table/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/neuroglia/angular-ui-material-graphql-table/**/*.ts",
+              "projects/neuroglia/angular-ui-material-graphql-table/**/*.html"
             ]
           }
         }
