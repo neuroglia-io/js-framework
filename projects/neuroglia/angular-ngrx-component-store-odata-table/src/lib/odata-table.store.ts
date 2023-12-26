@@ -70,7 +70,7 @@ export class ODataTableStore<
                 ),
           ),
           map((definitions: ColumnDefinition[]) => {
-            const token = this.keycloak.getKeycloakInstance().tokenParsed;
+            const token = this.keycloak?.getKeycloakInstance()?.tokenParsed;
             const stateDefinitionNames = (initialState.columnDefinitions || []).map((def) => def.name);
             const columnDefinitions = [
               ...definitions.filter((def) => !stateDefinitionNames.includes(def.name)),

@@ -4,7 +4,7 @@ import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, UrlHelperService } from '@neuroglia/angular-rest-core';
 import { ODataDataSource } from './odata-data-source';
 import { ODATA_DATA_SOURCE_ENDPOINT } from './odata-data-source-endpoint-token';
-import { combineLatest, take } from 'rxjs';
+import { combineLatest, filter, take, tap, timer } from 'rxjs';
 
 const testEndpoint = 'https://services.odata.org/V4/OData/OData.svc/Products';
 
@@ -115,7 +115,8 @@ const expectedProductsResponse = {
     },
   ],
 };
-const expectedProductsWithSupppliersResponse = {
+
+const expectedProductsWithSuppliersResponse = {
   '@odata.context': 'https://services.odata.org/V4/OData/OData.svc/$metadata#Products',
   '@odata.count': 11,
   value: [
@@ -345,11 +346,34 @@ describe('OData Data Source', () => {
 
   describe('no parameters', () => {
     it('should emit all items with no parameters set', (done) => {
-      combineLatest([datasource.response$, datasource.data$]).subscribe(([response, data]) => {
-        expect(response).toEqual(expectedProductsResponse);
-        expect(data).toEqual(expectedProductsResponse.value);
-        done();
+      combineLatest([datasource.response$, datasource.data$]).subscribe({
+        next: ([response, data]) => {
+          expect(response).toEqual(expectedProductsResponse);
+          expect(data).toEqual(expectedProductsResponse.value);
+          done();
+        },
       });
+    });
+  });
+
+  describe('reload', () => {
+    it('should (re)emit all items', (done) => {
+      let reloaded = false;
+      datasource.data$.pipe(filter((_) => reloaded)).subscribe({
+        next: (data) => {
+          expect(data).toEqual(expectedProductsResponse.value);
+          done();
+        },
+      });
+      timer(1000)
+        .pipe(
+          tap(() => {
+            reloaded = true;
+            datasource.reload();
+          }),
+          take(1),
+        )
+        .subscribe();
     });
   });
 
@@ -362,10 +386,12 @@ describe('OData Data Source', () => {
       datasource
         .select(['Name'])
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
   });
@@ -375,10 +401,12 @@ describe('OData Data Source', () => {
       datasource
         .expand(['Supplier'])
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedProductsWithSupppliersResponse.value.length);
-          expect(data).toEqual(expectedProductsWithSupppliersResponse.value);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedProductsWithSuppliersResponse.value.length);
+            expect(data).toEqual(expectedProductsWithSuppliersResponse.value);
+            done();
+          },
         });
     });
   });
@@ -389,10 +417,12 @@ describe('OData Data Source', () => {
       datasource
         .page({ pageSize: 5 })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
 
@@ -401,10 +431,12 @@ describe('OData Data Source', () => {
       datasource
         .page({ pageSize: 5, pageIndex: 2 }) // zeroed index ==> skip 10; 1 left
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
 
@@ -413,10 +445,12 @@ describe('OData Data Source', () => {
       datasource
         .page({ pageIndex: 2 })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(11);
-          expect(data).toEqual(expectedProductsResponse.value);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(11);
+            expect(data).toEqual(expectedProductsResponse.value);
+            done();
+          },
         });
     });
   });
@@ -427,10 +461,12 @@ describe('OData Data Source', () => {
       datasource
         .orderBy([{ column: 'Name', direction: 'asc' }])
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
     it('should emit all the items ordered by descending name', (done) => {
@@ -438,10 +474,12 @@ describe('OData Data Source', () => {
       datasource
         .orderBy([{ column: 'Name', direction: 'desc' }])
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
   });
@@ -452,10 +490,12 @@ describe('OData Data Source', () => {
       datasource
         .filter(`Name eq 'Bread'`)
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
     it('should emit the item with name equals to "Bread" with an object filter', (done) => {
@@ -463,74 +503,86 @@ describe('OData Data Source', () => {
       datasource
         .filter({ Name: 'Bread' })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
-    it('should emit the items with name containing to "ui" with a string filter', (done) => {
+    it('should emit the items with name containing "ui" with a string filter', (done) => {
       const expectedValues = expectedProductsResponse.value.filter((value) => value.Name.includes('ui'));
       datasource
         .filter(`contains(Name, 'ui')`)
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
-    it('should emit the items with name containing to "ui" with an object filter', (done) => {
+    it('should emit the items with name containing "ui" with an object filter', (done) => {
       const expectedValues = expectedProductsResponse.value.filter((value) => value.Name.includes('ui'));
       datasource
         .filter({ Name: { contains: 'ui' } })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
-    it('should emit the items with name not containing to "ui" with a string filter', (done) => {
+    it('should emit the items with name not containing "ui" with a string filter', (done) => {
       const expectedValues = expectedProductsResponse.value.filter((value) => !value.Name.includes('ui'));
       datasource
         .filter(`not(contains(Name, 'ui'))`)
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
-    it('should emit the items with name not containing to "ui" with an object filter', (done) => {
+    it('should emit the items with name not containing "ui" with an object filter', (done) => {
       const expectedValues = expectedProductsResponse.value.filter((value) => !value.Name.includes('ui'));
       datasource
         .filter({ not: { Name: { contains: 'ui' } } })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
     it('should emit the items from supplier "Exotic Liquids"', (done) => {
-      const expectedValues = expectedProductsWithSupppliersResponse.value
+      const expectedValues = expectedProductsWithSuppliersResponse.value
         .filter((value) => value.Supplier?.Name === 'Exotic Liquids')
         .map(({ Supplier, ...value }) => value);
       datasource
         .filter({ Supplier: { Name: 'Exotic Liquids' } })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
   });
 
   describe('mixed operations', () => {
     it('should emit the names and suppliers of the first two items from supplier "Exotic Liquids" ordered by name', (done) => {
-      const expectedValues = expectedProductsWithSupppliersResponse.value
+      const expectedValues = expectedProductsWithSuppliersResponse.value
         .filter((value) => value.Supplier?.Name === 'Exotic Liquids')
         .map(({ Name, Supplier, ...value }) => ({ Name, Supplier }))
         .toSorted((a, b) => a.Name.localeCompare(b.Name));
@@ -540,10 +592,12 @@ describe('OData Data Source', () => {
         .orderBy([{ column: 'Name', direction: 'asc' }])
         .filter({ Supplier: { Name: 'Exotic Liquids' } })
         .data$.pipe(take(1))
-        .subscribe((data) => {
-          expect(data.length).toEqual(expectedValues.length);
-          expect(data).toEqual(expectedValues);
-          done();
+        .subscribe({
+          next: (data) => {
+            expect(data.length).toEqual(expectedValues.length);
+            expect(data).toEqual(expectedValues);
+            done();
+          },
         });
     });
   });

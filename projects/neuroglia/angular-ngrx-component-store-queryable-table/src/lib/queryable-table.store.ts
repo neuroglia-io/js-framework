@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map, take, takeUntil, tap } from 'rxjs/operators';
 import {
   ColumnDefinition,
+  Filter,
   Filters,
   QueryableTableState,
   SerializedFilter,
@@ -52,17 +53,19 @@ export function createEmptyQueryableTableState<T>(): QueryableTableState<T> {
 function asODataQueryFilter(filters: Filters): ODataQueryFilter {
   const filterExpressions = Object.entries(filters)
     .filter(([, filter]) => !!(filter as any).expression)
-    .map(([, filter]) => filter.asODataQueryFilter());
+    .map(([, filter]) => (!filter.negate ? filter.asODataQueryFilter() : `not(${filter.asODataQueryFilter()})`));
   if (!filterExpressions?.length) {
-    return Object.fromEntries(Object.entries(filters).map(([name, filter]) => [name, filter.asODataQueryFilter()]));
+    return Object.entries(filters).map(([name, filter]) =>
+      !filter?.negate ? { [name]: filter.asODataQueryFilter() } : { not: { [name]: filter.asODataQueryFilter() } },
+    );
   } else {
     return [
       ...filterExpressions,
-      Object.fromEntries(
-        Object.entries(filters)
-          .filter(([, filter]) => !(filter as any).expression)
-          .map(([name, filter]) => [name, filter.asODataQueryFilter()]),
-      ),
+      Object.entries(filters)
+        .filter(([, filter]) => !(filter as any).expression)
+        .map(([name, filter]) =>
+          !filter?.negate ? { [name]: filter.asODataQueryFilter() } : { not: { [name]: filter.asODataQueryFilter() } },
+        ),
     ];
   }
 }
@@ -311,6 +314,17 @@ export abstract class QueryableTableStore<
       map(() => this.get()),
       take(1),
     );
+  }
+
+  /**
+   * Clears persisted data
+   */
+  clear() {
+    this.columnSettingsStorage?.clear();
+    this.filtersStorage?.clear();
+    this.sortStorage?.clear();
+    this.pageSizeStorage?.clear();
+    this.pageIndexStorage?.clear();
   }
 
   /**
