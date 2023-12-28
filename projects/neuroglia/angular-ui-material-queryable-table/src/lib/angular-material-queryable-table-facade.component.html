@@ -44,38 +44,24 @@
     color="accent"
   ></mat-progress-bar>
   <neuroglia-mat-queryable-table-table
-    *ngIf="
-      viewModel.dataSourceType &&
-      viewModel.columnDefinitions &&
-      viewModel.displayedColumns &&
-      viewModel.count != null &&
-      viewModel.filters &&
-      viewModel.stickHeader &&
-      viewModel.serviceUrl &&
-      viewModel.entityName &&
-      viewModel.enableSelection != null &&
-      viewModel.selectedRows &&
-      viewModel.enableRowExpansion &&
-      viewModel.enableColumnSettings
-    "
     [table]="parent"
-    [dataSourceType]="viewModel.dataSourceType"
+    [dataSourceType]="viewModel.dataSourceType!"
     [dataSource]="viewModel.data"
-    [columnDefinitions]="viewModel.columnDefinitions"
-    [displayedColumns]="viewModel.displayedColumns"
+    [columnDefinitions]="viewModel.columnDefinitions!"
+    [displayedColumns]="viewModel.displayedColumns!"
     [pageSize]="viewModel.pageSize"
     [pageIndex]="viewModel.pageIndex"
-    [count]="viewModel.count"
+    [count]="viewModel.count!"
     [sort]="viewModel.sort"
-    [filters]="viewModel.filters"
-    [stickHeader]="viewModel.stickHeader"
-    [serviceUrl]="viewModel.serviceUrl"
-    [entityName]="viewModel.entityName"
-    [enableSelection]="viewModel.enableSelection"
-    [selectedRows]="viewModel.selectedRows"
-    [enableRowExpansion]="viewModel.enableRowExpansion"
+    [filters]="viewModel.filters!"
+    [stickHeader]="viewModel.stickHeader!"
+    [serviceUrl]="viewModel.serviceUrl!"
+    [entityName]="viewModel.entityName!"
+    [enableSelection]="viewModel.enableSelection!"
+    [selectedRows]="viewModel.selectedRows!"
+    [enableRowExpansion]="viewModel.enableRowExpansion!"
     [expandedRow]="viewModel.expandedRow"
-    [enableColumnSettings]="viewModel.enableColumnSettings"
+    [enableColumnSettings]="viewModel.enableColumnSettings!"
     (rowClicked)="parent.rowClicked.emit($event)"
     (rowExpanded)="parent.onExpandRow($event)"
     (selectionChange)="parent.onSelectionChange($event)"

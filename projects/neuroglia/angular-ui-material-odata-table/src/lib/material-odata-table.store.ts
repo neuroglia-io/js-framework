@@ -30,7 +30,7 @@ export class MaterialODataTableStore<
   /**
    * Shows a filter's dialog and handles the return
    */
-  showFilterDialog(dialogType: Type<any>, columnDefinition: ColumnDefinition, filter: Filter | null) {
+  showFilterDialog(dialogType: Type<any>, columnDefinition: ColumnDefinition, filter: Filter | null): void {
     const config = new MatDialogConfig();
     config.data = { columnDefinition, filter } as FilterDialogData;
     const dialogRef = this.dialog.open(dialogType, config);
@@ -57,7 +57,7 @@ export class MaterialODataTableStore<
   /**
    * Shows the columns settings dialog and handles the return
    */
-  showColumnSettingsDialog() {
+  showColumnSettingsDialog(): void {
     const config = new MatDialogConfig();
     const columnDefinitions = this.get((state) => state.columnDefinitions)
       .sort((prev, next) => (prev.position || 9999) - (next.position || 9999))
