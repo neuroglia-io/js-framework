@@ -16,6 +16,7 @@ import { ILogger } from '@neuroglia/logging';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, ODataQueryResultDto, UrlHelperService } from '@neuroglia/angular-rest-core';
 import {
+  CombinedParams,
   CountParam,
   ExpandParam,
   FilterParam,
@@ -30,6 +31,8 @@ import {
 } from './models';
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { QUERYABLE_DATA_SOURCE_DATA_SELECTOR } from './queryable-data-source-data-selector-token';
+import { QUERYABLE_DATA_SOURCE_COUNT_SELECTOR } from './queryable-data-source-count-selector-token';
 
 /**
  * Converts an OrderBy<T> into a Sort
@@ -53,18 +56,6 @@ function mapOrderByToSort<T>(orderBy: OrderBy<T>, prefix: string = ''): Sort[] |
     );
   }
   return Object.entries(orderBy).flatMap(([k, v]) => mapOrderByToSort(v as OrderBy<any>, `${k}/`) || []);
-}
-
-/**
- * Creates an empty ODataQueryResponse
- * @returns
- */
-function createEmptyReponse<T>(): Observable<ODataQueryResultDto<T>> {
-  return of({
-    '@odata.context': 'unkown',
-    '@odata.count': 0,
-    value: [],
-  });
 }
 
 /**
@@ -101,6 +92,10 @@ export abstract class QueryableDataSource<T = any> {
   protected readonly errorObserver = inject(HttpErrorObserverService);
   /** The @see {@link UrlHelperService} service */
   protected readonly urlHelperService = inject(UrlHelperService);
+  /** The optional function used to select the total count from the response */
+  protected countSelector = inject(QUERYABLE_DATA_SOURCE_COUNT_SELECTOR, { optional: true });
+  /** The optional function used to select data from the response */
+  protected dataSelector = inject(QUERYABLE_DATA_SOURCE_DATA_SELECTOR, { optional: true });
   /** The logger name */
   protected loggerName: string;
   /** The logger */
@@ -109,7 +104,7 @@ export abstract class QueryableDataSource<T = any> {
   /** Exposes the loading observable */
   isLoading$: Observable<boolean> = this.isLoadingSource.asObservable();
   /** Exposes the OData query response as observable */
-  response$: Observable<ODataQueryResultDto<T>>;
+  response$: Observable<ODataQueryResultDto<T> | null>;
   /** Exposes the data observable */
   data$: Observable<T[]>;
   /** Exposes the error observable */
@@ -134,26 +129,14 @@ export abstract class QueryableDataSource<T = any> {
   constructor() {
     this.loggerName = `QueryableDataSource`;
     this.logger = this.namedLoggingServiceFactory.create(this.loggerName);
-    this.buildODataPipeline();
+    this.buildPipeline();
   }
 
   /**
    * Builds the query
    * @param combinedParams
    */
-  protected abstract buildQuery(
-    combinedParams: [
-      SelectParam<T>,
-      ExpandParam<T>,
-      PagingParam,
-      OrderByParam<T>,
-      SearchParam,
-      TransformParam<T>,
-      FilterParam,
-      CountParam,
-      null,
-    ],
-  ): string;
+  protected abstract buildQuery(combinedParams: CombinedParams<T>): string;
 
   /**
    * Queries the endpoint
@@ -164,7 +147,7 @@ export abstract class QueryableDataSource<T = any> {
   /**
    * Builds the observables pipeline to handle the request
    */
-  protected buildODataPipeline() {
+  protected buildPipeline() {
     this.response$ = combineLatest([
       this.selectSource,
       this.expandSource,
@@ -181,7 +164,7 @@ export abstract class QueryableDataSource<T = any> {
       // Consider building another pipe() if needed
 
       debounceTime(100), // wait if multiple params are set at once
-      map(this.buildQuery),
+      map((combinedParams: CombinedParams<T>) => this.buildQuery(combinedParams)),
       // todo: reactivate `distinctUntilChanged` in concordance with `reloadData`
       //distinctUntilChanged(), // process only if different from previous query
       tap(() => {
@@ -196,19 +179,19 @@ export abstract class QueryableDataSource<T = any> {
           catchError((err) => {
             // if an error occurend, notify and mock an empty response
             this.errorSource.next(err);
-            return createEmptyReponse<T>();
+            return of(null);
           }),
         ),
       ), // make the request
       tap((response) => {
         // populate count & end loading
-        this.countSource.next(response['@odata.count']);
+        this.countSource.next((this.countSelector ? this.countSelector(response) : response?.['@odata.count']) || 0);
         this.isLoadingSource.next(false);
       }),
       share(), // not sure... shareReplay?
     );
     this.data$ = this.response$.pipe(
-      map((response) => response.value),
+      map((response) => (this.dataSelector ? this.dataSelector(response) : response?.value) || []),
       distinctUntilChanged(),
     );
   }

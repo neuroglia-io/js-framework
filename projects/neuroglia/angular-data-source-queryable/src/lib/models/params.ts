@@ -8,3 +8,14 @@ export type SearchParam = { search: string } | null;
 export type TransformParam<T> = { transform: Transform<T> } | null;
 export type FilterParam = { filter: Filter } | null;
 export type CountParam = { count: boolean } | null;
+export type CombinedParams<T> = [
+  SelectParam<T>,
+  ExpandParam<T>,
+  PagingParam,
+  OrderByParam<T>,
+  SearchParam,
+  TransformParam<T>,
+  FilterParam,
+  CountParam,
+  null,
+];

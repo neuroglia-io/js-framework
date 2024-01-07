@@ -352,6 +352,10 @@ describe('OData Data Source', () => {
           expect(data).toEqual(expectedProductsResponse.value);
           done();
         },
+        error: (err) => {
+          expect(err).withContext('error').toBeNull();
+          done();
+        },
       });
     });
   });
@@ -362,6 +366,10 @@ describe('OData Data Source', () => {
       datasource.data$.pipe(filter((_) => reloaded)).subscribe({
         next: (data) => {
           expect(data).toEqual(expectedProductsResponse.value);
+          done();
+        },
+        error: (err) => {
+          expect(err).withContext('error').toBeNull();
           done();
         },
       });
@@ -392,6 +400,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
   });
@@ -405,6 +417,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedProductsWithSuppliersResponse.value.length);
             expect(data).toEqual(expectedProductsWithSuppliersResponse.value);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -423,6 +439,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
 
@@ -437,6 +457,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
 
@@ -449,6 +473,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(11);
             expect(data).toEqual(expectedProductsResponse.value);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -467,6 +495,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
     it('should emit all the items ordered by descending name', (done) => {
@@ -478,6 +510,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -496,6 +532,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
     it('should emit the item with name equals to "Bread" with an object filter', (done) => {
@@ -507,6 +547,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -522,6 +566,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
     it('should emit the items with name containing "ui" with an object filter', (done) => {
@@ -533,6 +581,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -548,6 +600,10 @@ describe('OData Data Source', () => {
             expect(data).toEqual(expectedValues);
             done();
           },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
+            done();
+          },
         });
     });
     it('should emit the items with name not containing "ui" with an object filter', (done) => {
@@ -559,6 +615,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -574,6 +634,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -596,6 +660,10 @@ describe('OData Data Source', () => {
           next: (data) => {
             expect(data.length).toEqual(expectedValues.length);
             expect(data).toEqual(expectedValues);
+            done();
+          },
+          error: (err) => {
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
