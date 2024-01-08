@@ -4,7 +4,7 @@ export const filterDateTester: FilterTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
   return columnDefinition.type === 'Edm.Date' || columnDefinition.type === 'Edm.DateTimeOffset';
 };

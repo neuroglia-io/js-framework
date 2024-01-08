@@ -24,7 +24,7 @@ export interface IQueryableTableComponent {
   pageIndex$: Observable<number | null>;
   filters$: Observable<Filters>;
   serviceUrl$: Observable<string>;
-  entityName$: Observable<string>;
+  target$: Observable<string>;
   enableSelection$: Observable<boolean>;
   selectedRows$: Observable<any[]>;
   enableRowExpansion$: Observable<boolean>;

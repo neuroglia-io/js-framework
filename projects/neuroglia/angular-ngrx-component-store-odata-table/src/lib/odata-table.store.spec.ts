@@ -12,7 +12,7 @@ const testEndpoint = 'https://services.radzen.com/odata/Northwind/';
 const config: ODataTableConfig = {
   dataSourceType: 'odata',
   serviceUrl: testEndpoint,
-  entityName: 'NorthwindProducts',
+  target: 'NorthwindProducts',
   useMetadata: true,
   columnDefinitions: [],
 };
@@ -26,8 +26,8 @@ describe('OData Table Store', () => {
   beforeAll((done) => {
     combineLatest([
       from(fetch(testEndpoint + '$metadata?$format=json').then((res) => res.json())),
-      from(fetch(testEndpoint + config.entityName + '?$count=true').then((res) => res.json())),
-      from(fetch(testEndpoint + config.entityName + '?$count=true&expand=Supplier').then((res) => res.json())),
+      from(fetch(testEndpoint + config.target + '?$count=true').then((res) => res.json())),
+      from(fetch(testEndpoint + config.target + '?$count=true&expand=Supplier').then((res) => res.json())),
     ]).subscribe({
       next: ([metadata, products, productsWithSuppliers]) => {
         expectedMetadata = metadata;
@@ -70,7 +70,7 @@ describe('OData Table Store', () => {
         .map(([key]) => key);
       store.init(config).subscribe({
         next: (state) => {
-          expect(state.dataUrl).toBe(config.serviceUrl + config.entityName);
+          expect(state.dataUrl).toBe(config.serviceUrl + config.target);
           expect(state.columnDefinitions.length).toBe(expectedProperties.length);
           done();
         },
@@ -90,7 +90,7 @@ describe('OData Table Store', () => {
         }),
       ]).subscribe({
         next: ([data, state]) => {
-          expect(state.dataUrl).toBe(config.serviceUrl + config.entityName);
+          expect(state.dataUrl).toBe(config.serviceUrl + config.target);
           expect(data.length).toBe(expectedValues.length);
           expect(data).toEqual(expectedValues);
           done();
@@ -113,7 +113,7 @@ describe('OData Table Store', () => {
           }),
         ]).subscribe({
           next: ([data, state]) => {
-            expect(state.dataUrl).toBe(config.serviceUrl + config.entityName);
+            expect(state.dataUrl).toBe(config.serviceUrl + config.target);
             expect(data.length).toBe(expectedValues.length);
             expect(data).toEqual(expectedValues);
             done();
@@ -128,7 +128,7 @@ describe('OData Table Store', () => {
         store
           .init({
             ...config,
-            entityName: 'foobar',
+            target: 'foobar',
           })
           .subscribe({
             next: (state) => {
@@ -151,7 +151,7 @@ describe('OData Table Store', () => {
         store.init(config),
       ]).subscribe({
         next: ([data, state]) => {
-          expect(state.dataUrl).toBe(config.serviceUrl + config.entityName);
+          expect(state.dataUrl).toBe(config.serviceUrl + config.target);
           expect(data.length).toBe(expectedValues.length);
           expect(data).toEqual(expectedValues);
           done();

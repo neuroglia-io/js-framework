@@ -54,7 +54,7 @@ export class NeurogliaNgMatQueryableDataTableComponent implements OnChanges, OnD
   pageIndex$: Observable<number | null> = this.store.pageIndex$;
   filters$: Observable<Filters> = this.store.filters$;
   serviceUrl$: Observable<string> = this.store.serviceUrl$;
-  entityName$: Observable<string> = this.store.entityName$;
+  target$: Observable<string> = this.store.target$;
   enableSelection$: Observable<boolean> = this.store.enableSelection$;
   selectedRows$: Observable<any[]> = this.store.selectedRows$;
   enableRowExpansion$: Observable<boolean> = this.store.enableRowExpansion$;

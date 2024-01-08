@@ -27,8 +27,8 @@ export function createEmptyQueryableTableState<T>(): QueryableTableState<T> {
     columnDefinitions: [],
     dataSourceType: '',
     serviceUrl: '',
-    entityName: '',
-    entityFullyQualifiedName: '',
+    target: '',
+    targetType: '',
     dataUrl: '',
     enableSelection: false,
     selectedRows: [],
@@ -86,7 +86,7 @@ export abstract class QueryableTableStore<
   /** Selects the service url */
   serviceUrl$ = this.select((state) => state.serviceUrl);
   /** Selects the entity name */
-  entityName$ = this.select((state) => state.entityName);
+  target$ = this.select((state) => state.target);
   /** Selects the data url */
   dataUrl$ = this.select((state) => state.dataUrl);
   /** Selects the selection feature state */
@@ -185,7 +185,7 @@ export abstract class QueryableTableStore<
     if (!initialState.serviceUrl) {
       throw 'Unable to initialize, missing service URL';
     }
-    if (!initialState.entityName) {
+    if (!initialState.target) {
       throw 'Unable to initialize, missing entity name';
     }
     if (!initialState.useMetadata && !initialState.columnDefinitions) {
@@ -239,7 +239,7 @@ export abstract class QueryableTableStore<
                 columnDefinition,
                 initialState.dataSourceType!,
                 initialState.serviceUrl!,
-                initialState.entityName!,
+                initialState.target!,
               );
               if (!filter) {
                 return [null, null];

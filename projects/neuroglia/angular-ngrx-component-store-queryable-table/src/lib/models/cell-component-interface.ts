@@ -15,7 +15,7 @@ export interface ICellComponent<T = any> {
   /** The address of the OData service endpoint */
   serviceUrl: string;
   /** The name of the entity to gather the data from */
-  entityName: string;
+  target: string;
   /** The implementation of OnChange, if any */
   ngOnChanges?: (changes: SimpleChanges) => void;
 }

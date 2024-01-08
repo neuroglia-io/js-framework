@@ -42,7 +42,7 @@ export class ODataTableStore<
   protected getServiceEndpoint(initialState: Partial<TState>): string {
     return (
       initialState.dataUrl ||
-      `${initialState.serviceUrl}${!initialState.serviceUrl!.endsWith('/') ? '/' : ''}${initialState.entityName}${
+      `${initialState.serviceUrl}${!initialState.serviceUrl!.endsWith('/') ? '/' : ''}${initialState.target}${
         initialState.query || ''
       }`
     );
@@ -50,7 +50,6 @@ export class ODataTableStore<
 
   /** @inheritdoc */
   protected getColumnDefinitions(initialState: Partial<TState>): Observable<ColumnDefinition[]> {
-    let metadata: ODataMetadataSchema.Metadata;
     return !initialState.useMetadata
       ? of(initialState.columnDefinitions).pipe(
           filter((definitions: ColumnDefinition[] | undefined) => !!definitions?.length),
@@ -58,16 +57,10 @@ export class ODataTableStore<
         )
       : this.odataMetadataService.getMetadata(initialState.serviceUrl!).pipe(
           takeUntil(this.destroy$),
-          tap((md: ODataMetadataSchema.Metadata) => {
-            metadata = md;
-          }),
           switchMap((metadata: ODataMetadataSchema.Metadata) =>
-            !initialState.entityFullyQualifiedName
-              ? this.odataMetadataService.getColumnDefinitions(metadata, initialState.entityName!)
-              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(
-                  metadata,
-                  initialState.entityFullyQualifiedName,
-                ),
+            !initialState.targetType
+              ? this.odataMetadataService.getColumnDefinitions(metadata, initialState.target!)
+              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(metadata, initialState.targetType),
           ),
           map((definitions: ColumnDefinition[]) => {
             const token = this.keycloak?.getKeycloakInstance()?.tokenParsed;

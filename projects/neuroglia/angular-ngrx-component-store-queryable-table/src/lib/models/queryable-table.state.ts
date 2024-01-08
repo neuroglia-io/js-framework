@@ -20,9 +20,9 @@ export interface QueryableTableState<T> {
   /** The service endpoint */
   serviceUrl: string;
   /** The targeted entity type name */
-  entityName: string;
+  target: string;
   /** The fully qualified name of the entity */
-  entityFullyQualifiedName: string;
+  targetType: string;
   /** The endpoint to gather the data form */
   dataUrl: string;
   /** Defines if the rows should display a selection checkbox */

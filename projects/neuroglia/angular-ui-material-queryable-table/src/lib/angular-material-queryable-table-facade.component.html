@@ -12,7 +12,7 @@
   pageIndex: parent.pageIndex$ | async,
   filters: parent.filters$ | async,
   serviceUrl: parent.serviceUrl$ | async,
-  entityName: parent.entityName$ | async,
+  target: parent.target$ | async,
   enableSelection: parent.enableSelection$ | async,
   selectedRows: parent.selectedRows$ | async,
   enableRowExpansion: parent.enableRowExpansion$ | async,
@@ -56,7 +56,7 @@
     [filters]="viewModel.filters!"
     [stickHeader]="viewModel.stickHeader!"
     [serviceUrl]="viewModel.serviceUrl!"
-    [entityName]="viewModel.entityName!"
+    [target]="viewModel.target!"
     [enableSelection]="viewModel.enableSelection!"
     [selectedRows]="viewModel.selectedRows!"
     [enableRowExpansion]="viewModel.enableRowExpansion!"

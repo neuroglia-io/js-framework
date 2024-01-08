@@ -11,19 +11,19 @@ export interface QueryableTableConfig {
   dataSourceType: string;
   /** The the service endpoint */
   serviceUrl: string;
-  /** The name of the entity to gather the data from */
-  entityName: string;
-  /** The name of the fully qualified entity to gather the data from */
-  entityFullyQualifiedName?: string;
-  /** Defines if the metadata should be gather to build the column definitions. If both `useMetadata` and `columnDefinitions`, they will be merged. */
+  /** The name of the target (e.g. an EntityContainer for OData or a Query for GraphQL) to gather the data from */
+  target: string;
+  /** The type of the target if it cannot be infered with the target name only */
+  targetType?: string;
+  /** Defines if the metadata should be gathered to build the column definitions. If both `useMetadata` and `columnDefinitions`, they will be merged. */
   useMetadata: boolean;
   /** The table columns configuration */
   columnDefinitions: ColumnDefinition[];
-  /** The endpoint to gather the data from, default is `serviceUrl` + `entityName` */
+  /** The endpoint to gather the data from, if "non standard" */
   dataUrl?: string;
   /** The list of navigation properties to expand */
   expand?: string[];
-  /** The list of properties to select, all by default */
+  /** The list of specific properties to select */
   select?: string[];
   /** Defines if checkboxes should be displayed in front of the rows */
   enableSelection?: boolean;

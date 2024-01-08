@@ -29,7 +29,7 @@ export class CellNgrxActionWithConfirmComponent implements ICellComponent {
   /** The address of the OData service endpoint */
   @Input() serviceUrl: string;
   /** The name of the entity to gather the data from */
-  @Input() entityName: string;
+  @Input() target: string;
   message: string;
   buttonLabel: string;
   buttonColor: string;

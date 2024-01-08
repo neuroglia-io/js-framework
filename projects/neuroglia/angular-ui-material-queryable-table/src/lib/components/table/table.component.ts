@@ -51,7 +51,7 @@ export class TableComponent {
   /** The address of the OData service endpoint */
   @Input() serviceUrl: string;
   /** The name of the entity to gather the data from */
-  @Input() entityName: string;
+  @Input() target: string;
   /** Defines if the selection checkboxes should be displayed */
   @Input() enableSelection: boolean;
   /** Defines if the rows can be expanded */

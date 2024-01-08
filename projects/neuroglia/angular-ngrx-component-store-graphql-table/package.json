@@ -36,6 +36,7 @@
     "@neuroglia/logging": "*",
     "@ngrx/component-store": "^17.0.1",
     "date-fns": "^2.18.0",
+    "graphql": "^16.8.1",
     "keycloak-angular": "^15.0.0",
     "keycloak-js": "^22.0.5",
     "odata-query": "^7.0.4",

@@ -24,7 +24,7 @@ export class CellLinkComponent implements OnChanges, ICellComponent {
   /** The address of the OData service endpoint */
   @Input() serviceUrl: string;
   /** The name of the entity to gather the data from */
-  @Input() entityName: string;
+  @Input() target: string;
   routerLink: string | any[];
   buttonLabel: string;
   buttonColor: string;

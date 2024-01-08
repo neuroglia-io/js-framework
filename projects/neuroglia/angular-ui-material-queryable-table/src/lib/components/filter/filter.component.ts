@@ -32,7 +32,7 @@ export class FilterComponent implements OnChanges {
   /** The address of the OData service endpoint */
   @Input() serviceUrl: string;
   /** The name of the entity to gather the data from */
-  @Input() entityName: string;
+  @Input() target: string;
   /** The active filters  */
   @Input() filters: Filters;
   /** Emits when the filter button is clicked */
@@ -67,7 +67,7 @@ export class FilterComponent implements OnChanges {
         this.columnDefinition,
         this.dataSourceType,
         this.serviceUrl,
-        this.entityName,
+        this.target,
       );
       this.isSupported = !!this.filterType;
     }

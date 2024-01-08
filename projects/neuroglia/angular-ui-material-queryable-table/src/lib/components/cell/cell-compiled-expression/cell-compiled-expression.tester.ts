@@ -5,7 +5,7 @@ export const cellCompiledExpressionTester: CellTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
   return !!columnDefinition.expression;
 };

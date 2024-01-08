@@ -63,7 +63,7 @@ export class QueryableTableTemplateProvider {
    * @param row
    * @param dataSourceType
    * @param serviceUrl
-   * @param entityName
+   * @param target
    * @returns
    */
   getCellTemplate(
@@ -71,11 +71,11 @@ export class QueryableTableTemplateProvider {
     columnDefinition: ColumnDefinition,
     dataSourceType: string,
     serviceUrl: string,
-    entityName: string,
+    target: string,
   ): Type<ICellComponent> | null {
     return (
       this.templates.cells.find((cellTemplate) =>
-        cellTemplate.tester(row, columnDefinition, dataSourceType, serviceUrl, entityName),
+        cellTemplate.tester(row, columnDefinition, dataSourceType, serviceUrl, target),
       )?.template || null
     );
   }
@@ -129,17 +129,17 @@ export class QueryableTableTemplateProvider {
    * @param columnDefinition
    * @param dataSourceType
    * @param serviceUrl
-   * @param entityName
+   * @param target
    * @returns
    */
   getFilterTemplate(
     columnDefinition: ColumnDefinition,
     dataSourceType: string,
     serviceUrl: string,
-    entityName: string,
+    target: string,
   ): Type<IFilterComponent> | null {
     return (
-      this.templates.filters.find((filter) => filter.tester(columnDefinition, dataSourceType, serviceUrl, entityName))
+      this.templates.filters.find((filter) => filter.tester(columnDefinition, dataSourceType, serviceUrl, target))
         ?.template || null
     );
   }
@@ -149,17 +149,17 @@ export class QueryableTableTemplateProvider {
    * @param columnDefinition
    * @param dataSourceType
    * @param serviceUrl
-   * @param entityName
+   * @param target
    * @returns
    */
   getFilter(
     columnDefinition: ColumnDefinition,
     dataSourceType: string,
     serviceUrl: string,
-    entityName: string,
+    target: string,
   ): any | null {
     return (
-      this.templates.filters.find((filter) => filter.tester(columnDefinition, dataSourceType, serviceUrl, entityName))
+      this.templates.filters.find((filter) => filter.tester(columnDefinition, dataSourceType, serviceUrl, target))
         ?.filter || null
     );
   }

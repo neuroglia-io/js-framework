@@ -5,7 +5,7 @@ export const cellLinkTester: CellTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
   return columnDefinition.type?.toLowerCase() === 'link';
 };

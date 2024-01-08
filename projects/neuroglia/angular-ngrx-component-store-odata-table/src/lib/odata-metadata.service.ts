@@ -60,11 +60,11 @@ export class ODataMetadataService {
   /**
    * Gets the entity type description for the provided entity name
    * @param metadata 
-   * @param entityName 
+   * @param target 
    * @returns 
    
-  getEntityTypeByName(metadata: ODataMetadataSchema.Metadata, entityName: string): Observable<ODataMetadataSchema.EntityType> {
-    return this.getEntityQualifiedName(metadata, entityName).pipe(
+  getEntityTypeByName(metadata: ODataMetadataSchema.Metadata, target: string): Observable<ODataMetadataSchema.EntityType> {
+    return this.getEntityQualifiedName(metadata, target).pipe(
       mergeMap(qualifiedName => this.getEntityTypeByQualifiedName(metadata, qualifiedName))
     );
   }
@@ -73,11 +73,11 @@ export class ODataMetadataService {
   /**
    * Gets the column definitions for the provided entity name
    * @param metadata
-   * @param entityName
+   * @param target
    * @returns
    */
-  getColumnDefinitions(metadata: ODataMetadataSchema.Metadata, entityName: string): Observable<ColumnDefinition[]> {
-    return this.getEntityQualifiedName(metadata, entityName).pipe(
+  getColumnDefinitions(metadata: ODataMetadataSchema.Metadata, target: string): Observable<ColumnDefinition[]> {
+    return this.getEntityQualifiedName(metadata, target).pipe(
       switchMap((qualifiedName) => this.getColumnDefinitionInfo(metadata, qualifiedName)),
       expand((info) => {
         if (!info) {
@@ -94,7 +94,7 @@ export class ODataMetadataService {
   /**
    * Gets the column definitions for the provided full qualified entity name
    * @param metadata
-   * @param entityName
+   * @param target
    * @returns
    */
   getColumnDefinitionsForQualifiedName(
@@ -117,18 +117,18 @@ export class ODataMetadataService {
   /**
    * Gets the fully qualified name of the provided entity
    * @param metadata
-   * @param entityName
+   * @param target
    * @returns
    */
-  protected getEntityQualifiedName(metadata: ODataMetadataSchema.Metadata, entityName: string): Observable<string> {
+  protected getEntityQualifiedName(metadata: ODataMetadataSchema.Metadata, target: string): Observable<string> {
     if (!metadata.$EntityContainer) {
       this.logger.error(`The property $EntityContainer is missing on the metadata.`);
       throw new Error(`The property $EntityContainer is missing on the metadata.`);
     }
-    const entityType = get(get(metadata, metadata.$EntityContainer), entityName)?.$Type as string;
+    const entityType = get(get(metadata, metadata.$EntityContainer), target)?.$Type as string;
     if (!entityType) {
-      this.logger.error(`Enable to find a metadata container for '${entityName}'.`);
-      throw new Error(`Enable to find a metadata container for '${entityName}'.`);
+      this.logger.error(`Enable to find a metadata container for '${target}'.`);
+      throw new Error(`Enable to find a metadata container for '${target}'.`);
     }
     return of(entityType);
   }
@@ -136,7 +136,7 @@ export class ODataMetadataService {
   /**
    * Gets the column deifnition for the provided entity *only*, not its parents
    * @param metadata
-   * @param entityName
+   * @param target
    * @returns
    */
   protected getColumnDefinitionInfo(

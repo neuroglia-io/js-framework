@@ -4,7 +4,7 @@ export const filterExpressionTester: FilterTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
   return !!columnDefinition.filterExpression;
 };

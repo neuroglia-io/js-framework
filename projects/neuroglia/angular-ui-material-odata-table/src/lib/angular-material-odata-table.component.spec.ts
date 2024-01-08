@@ -39,7 +39,7 @@ const testEndpoint = 'https://services.radzen.com/odata/Northwind/';
 const config: ODataTableConfig = {
   dataSourceType: 'odata',
   serviceUrl: testEndpoint,
-  entityName: 'NorthwindProducts',
+  target: 'NorthwindProducts',
   useMetadata: true,
   columnDefinitions: [],
 };
@@ -55,8 +55,8 @@ describe('NeurogliaNgMatDataTableComponent', () => {
   beforeAll((done) => {
     combineLatest([
       from(fetch(testEndpoint + '$metadata?$format=json').then((res) => res.json())),
-      from(fetch(testEndpoint + config.entityName + '?$count=true').then((res) => res.json())),
-      from(fetch(testEndpoint + config.entityName + '?$count=true&expand=Supplier').then((res) => res.json())),
+      from(fetch(testEndpoint + config.target + '?$count=true').then((res) => res.json())),
+      from(fetch(testEndpoint + config.target + '?$count=true&expand=Supplier').then((res) => res.json())),
     ]).subscribe({
       next: ([metadata, products, productsWithSuppliers]) => {
         expectedMetadata = metadata;

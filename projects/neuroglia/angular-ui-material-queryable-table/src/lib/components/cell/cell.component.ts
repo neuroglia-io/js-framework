@@ -38,7 +38,7 @@ export class CellComponent implements OnChanges, OnDestroy {
   /** The address of the OData service endpoint */
   @Input() serviceUrl: string;
   /** The name of the entity to gather the data from */
-  @Input() entityName: string;
+  @Input() target: string;
   /** The cell component reference */
   private cellRef: ComponentRef<ICellComponent> | null;
 
@@ -64,7 +64,7 @@ export class CellComponent implements OnChanges, OnDestroy {
         this.columnDefinition,
         this.dataSourceType,
         this.serviceUrl,
-        this.entityName,
+        this.target,
       );
       if (componentType) {
         this.cellRef = this.templateContainer.createComponent(componentType);
@@ -72,7 +72,7 @@ export class CellComponent implements OnChanges, OnDestroy {
         this.cellRef.instance.row = this.row;
         this.cellRef.instance.columnDefinition = this.columnDefinition;
         this.cellRef.instance.serviceUrl = this.serviceUrl;
-        this.cellRef.instance.entityName = this.entityName;
+        this.cellRef.instance.target = this.target;
         this.cellRef.instance.ngOnChanges && this.cellRef.instance.ngOnChanges(changes);
         this.changeDetectorRef.detectChanges();
       }

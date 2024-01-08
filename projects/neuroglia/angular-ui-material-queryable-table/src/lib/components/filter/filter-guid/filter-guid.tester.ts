@@ -4,7 +4,7 @@ export const filterGuidTester: FilterTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
   return columnDefinition.type === 'Edm.Guid';
 };

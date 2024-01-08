@@ -5,7 +5,7 @@ export const cellDateTester: CellTemplateTester = (
   columnDefinition: ColumnDefinition,
   dataSourceType: string,
   serviceUrl: string,
-  entityName: string,
+  target: string,
 ): boolean => {
-  return columnDefinition.type === 'Edm.Date' || columnDefinition.type === 'Edm.DateTimeOffset';
+  return !!columnDefinition.type?.replace('Edm.', '').startsWith('Date');
 };

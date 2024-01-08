@@ -29,7 +29,7 @@
             [columnDefinition]="columnDefinition"
             [dataSourceType]="dataSourceType" 
             [serviceUrl]="serviceUrl"
-            [entityName]="entityName"
+            [target]="target"
             [filters]="filters"
             (showFilter)="showFilter.emit($event)"
           ></neuroglia-mat-queryable-table-filter>
@@ -59,7 +59,7 @@
           [dataSourceType]="dataSourceType" 
           [row]="row"
           [serviceUrl]="serviceUrl"
-          [entityName]="entityName"
+          [target]="target"
         ></neuroglia-mat-queryable-table-cell>
       </td>
     </ng-container>
@@ -72,7 +72,7 @@
             [dataSourceType]="dataSourceType" 
             [row]="row"
             [serviceUrl]="serviceUrl"
-            [entityName]="entityName"
+            [target]="target"
           ></neuroglia-mat-queryable-table-cell>
         </div>
       </td>
