@@ -104,12 +104,6 @@ const countSelector = (graphqlResponse: any): number => graphqlResponse?.data?.a
 
 const dataSelector = (graphqlResponse: any): any[] => graphqlResponse?.data?.allPlanets?.planets || [];
 
-const responseMapper = (graphqlResponse: any): ODataQueryResultDto<any> => ({
-  '@odata.context': 'unkown',
-  '@odata.count': countSelector(graphqlResponse),
-  value: dataSelector(graphqlResponse),
-});
-
 const expectedPlanetsResponse = {
   data: {
     allPlanets: {
