@@ -791,9 +791,7 @@ describe('OData Metadata Service', () => {
       service
         .getMetadata(testEndpoint)
         .pipe(
-          switchMap((metadata) =>
-            service.getEntityTypeByQualifiedName(metadata, 'BlazorWasm7Mssql.Models.Northwind.NorthwindProduct'),
-          ),
+          switchMap((_) => service.getEntityTypeByQualifiedName('BlazorWasm7Mssql.Models.Northwind.NorthwindProduct')),
         )
         .subscribe({
           next: (entityType: EntityType) => {
@@ -818,7 +816,7 @@ describe('OData Metadata Service', () => {
         .map(([key]) => key);
       service
         .getMetadata(testEndpoint)
-        .pipe(switchMap((metadata) => service.getColumnDefinitions(metadata, 'NorthwindProducts')))
+        .pipe(switchMap((_) => service.getColumnDefinitions('NorthwindProducts')))
         .subscribe({
           next: (definitions: ColumnDefinition[]) => {
             expect(definitions).not.toBeNull();
@@ -835,7 +833,7 @@ describe('OData Metadata Service', () => {
     it('should throw empty for an unknown entity', (done) => {
       service
         .getMetadata(testEndpoint)
-        .pipe(switchMap((metadata) => service.getColumnDefinitions(metadata, 'foobar')))
+        .pipe(switchMap((_) => service.getColumnDefinitions('foobar')))
         .subscribe({
           next: (definitions: ColumnDefinition[]) => {
             expect(definitions).toBeNull();
@@ -860,11 +858,8 @@ describe('OData Metadata Service', () => {
       service
         .getMetadata(testEndpoint)
         .pipe(
-          switchMap((metadata) =>
-            service.getColumnDefinitionsForQualifiedName(
-              metadata,
-              'BlazorWasm7Mssql.Models.Northwind.NorthwindProduct',
-            ),
+          switchMap((_) =>
+            service.getColumnDefinitionsForQualifiedName('BlazorWasm7Mssql.Models.Northwind.NorthwindProduct'),
           ),
         )
         .subscribe({
@@ -883,7 +878,7 @@ describe('OData Metadata Service', () => {
     it('should throw for an unknown entity', (done) => {
       service
         .getMetadata(testEndpoint)
-        .pipe(switchMap((metadata) => service.getColumnDefinitionsForQualifiedName(metadata, 'foobar')))
+        .pipe(switchMap((_) => service.getColumnDefinitionsForQualifiedName('foobar')))
         .subscribe({
           next: (definitions: ColumnDefinition[]) => {
             expect(definitions).toBeNull();

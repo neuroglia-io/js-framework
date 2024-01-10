@@ -5,7 +5,7 @@ import { ILogger } from '@neuroglia/logging';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, HttpRequestInfo, logHttpRequest } from '@neuroglia/angular-rest-core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { expand, map, reduce, switchMap } from 'rxjs/operators';
+import { expand, map, reduce, switchMap, tap } from 'rxjs/operators';
 import { ODataPrimitiveTypeEnum } from './models';
 import * as ODataMetadataSchema from './models/odata-metadata';
 import { ColumnDefinition } from '@neuroglia/angular-ngrx-component-store-queryable-table';
@@ -22,6 +22,8 @@ export class ODataMetadataService {
   protected readonly http = inject(HttpClient);
   /** The logger instance */
   protected readonly logger: ILogger = this.namedLoggingServiceFactory.create('ODataMetadataService');
+  /** The metadata */
+  protected metadata: ODataMetadataSchema.Metadata | null;
 
   /**
    * Gathers the metadata from the provided service
@@ -41,6 +43,10 @@ export class ODataMetadataService {
       this.errorObserver,
       this.http.get<ODataMetadataSchema.Metadata>(url),
       httpRequestInfo,
+    ).pipe(
+      tap((metadata) => {
+        this.metadata = metadata;
+      }),
     );
   }
 
@@ -50,16 +56,15 @@ export class ODataMetadataService {
    * @param qualifiedName
    * @returns
    */
-  getEntityTypeByQualifiedName(
-    metadata: ODataMetadataSchema.Metadata,
-    qualifiedName: string,
-  ): Observable<ODataMetadataSchema.EntityType> {
-    return of(this.getElementByQualifiedName(metadata, qualifiedName) as ODataMetadataSchema.EntityType);
+  getEntityTypeByQualifiedName(qualifiedName: string): Observable<ODataMetadataSchema.EntityType> {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
+    return of(this.getElementByQualifiedName(qualifiedName) as ODataMetadataSchema.EntityType);
   }
 
   /**
    * Gets the entity type description for the provided entity name
-   * @param metadata 
    * @param target 
    * @returns 
    
@@ -72,18 +77,20 @@ export class ODataMetadataService {
 
   /**
    * Gets the column definitions for the provided entity name
-   * @param metadata
    * @param target
    * @returns
    */
-  getColumnDefinitions(metadata: ODataMetadataSchema.Metadata, target: string): Observable<ColumnDefinition[]> {
-    return this.getEntityQualifiedName(metadata, target).pipe(
-      switchMap((qualifiedName) => this.getColumnDefinitionInfo(metadata, qualifiedName)),
+  getColumnDefinitions(target: string): Observable<ColumnDefinition[]> {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
+    return this.getEntityQualifiedName(target).pipe(
+      switchMap((qualifiedName) => this.getColumnDefinitionInfo(qualifiedName)),
       expand((info) => {
         if (!info) {
           return EMPTY;
         }
-        return this.getColumnDefinitionInfo(metadata, info.baseType);
+        return this.getColumnDefinitionInfo(info.baseType);
       }),
       reduce((acc: ColumnDefinition[], info: ColumnDefinitionInfo) => {
         return [...info.columnDefinitions, ...acc];
@@ -93,20 +100,19 @@ export class ODataMetadataService {
 
   /**
    * Gets the column definitions for the provided full qualified entity name
-   * @param metadata
    * @param target
    * @returns
    */
-  getColumnDefinitionsForQualifiedName(
-    metadata: ODataMetadataSchema.Metadata,
-    qualifiedName: string,
-  ): Observable<ColumnDefinition[]> {
-    return this.getColumnDefinitionInfo(metadata, qualifiedName).pipe(
+  getColumnDefinitionsForQualifiedName(qualifiedName: string): Observable<ColumnDefinition[]> {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
+    return this.getColumnDefinitionInfo(qualifiedName).pipe(
       expand((info) => {
         if (!info) {
           return EMPTY;
         }
-        return this.getColumnDefinitionInfo(metadata, info.baseType);
+        return this.getColumnDefinitionInfo(info.baseType);
       }),
       reduce((acc: ColumnDefinition[], info: ColumnDefinitionInfo) => {
         return [...info.columnDefinitions, ...acc];
@@ -116,16 +122,18 @@ export class ODataMetadataService {
 
   /**
    * Gets the fully qualified name of the provided entity
-   * @param metadata
    * @param target
    * @returns
    */
-  protected getEntityQualifiedName(metadata: ODataMetadataSchema.Metadata, target: string): Observable<string> {
-    if (!metadata.$EntityContainer) {
+  protected getEntityQualifiedName(target: string): Observable<string> {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
+    if (!this.metadata.$EntityContainer) {
       this.logger.error(`The property $EntityContainer is missing on the metadata.`);
       throw new Error(`The property $EntityContainer is missing on the metadata.`);
     }
-    const entityType = get(get(metadata, metadata.$EntityContainer), target)?.$Type as string;
+    const entityType = get(get(this.metadata, this.metadata.$EntityContainer), target)?.$Type as string;
     if (!entityType) {
       this.logger.error(`Enable to find a metadata container for '${target}'.`);
       throw new Error(`Enable to find a metadata container for '${target}'.`);
@@ -139,12 +147,12 @@ export class ODataMetadataService {
    * @param target
    * @returns
    */
-  protected getColumnDefinitionInfo(
-    metadata: ODataMetadataSchema.Metadata,
-    qualifiedName?: string,
-  ): Observable<ColumnDefinitionInfo> {
+  protected getColumnDefinitionInfo(qualifiedName?: string): Observable<ColumnDefinitionInfo> {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
     if (!qualifiedName) return EMPTY;
-    return this.getEntityTypeByQualifiedName(metadata, qualifiedName).pipe(
+    return this.getEntityTypeByQualifiedName(qualifiedName).pipe(
       map(
         (entityType) =>
           ({
@@ -192,7 +200,7 @@ export class ODataMetadataService {
                     columnDefinition.isFilterable = !isCollection && !isNavigationProperty;
                   }
                 } else if (!isNavigationProperty) {
-                  const underlyingEntity = this.getElementByQualifiedName(metadata, type);
+                  const underlyingEntity = this.getElementByQualifiedName(type);
                   if (underlyingEntity.$Kind === 'EnumType') {
                     columnDefinition.isVisible = !isCollection && !isNavigationProperty;
                     columnDefinition.isSortable = !isCollection && !isNavigationProperty;
@@ -217,13 +225,15 @@ export class ODataMetadataService {
    * @returns
    */
   protected getElementByQualifiedName(
-    metadata: ODataMetadataSchema.Metadata,
     qualifiedName: string,
   ): ODataMetadataSchema.EntityType | ODataMetadataSchema.EnumType {
+    if (!this.metadata) {
+      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+    }
     const pathParts = qualifiedName.split('.');
     const type = pathParts.splice(-1)[0];
     const namespace = pathParts.join('.');
-    return metadata[namespace][type];
+    return this.metadata[namespace][type];
   }
 }
 

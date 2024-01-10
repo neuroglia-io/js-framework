@@ -57,10 +57,10 @@ export class ODataTableStore<
         )
       : this.odataMetadataService.getMetadata(initialState.serviceUrl!).pipe(
           takeUntil(this.destroy$),
-          switchMap((metadata: ODataMetadataSchema.Metadata) =>
+          switchMap((_: ODataMetadataSchema.Metadata) =>
             !initialState.targetType
-              ? this.odataMetadataService.getColumnDefinitions(metadata, initialState.target!)
-              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(metadata, initialState.targetType),
+              ? this.odataMetadataService.getColumnDefinitions(initialState.target!)
+              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(initialState.targetType),
           ),
           map((definitions: ColumnDefinition[]) => {
             const token = this.keycloak?.getKeycloakInstance()?.tokenParsed;

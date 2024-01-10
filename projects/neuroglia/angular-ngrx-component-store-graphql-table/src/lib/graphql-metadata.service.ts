@@ -18,6 +18,8 @@ export class GraphQLMetadataService {
   protected readonly http = inject(HttpClient);
   /** The logger instance */
   protected readonly logger: ILogger = this.namedLoggingServiceFactory.create('GraphQLMetadataService');
+  /** The GraphQL schema */
+  protected schema: GraphQLSchema | null;
 
   /**
    * Gathers the schema from the provided service
@@ -33,7 +35,8 @@ export class GraphQLMetadataService {
     });
     return logHttpRequest(this.logger, this.errorObserver, this.http.get<string>(schemaUrl), httpRequestInfo).pipe(
       map((schemaDefinition: string) => {
-        return buildSchema(new Source(schemaDefinition));
+        this.schema = buildSchema(new Source(schemaDefinition));
+        return this.schema;
       }),
     );
   }
