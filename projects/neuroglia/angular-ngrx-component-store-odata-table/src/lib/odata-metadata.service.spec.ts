@@ -755,7 +755,7 @@ describe('OData Metadata Service', () => {
           done();
         },
         error: (err) => {
-          expect(err).toBeNull();
+          expect(err).withContext('error').toBeNull();
           done();
         },
       });
@@ -799,7 +799,7 @@ describe('OData Metadata Service', () => {
             done();
           },
           error: (err) => {
-            expect(err).toBeNull();
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -825,7 +825,7 @@ describe('OData Metadata Service', () => {
             done();
           },
           error: (err) => {
-            expect(err).toBeNull();
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });
@@ -870,7 +870,7 @@ describe('OData Metadata Service', () => {
             done();
           },
           error: (err) => {
-            expect(err).toBeNull();
+            expect(err).withContext('error').toBeNull();
             done();
           },
         });

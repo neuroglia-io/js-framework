@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, ODataQueryResultDto, UrlHelperService } from '@neuroglia/angular-rest-core';
 import { KeycloakService } from 'keycloak-angular';
-import { Metadata, ODataTableConfig, ODataTableStore } from '@neuroglia/angular-ngrx-component-store-odata-table';
+import { Metadata, ODataTableStore } from '@neuroglia/angular-ngrx-component-store-odata-table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NeurogliaNgCommonModule } from '@neuroglia/angular-common';
@@ -29,6 +29,7 @@ import { NeurogliaNgUiJsonPresenterModule } from '@neuroglia/angular-ui-json-pre
 import { combineLatest, filter, from, take } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  QueryableTableConfig,
   expandRowColumnDefinition,
   selectRowColumnDefinition,
 } from '@neuroglia/angular-ngrx-component-store-queryable-table';
@@ -36,7 +37,7 @@ import { humanCase } from '@neuroglia/common';
 
 const testEndpoint = 'https://services.radzen.com/odata/Northwind/';
 
-const config: ODataTableConfig = {
+const config: QueryableTableConfig = {
   dataSourceType: 'odata',
   serviceUrl: testEndpoint,
   target: 'NorthwindProducts',

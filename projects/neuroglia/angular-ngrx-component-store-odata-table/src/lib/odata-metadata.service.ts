@@ -58,7 +58,7 @@ export class ODataMetadataService {
    */
   getEntityTypeByQualifiedName(qualifiedName: string): Observable<ODataMetadataSchema.EntityType> {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     return of(this.getElementByQualifiedName(qualifiedName) as ODataMetadataSchema.EntityType);
   }
@@ -82,7 +82,7 @@ export class ODataMetadataService {
    */
   getColumnDefinitions(target: string): Observable<ColumnDefinition[]> {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     return this.getEntityQualifiedName(target).pipe(
       switchMap((qualifiedName) => this.getColumnDefinitionInfo(qualifiedName)),
@@ -105,7 +105,7 @@ export class ODataMetadataService {
    */
   getColumnDefinitionsForQualifiedName(qualifiedName: string): Observable<ColumnDefinition[]> {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     return this.getColumnDefinitionInfo(qualifiedName).pipe(
       expand((info) => {
@@ -127,7 +127,7 @@ export class ODataMetadataService {
    */
   protected getEntityQualifiedName(target: string): Observable<string> {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     if (!this.metadata.$EntityContainer) {
       this.logger.error(`The property $EntityContainer is missing on the metadata.`);
@@ -149,7 +149,7 @@ export class ODataMetadataService {
    */
   protected getColumnDefinitionInfo(qualifiedName?: string): Observable<ColumnDefinitionInfo> {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     if (!qualifiedName) return EMPTY;
     return this.getEntityTypeByQualifiedName(qualifiedName).pipe(
@@ -228,7 +228,7 @@ export class ODataMetadataService {
     qualifiedName: string,
   ): ODataMetadataSchema.EntityType | ODataMetadataSchema.EnumType {
     if (!this.metadata) {
-      throw new Error(`Metadata must be initialized with 'getMetadata'`);
+      throw new Error(`Metadata must be initialized first with 'getMetadata'`);
     }
     const pathParts = qualifiedName.split('.');
     const type = pathParts.splice(-1)[0];

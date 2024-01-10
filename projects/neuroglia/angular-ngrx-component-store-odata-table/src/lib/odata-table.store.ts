@@ -4,26 +4,17 @@ import {
   ColumnDefinition,
   QueryableTableState,
   QueryableTableStore,
-  createEmptyQueryableTableState,
 } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 import { validateAuthorizations } from '@neuroglia/authorization-rule';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ODataPrimitiveTypeEnum, ODataTableState } from './models';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { ODataPrimitiveTypeEnum } from './models';
 import * as ODataMetadataSchema from './models/odata-metadata';
 import { ODataMetadataService } from './odata-metadata.service';
 
-/** Creates a default empty state */
-export function createEmptyODataTableState<T>(): ODataTableState<T> {
-  return {
-    ...createEmptyQueryableTableState<T>(),
-    metadata: null,
-  };
-}
-
 @Injectable()
 export class ODataTableStore<
-  TState extends ODataTableState<TData> = ODataTableState<any>,
+  TState extends QueryableTableState<TData> = QueryableTableState<any>,
   TData = any,
 > extends QueryableTableStore<TState, TData> {
   /** Holds the datasource instance */
@@ -34,8 +25,6 @@ export class ODataTableStore<
 
   constructor() {
     super();
-    const defaultState = createEmptyODataTableState<TData>();
-    this.setState(defaultState as TState);
   }
 
   /** @inheritdoc */

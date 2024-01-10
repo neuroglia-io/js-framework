@@ -10,6 +10,7 @@ import {
   ColumnDefinition,
   Filter,
   Filters,
+  IQueryableTableStore,
   QueryableTableState,
   SerializedFilter,
   expandRowColumnDefinition,
@@ -43,7 +44,6 @@ export function createEmptyQueryableTableState<T>(): QueryableTableState<T> {
     pageSize: 20,
     pageIndex: 0,
     filters: {},
-    metadata: null,
     query: '',
     enableColumnSettings: true,
   };
@@ -71,9 +71,12 @@ function asODataQueryFilter(filters: Filters): ODataQueryFilter {
 }
 
 export abstract class QueryableTableStore<
-  TState extends QueryableTableState<TData> = QueryableTableState<any>,
-  TData = any,
-> extends ComponentStore<TState> {
+    TState extends QueryableTableState<TData> = QueryableTableState<any>,
+    TData = any,
+  >
+  extends ComponentStore<TState>
+  implements IQueryableTableStore<TState, TData>
+{
   /** State selectors */
   /** Selects the data */
   data$ = this.select((state) => state.data);
@@ -199,7 +202,6 @@ export abstract class QueryableTableStore<
     this.sortStorage = new StorageHandler(persistenceKeys.sort + '::' + dataUrl, null, window.sessionStorage);
     this.pageSizeStorage = new StorageHandler(persistenceKeys.pageSize + '::' + dataUrl, null, window.sessionStorage);
     this.pageIndexStorage = new StorageHandler(persistenceKeys.pageIndex + '::' + dataUrl, null, window.sessionStorage);
-    let metadata: unknown;
     return this.getColumnDefinitions(initialState).pipe(
       tap((definitions: ColumnDefinition[]) => {
         const userPreferences = this.columnSettingsStorage!.getItem() || [];
@@ -260,7 +262,6 @@ export abstract class QueryableTableStore<
           initialState.enableColumnSettings === false ? false : this.get((state) => state.enableColumnSettings);
         this.patchState({
           ...initialState,
-          metadata,
           dataUrl,
           columnDefinitions,
           filters,

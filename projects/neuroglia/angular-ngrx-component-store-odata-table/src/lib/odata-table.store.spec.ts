@@ -3,13 +3,14 @@ import { provideHttpClient } from '@angular/common/http';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
 import { HttpErrorObserverService, ODataQueryResultDto, UrlHelperService } from '@neuroglia/angular-rest-core';
 import { ODataTableStore } from './odata-table.store';
-import { Metadata, ODataTableConfig } from './models';
+import { Metadata } from './models';
 import { KeycloakService } from 'keycloak-angular';
 import { combineLatest, filter, from, skip, switchMap, take, tap, timer } from 'rxjs';
+import { QueryableTableConfig } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 
 const testEndpoint = 'https://services.radzen.com/odata/Northwind/';
 
-const config: ODataTableConfig = {
+const config: QueryableTableConfig = {
   dataSourceType: 'odata',
   serviceUrl: testEndpoint,
   target: 'NorthwindProducts',

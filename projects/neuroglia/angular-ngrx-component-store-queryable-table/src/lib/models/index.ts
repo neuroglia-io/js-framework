@@ -8,6 +8,7 @@ export * from './filter-template-tester';
 export * from './filter-template';
 export * from './filter';
 export * from './filters';
+export * from './queryable-table-store-interface';
 export * from './queryable-table-component-interface';
 export * from './queryable-table-config';
 export * from './queryable-table.state';

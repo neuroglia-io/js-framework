@@ -14,7 +14,7 @@ import {
 import { Sort as MatSort } from '@angular/material/sort';
 import { Paging, Sort } from '@neuroglia/angular-data-source-queryable';
 import { Observable, Subject, map } from 'rxjs';
-import { MaterialQueryableTableStore } from './material-queryable-table.store';
+import { IMaterialQueryableTableStore, MaterialQueryableTableStore } from './material-queryable-table.store';
 import {
   ColumnDefinition,
   Filters,
@@ -22,16 +22,17 @@ import {
   QueryableTableConfig,
   ShowFilterEvent,
 } from '@neuroglia/angular-ngrx-component-store-queryable-table';
+import { MATERIAL_QUERYABLE_TABLE_STORE } from './material-queryable-table-store-token';
 
 @Component({
   selector: 'neuroglia-mat-queryable-table',
   templateUrl: './angular-material-queryable-table.component.html',
   styleUrls: ['./angular-material-queryable-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MaterialQueryableTableStore],
+  providers: [{ provide: MATERIAL_QUERYABLE_TABLE_STORE, useClass: MaterialQueryableTableStore }],
 })
 export class NeurogliaNgMatQueryableDataTableComponent implements OnChanges, OnDestroy, IQueryableTableComponent {
-  protected readonly store = inject(MaterialQueryableTableStore);
+  protected readonly store: IMaterialQueryableTableStore = inject(MATERIAL_QUERYABLE_TABLE_STORE);
   @Input() configuration: QueryableTableConfig;
   @Output() rowClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() rowExpanded: EventEmitter<any> = new EventEmitter<any>();

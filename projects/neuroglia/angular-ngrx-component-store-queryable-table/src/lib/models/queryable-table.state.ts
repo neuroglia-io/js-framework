@@ -51,8 +51,6 @@ export interface QueryableTableState<T> {
   pageIndex: number | null | undefined;
   /** The active filters */
   filters: Filters | SerializedFilter[];
-  /** The queryable service metadata */
-  metadata: unknown | null;
   /** The base query string to use */
   query: string;
   /** Defines if the column settings should be displayed, default true */
