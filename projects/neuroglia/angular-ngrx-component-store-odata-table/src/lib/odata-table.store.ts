@@ -2,10 +2,11 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { ODATA_DATA_SOURCE_ENDPOINT, ODataDataSource } from '@neuroglia/angular-data-source-odata';
 import {
   ColumnDefinition,
+  IQueryableTableStore,
   QueryableTableState,
   QueryableTableStore,
+  QueryableTableConfig,
 } from '@neuroglia/angular-ngrx-component-store-queryable-table';
-import { validateAuthorizations } from '@neuroglia/authorization-rule';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ODataPrimitiveTypeEnum } from './models';
@@ -14,9 +15,13 @@ import { ODataMetadataService } from './odata-metadata.service';
 
 @Injectable()
 export class ODataTableStore<
-  TState extends QueryableTableState<TData> = QueryableTableState<any>,
-  TData = any,
-> extends QueryableTableStore<TState, TData> {
+    TState extends QueryableTableState<TData> = QueryableTableState<any>,
+    TData = any,
+    TConfig extends QueryableTableConfig = QueryableTableConfig,
+  >
+  extends QueryableTableStore<TState, TData>
+  implements IQueryableTableStore<TState, TData>
+{
   /** Holds the datasource instance */
   protected dataSource: ODataDataSource<TData> | null;
 
@@ -28,35 +33,32 @@ export class ODataTableStore<
   }
 
   /** @inheritdoc */
-  protected getServiceEndpoint(initialState: Partial<TState>): string {
+  protected getServiceDataEnpoint(config: TConfig): string {
     return (
-      initialState.dataUrl ||
-      `${initialState.serviceUrl}${!initialState.serviceUrl!.endsWith('/') ? '/' : ''}${initialState.target}${
-        initialState.query || ''
-      }`
+      config.dataUrl ||
+      `${config.serviceUrl}${!config.serviceUrl!.endsWith('/') ? '/' : ''}${config.target}${config.query || ''}`
     );
   }
 
   /** @inheritdoc */
-  protected getColumnDefinitions(initialState: Partial<TState>): Observable<ColumnDefinition[]> {
-    return !initialState.useMetadata
-      ? of(initialState.columnDefinitions).pipe(
+  protected getColumnDefinitions(config: TConfig): Observable<ColumnDefinition[]> {
+    return !config.useMetadata
+      ? of(config.columnDefinitions).pipe(
           filter((definitions: ColumnDefinition[] | undefined) => !!definitions?.length),
           map((definitions: ColumnDefinition[] | undefined) => definitions as ColumnDefinition[]),
         )
-      : this.odataMetadataService.getMetadata(initialState.serviceUrl!).pipe(
+      : this.odataMetadataService.getMetadata(config.serviceUrl!).pipe(
           takeUntil(this.destroy$),
           switchMap((_: ODataMetadataSchema.Metadata) =>
-            !initialState.targetType
-              ? this.odataMetadataService.getColumnDefinitions(initialState.target!)
-              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(initialState.targetType),
+            !config.targetType
+              ? this.odataMetadataService.getColumnDefinitions(config.target!)
+              : this.odataMetadataService.getColumnDefinitionsForQualifiedName(config.targetType),
           ),
           map((definitions: ColumnDefinition[]) => {
-            const token = this.keycloak?.getKeycloakInstance()?.tokenParsed;
-            const stateDefinitionNames = (initialState.columnDefinitions || []).map((def) => def.name);
+            const stateDefinitionNames = (config.columnDefinitions || []).map((def) => def.name);
             const columnDefinitions = [
               ...definitions.filter((def) => !stateDefinitionNames.includes(def.name)),
-              ...(initialState.columnDefinitions || []).map((stateDef) => {
+              ...(config.columnDefinitions || []).map((stateDef) => {
                 const def = definitions.find((def) => def.name === stateDef.name);
                 if (!def) {
                   return stateDef;
@@ -64,7 +66,7 @@ export class ODataTableStore<
                 const columnDefinition = { ...def, ...stateDef };
                 return columnDefinition;
               }),
-            ].filter((def) => !def.authorizations || (token && validateAuthorizations(token, def.authorizations)));
+            ];
             return columnDefinitions as ColumnDefinition[];
           }),
         );
@@ -76,13 +78,13 @@ export class ODataTableStore<
   }
 
   /** @inheritdoc */
-  protected injectDataSource(): ODataDataSource<TData> {
+  protected injectDataSource(config: TConfig): Observable<ODataDataSource<TData>> {
     const dataUrl = this.get((state) => state.dataUrl);
     const dataSourceInjector = Injector.create({
       name: 'DataSourceInjector',
       parent: this.injector,
       providers: [ODataDataSource, { provide: ODATA_DATA_SOURCE_ENDPOINT, useValue: dataUrl }],
     });
-    return dataSourceInjector.get(ODataDataSource) as ODataDataSource<TData>;
+    return of(dataSourceInjector.get(ODataDataSource) as ODataDataSource<TData>);
   }
 }

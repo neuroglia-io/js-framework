@@ -3,10 +3,12 @@ import { QueryableTableState } from './queryable-table.state';
 import { ColumnDefinition } from './column-definition';
 import { Paging, Sort } from '@neuroglia/angular-data-source-queryable';
 import { Filters } from './filters';
+import { QueryableTableConfig } from './queryable-table-config';
 
 export interface IQueryableTableStore<
   TState extends QueryableTableState<TData> = QueryableTableState<any>,
   TData = any,
+  TConfig extends QueryableTableConfig = QueryableTableConfig,
 > {
   /** Selects the data */
   data$: Observable<TData[]>;
@@ -58,7 +60,7 @@ export interface IQueryableTableStore<
    * Initializes the state and its underlying datasource
    * @param initialState A partial state with at least the service URL, the entity name and the column definitions
    */
-  init(initialState: Partial<TState>): Observable<TState>;
+  init(config: TConfig): Observable<TState>;
   /**
    * Clears persisted data
    */

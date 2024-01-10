@@ -7,6 +7,7 @@ import {
   ColumnDefinition,
   Filter,
   Filters,
+  QueryableTableConfig,
   QueryableTableState,
   QueryableTableStore,
   SerializedFilter,
@@ -82,6 +83,7 @@ export function showColumnSettingsDialog<
 export class MaterialQueryableTableStore<
     TState extends QueryableTableState<TData> = QueryableTableState<any>,
     TData = any,
+    TConfig extends QueryableTableConfig = QueryableTableConfig,
   >
   extends QueryableTableStore<TState, TData>
   implements IMaterialQueryableTableStore<TState, TData>
@@ -91,16 +93,17 @@ export class MaterialQueryableTableStore<
   constructor() {
     super();
   }
-  protected getServiceEndpoint(initialState: Partial<TState>): string {
+
+  protected getServiceDataEnpoint(config: TConfig): string {
     throw new Error('Method not implemented.');
   }
-  protected getColumnDefinitions(initialState: Partial<TState>): Observable<ColumnDefinition[]> {
+  protected getColumnDefinitions(config: TConfig): Observable<ColumnDefinition[]> {
     throw new Error('Method not implemented.');
   }
   protected getStringType(): string {
     throw new Error('Method not implemented.');
   }
-  protected injectDataSource(): QueryableDataSource<TData> {
+  protected injectDataSource(config: TConfig): Observable<QueryableDataSource<TData>> {
     throw new Error('Method not implemented.');
   }
 

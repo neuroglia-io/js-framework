@@ -2,6 +2,7 @@ import { Sort } from '@neuroglia/angular-data-source-queryable';
 import { ColumnDefinition } from './column-definition';
 import { Filters } from './filters';
 import { SerializedFilter } from './serialized-filter';
+import { QueryableTableConfig } from './queryable-table-config';
 
 /**
  * Represents the state of an queryable table

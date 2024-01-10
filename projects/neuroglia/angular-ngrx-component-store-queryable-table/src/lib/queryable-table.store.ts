@@ -5,12 +5,13 @@ import { ComponentStore } from '@ngrx/component-store';
 import { KeycloakService } from 'keycloak-angular';
 import { Filter as ODataQueryFilter } from 'odata-query';
 import { Observable } from 'rxjs';
-import { map, take, takeUntil, tap } from 'rxjs/operators';
+import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import {
   ColumnDefinition,
   Filter,
   Filters,
   IQueryableTableStore,
+  QueryableTableConfig,
   QueryableTableState,
   SerializedFilter,
   expandRowColumnDefinition,
@@ -18,6 +19,7 @@ import {
 } from './models';
 import { persistenceKeys } from './persistence-keys';
 import { QueryableTableTemplateProvider } from './queryable-table-template-provider.service';
+import { validateAuthorizations } from '@neuroglia/authorization-rule';
 
 /** Creates a default empty state */
 export function createEmptyQueryableTableState<T>(): QueryableTableState<T> {
@@ -73,6 +75,7 @@ function asODataQueryFilter(filters: Filters): ODataQueryFilter {
 export abstract class QueryableTableStore<
     TState extends QueryableTableState<TData> = QueryableTableState<any>,
     TData = any,
+    TConfig extends QueryableTableConfig = QueryableTableConfig,
   >
   extends ComponentStore<TState>
   implements IQueryableTableStore<TState, TData>
@@ -153,16 +156,16 @@ export abstract class QueryableTableStore<
   }
 
   /**
-   * Builts the service endpoint URL based on the provided state
+   * Builds the data endpoint URL based on the provided state
    * @param state
    */
-  protected abstract getServiceEndpoint(initialState: Partial<TState>): string;
+  protected abstract getServiceDataEnpoint(config: TConfig): string;
 
   /**
    * Gets the @see {@link ColumnDefinition}s for the provided state
    * @param initialState
    */
-  protected abstract getColumnDefinitions(initialState: Partial<TState>): Observable<ColumnDefinition[]>;
+  protected abstract getColumnDefinitions(config: TConfig): Observable<ColumnDefinition[]>;
 
   /**
    * Returns a the string type for the current datasource, e.g. 'Edm.String' for OData
@@ -172,29 +175,40 @@ export abstract class QueryableTableStore<
   /**
    * Instanciates and returns the store's data source
    */
-  protected abstract injectDataSource(): QueryableDataSource<TData>;
+  protected abstract injectDataSource(config: TConfig): Observable<QueryableDataSource<TData>>;
 
   /**
    * Initializes the state and its underlying datasource
-   * @param initialState A partial state with at least the service URL, the entity name and the column definitions
+   * @param config A partial state with at least the service URL, the entity name and the column definitions
    */
-  init(initialState: Partial<TState>): Observable<TState> {
+  init(config: TConfig): Observable<TState> {
     if (this.dataSource) {
       throw 'The store has already been initialized for this component';
     }
-    if (!initialState.dataSourceType) {
+    if (!config.dataSourceType) {
       throw 'Unable to initialize, missing service data source type';
     }
-    if (!initialState.serviceUrl) {
+    if (!config.serviceUrl) {
       throw 'Unable to initialize, missing service URL';
     }
-    if (!initialState.target) {
+    if (!config.target) {
       throw 'Unable to initialize, missing entity name';
     }
-    if (!initialState.useMetadata && !initialState.columnDefinitions) {
+    if (!config.useMetadata && !config.columnDefinitions) {
       throw 'Unable to initialize, missing columns definitions';
     }
-    const dataUrl = this.getServiceEndpoint(initialState);
+    const {
+      dataSourceType,
+      serviceUrl,
+      target,
+      useMetadata,
+      expand,
+      select,
+      enableSelection,
+      enableRowExpansion,
+      query,
+    } = config;
+    const dataUrl = this.getServiceDataEnpoint(config);
     this.columnSettingsStorage = new StorageHandler<ColumnDefinition[]>(
       persistenceKeys.columnSettings + '::' + dataUrl,
     );
@@ -202,36 +216,39 @@ export abstract class QueryableTableStore<
     this.sortStorage = new StorageHandler(persistenceKeys.sort + '::' + dataUrl, null, window.sessionStorage);
     this.pageSizeStorage = new StorageHandler(persistenceKeys.pageSize + '::' + dataUrl, null, window.sessionStorage);
     this.pageIndexStorage = new StorageHandler(persistenceKeys.pageIndex + '::' + dataUrl, null, window.sessionStorage);
-    return this.getColumnDefinitions(initialState).pipe(
+    return this.getColumnDefinitions(config).pipe(
       tap((definitions: ColumnDefinition[]) => {
         const userPreferences = this.columnSettingsStorage!.getItem() || [];
-        if (initialState.enableSelection) {
+        if (config.enableSelection) {
           definitions = [selectRowColumnDefinition, ...definitions];
         }
-        if (initialState.enableRowExpansion) {
+        if (config.enableRowExpansion) {
           definitions = [expandRowColumnDefinition, ...definitions];
         }
-        const columnDefinitions = definitions.map((def, index) => {
-          const columnDefinition = { ...def };
-          const userPreference = userPreferences.find((columnDef) => columnDef.name === def.name);
-          columnDefinition.type = def.type || this.getStringType();
-          if (userPreference) {
-            if (userPreference.position != null) columnDefinition.position = userPreference.position;
-            if (userPreference.isVisible != null) columnDefinition.isVisible = userPreference.isVisible;
-          }
-          columnDefinition.sticky = userPreference?.sticky || columnDefinition.sticky || '';
-          if (def.position == null) columnDefinition.position = index + 1;
-          if (def.isVisible == null) columnDefinition.isVisible = true;
-          if (def.isSortable == null) columnDefinition.isSortable = false;
-          if (def.isFilterable == null) columnDefinition.isFilterable = false;
-          if (def.isEnum == null) columnDefinition.isEnum = false;
-          if (def.isCollection == null) columnDefinition.isCollection = false;
-          if (def.isNavigationProperty == null) columnDefinition.isNavigationProperty = false;
-          if (def.isNullable == null) columnDefinition.isNullable = false;
-          return columnDefinition;
-        });
+        const token = this.keycloak?.getKeycloakInstance()?.tokenParsed;
+        const columnDefinitions = definitions
+          .map((def, index) => {
+            const columnDefinition = { ...def };
+            const userPreference = userPreferences.find((columnDef) => columnDef.name === def.name);
+            columnDefinition.type = def.type || this.getStringType();
+            if (userPreference) {
+              if (userPreference.position != null) columnDefinition.position = userPreference.position;
+              if (userPreference.isVisible != null) columnDefinition.isVisible = userPreference.isVisible;
+            }
+            columnDefinition.sticky = userPreference?.sticky || columnDefinition.sticky || '';
+            if (def.position == null) columnDefinition.position = index + 1;
+            if (def.isVisible == null) columnDefinition.isVisible = true;
+            if (def.isSortable == null) columnDefinition.isSortable = false;
+            if (def.isFilterable == null) columnDefinition.isFilterable = false;
+            if (def.isEnum == null) columnDefinition.isEnum = false;
+            if (def.isCollection == null) columnDefinition.isCollection = false;
+            if (def.isNavigationProperty == null) columnDefinition.isNavigationProperty = false;
+            if (def.isNullable == null) columnDefinition.isNullable = false;
+            return columnDefinition;
+          })
+          .filter((def) => !def.authorizations || (token && validateAuthorizations(token, def.authorizations)));
         let filters = Object.fromEntries(
-          (this.filtersStorage!.getItem() || (initialState.filters as SerializedFilter[]) || [])
+          (this.filtersStorage!.getItem() || (config.filters as SerializedFilter[]) || [])
             .map((entry) => {
               const columnDefinition = columnDefinitions.find((colDef) => colDef.name === entry.columnName);
               if (!columnDefinition) {
@@ -239,9 +256,9 @@ export abstract class QueryableTableStore<
               }
               const filter = this.queryableTableTemplateProvider.getFilter(
                 columnDefinition,
-                initialState.dataSourceType!,
-                initialState.serviceUrl!,
-                initialState.target!,
+                config.dataSourceType!,
+                config.serviceUrl!,
+                config.target!,
               );
               if (!filter) {
                 return [null, null];
@@ -253,15 +270,21 @@ export abstract class QueryableTableStore<
         if (!Object.keys(filters).length) {
           filters = this.get((state) => state.filters as Filters);
         }
-        const sort = this.sortStorage!.getItem() || initialState.sort || this.get((state) => state.sort);
-        const pageSize =
-          this.pageSizeStorage!.getItem() || initialState.pageSize || this.get((state) => state.pageSize);
-        const pageIndex =
-          this.pageIndexStorage!.getItem() || initialState.pageIndex || this.get((state) => state.pageIndex);
+        const sort = this.sortStorage!.getItem() || config.sort || this.get((state) => state.sort);
+        const pageSize = this.pageSizeStorage!.getItem() || this.get((state) => state.pageSize);
+        const pageIndex = this.pageIndexStorage!.getItem() || this.get((state) => state.pageIndex);
         const enableColumnSettings =
-          initialState.enableColumnSettings === false ? false : this.get((state) => state.enableColumnSettings);
+          config.enableColumnSettings === false ? false : this.get((state) => state.enableColumnSettings);
         this.patchState({
-          ...initialState,
+          dataSourceType,
+          serviceUrl,
+          target,
+          useMetadata,
+          expand,
+          select,
+          enableSelection,
+          enableRowExpansion,
+          query,
           dataUrl,
           columnDefinitions,
           filters,
@@ -270,8 +293,13 @@ export abstract class QueryableTableStore<
           pageIndex,
           enableColumnSettings,
         } as TState);
+      }),
+      switchMap((_) => {
+        return this.injectDataSource(config);
+      }),
+      tap((dataSource) => {
+        this.dataSource = dataSource;
         const state = this.get();
-        this.dataSource = this.injectDataSource();
         if (state.select) {
           this.dataSource.select(state.select);
         }

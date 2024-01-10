@@ -1,27 +1,20 @@
-import { Injectable, Type, inject } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Injectable, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ODataTableStore } from '@neuroglia/angular-ngrx-component-store-odata-table';
-import { isSet } from '@neuroglia/common';
+import { QueryableTableConfig, QueryableTableState } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 import {
-  ColumnDefinition,
-  Filter,
-  Filters,
-  QueryableTableState,
-  SerializedFilter,
-} from '@neuroglia/angular-ngrx-component-store-queryable-table';
-import {
-  ColumnSettingsComponent,
-  ColumnSettingsDialogData,
-  FilterDialogData,
   IMaterialQueryableTableStore,
-  isFilters,
   showColumnSettingsDialog,
   showFilterDialog,
 } from '@neuroglia/angular-ui-material-queryable-table';
 
 /** The state of an OData table specialized for AngularMaterial */
 @Injectable()
-export class MaterialODataTableStore<TState extends QueryableTableState<TData> = QueryableTableState<any>, TData = any>
+export class MaterialODataTableStore<
+    TState extends QueryableTableState<TData> = QueryableTableState<any>,
+    TData = any,
+    TConfig extends QueryableTableConfig = QueryableTableConfig,
+  >
   extends ODataTableStore<TState, TData>
   implements IMaterialQueryableTableStore<TState, TData>
 {
