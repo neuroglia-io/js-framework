@@ -1223,7 +1223,7 @@ describe('GraphQL Metadata Service', () => {
     it('should return column definitions for query "allPlanets"', (done) => {
       service
         .getMetadataFromIntrospection(testEndpoint)
-        .pipe(switchMap((_) => service.getColumnDefinitions(target, subField)))
+        .pipe(switchMap((_) => service.getQueryColumnDefinitions(target, subField)))
         .subscribe({
           next: (definitions: ColumnDefinition[]) => {
             expect(definitions).not.toBeNull();

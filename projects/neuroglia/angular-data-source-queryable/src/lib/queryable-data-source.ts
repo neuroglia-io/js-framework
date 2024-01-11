@@ -136,7 +136,7 @@ export abstract class QueryableDataSource<T = any> {
    * Builds the query
    * @param combinedParams
    */
-  protected abstract buildQuery(combinedParams: CombinedParams<T>): string;
+  protected abstract buildQuery(combinedParams: CombinedParams<T>): Observable<string>;
 
   /**
    * Queries the endpoint
@@ -164,7 +164,7 @@ export abstract class QueryableDataSource<T = any> {
       // Consider building another pipe() if needed
 
       debounceTime(100), // wait if multiple params are set at once
-      map((combinedParams: CombinedParams<T>) => this.buildQuery(combinedParams)),
+      switchMap((combinedParams: CombinedParams<T>) => this.buildQuery(combinedParams)),
       // todo: reactivate `distinctUntilChanged` in concordance with `reloadData`
       //distinctUntilChanged(), // process only if different from previous query
       tap(() => {

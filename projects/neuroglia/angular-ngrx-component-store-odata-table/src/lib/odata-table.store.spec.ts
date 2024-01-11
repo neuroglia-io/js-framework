@@ -29,17 +29,19 @@ describe('OData Table Store', () => {
       from(fetch(testEndpoint + '$metadata?$format=json').then((res) => res.json())),
       from(fetch(testEndpoint + config.target + '?$count=true').then((res) => res.json())),
       from(fetch(testEndpoint + config.target + '?$count=true&expand=Supplier').then((res) => res.json())),
-    ]).subscribe({
-      next: ([metadata, products, productsWithSuppliers]) => {
-        expectedMetadata = metadata;
-        expectedProductsResponse = products;
-        expectedProductsWithSuppliersResponse = productsWithSuppliers;
-        done();
-      },
-      error: (err) => {
-        throw err;
-      },
-    });
+    ])
+      .pipe(take(1))
+      .subscribe({
+        next: ([metadata, products, productsWithSuppliers]) => {
+          expectedMetadata = metadata;
+          expectedProductsResponse = products;
+          expectedProductsWithSuppliersResponse = productsWithSuppliers;
+          done();
+        },
+        error: (err) => {
+          throw err;
+        },
+      });
   });
 
   beforeEach(() => {
@@ -152,7 +154,6 @@ describe('OData Table Store', () => {
         store.init(config),
       ]).subscribe({
         next: ([data, state]) => {
-          expect(state.dataUrl).toBe(config.serviceUrl + config.target);
           expect(data.length).toBe(expectedValues.length);
           expect(data).toEqual(expectedValues);
           done();

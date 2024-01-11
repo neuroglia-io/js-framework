@@ -9,7 +9,7 @@ import {
   GRAPHQL_DATA_SOURCE_QUERY_BUILDER,
   GRAPHQL_DATA_SOURCE_TARGET,
 } from './injection-tokens';
-import { combineLatest, filter, take, tap, timer } from 'rxjs';
+import { Observable, combineLatest, filter, of, take, tap, timer } from 'rxjs';
 import {
   CombinedParams,
   QUERYABLE_DATA_SOURCE_COUNT_SELECTOR,
@@ -41,7 +41,7 @@ const queryBuilder: GraphQLQueryBuilder = (
   args: GraphQLQueryArguments | null,
   fields: string[],
   combinedParams: CombinedParams<any>,
-): string => {
+): Observable<string> => {
   const operationName = 'QueryStarWars';
   const [selectParam, expandParam, pagingParam, orderByParam, searchParam, transformParam, filterParam] =
     combinedParams;
@@ -97,7 +97,7 @@ const queryBuilder: GraphQLQueryBuilder = (
       variables.after = btoa(`arrayconnection:${pagingParam.skip - 1}`);
     }
   }
-  return JSON.stringify({ operationName, query, variables });
+  return of(JSON.stringify({ operationName, query, variables }));
 };
 
 const countSelector = (graphqlResponse: any): number => graphqlResponse?.data?.allPlanets?.totalCount || 0;

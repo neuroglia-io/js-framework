@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import buildQuery from 'odata-query';
 import { HttpRequestInfo, ODataQueryResultDto, logHttpRequest } from '@neuroglia/angular-rest-core';
 import { CombinedParams, QueryableDataSource } from '@neuroglia/angular-data-source-queryable';
@@ -22,13 +22,15 @@ export class ODataDataSource<T = any> extends QueryableDataSource<T> {
    * Builds the query
    * @param combinedParams
    */
-  protected buildQuery(combinedParams: CombinedParams<T>): string {
-    return buildQuery(
-      // remove empty parameters & build OData query
-      Object.fromEntries(
-        combinedParams
-          .flatMap((param) => (param ? Object.entries(param) : []))
-          .filter(([, value]) => (!Array.isArray(value) ? value != null : !!value?.length)),
+  protected buildQuery(combinedParams: CombinedParams<T>): Observable<string> {
+    // remove empty parameters & build OData query
+    return of(
+      buildQuery(
+        Object.fromEntries(
+          combinedParams
+            .flatMap((param) => (param ? Object.entries(param) : []))
+            .filter(([, value]) => (!Array.isArray(value) ? value != null : !!value?.length)),
+        ),
       ),
     );
   }

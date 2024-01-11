@@ -27,6 +27,29 @@ function isObjectType(type: any | null | undefined): type is GraphQLObjectType {
   return type instanceof GraphQLObjectType;
 }
 
+function fieldInfoToColumnDefinitionMapper(
+  { name, type, isNullable, isNavigationProperty, isCollection, isEnum, enumValues }: FieldInfo,
+  index: number,
+): ColumnDefinition {
+  const columnDefinition: ColumnDefinition = {
+    name,
+    type,
+    position: index + 1,
+    isNullable,
+    isNavigationProperty,
+    isCollection,
+    isEnum,
+    isVisible: !isNavigationProperty && !isCollection,
+    isSortable: !isNavigationProperty && !isCollection,
+    isFilterable: !isNavigationProperty && !isCollection,
+  };
+  if (columnDefinition.isEnum) {
+    columnDefinition.type = 'String';
+    columnDefinition.enumValues = enumValues;
+  }
+  return columnDefinition;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -80,8 +103,8 @@ export class GraphQLMetadataService {
       this.http.post<{ data: IntrospectionQuery }>(serviceEndpoint, { query: introspectionQuery }),
       httpRequestInfo,
     ).pipe(
-      map((introspectionResponse: { data: IntrospectionQuery }) => {
-        this.metadata = buildClientSchema(introspectionResponse.data);
+      map(({ data }: { data: IntrospectionQuery }) => {
+        this.metadata = buildClientSchema(data);
         return this.metadata;
       }),
     );
@@ -93,37 +116,67 @@ export class GraphQLMetadataService {
    * @param subObject A nested object to gather the fields of, e.g.: 'pager.results'
    * @returns
    */
-  getColumnDefinitions(target: string, subField: string = ''): Observable<ColumnDefinition[]> {
-    return of(
-      this.getQueryFieldsInfo(target, subField, true).map(
-        ({ name, type, isNullable, isNavigationProperty, isCollection, isEnum, enumValues }, index) => {
-          const columnDefinition: ColumnDefinition = {
-            name,
-            type,
-            position: index + 1,
-            isNullable,
-            isNavigationProperty,
-            isCollection,
-            isEnum,
-            isVisible: !isNavigationProperty && !isCollection,
-            isSortable: !isNavigationProperty && !isCollection,
-            isFilterable: !isNavigationProperty && !isCollection,
-          };
-          if (columnDefinition.isEnum) {
-            columnDefinition.type = 'String';
-            columnDefinition.enumValues = enumValues;
-          }
-          return columnDefinition;
-        },
-      ),
-    );
+  getQueryColumnDefinitions(target: string, subField: string | string[] = ''): Observable<ColumnDefinition[]> {
+    return of(this.getQueryFieldsInfo(target, subField, true).map(fieldInfoToColumnDefinitionMapper));
   }
 
-  getFieldsQuery(target: string, subField: string = '', maxDepth: number = 5): Observable<string> {
-    return of(this.getFieldsInfoQuery(this.getQueryFieldsInfo(target, subField, false, maxDepth)));
+  /**
+   * Gets the column definitions for the provided type
+   * @param typeName The query to gather the definitions from
+   * @returns
+   */
+  getTypeColumnDefinitions(typeName: string): Observable<ColumnDefinition[]> {
+    if (!this.metadata) {
+      throw new Error(
+        `Schema must be initialized first with 'getMetadataFromSchema' or 'getMetadataFromIntrospection'`,
+      );
+    }
+    const type = this.metadata.getType(typeName);
+    if (!isObjectType(type)) {
+      throw new Error(`The type '${type}' is not of type 'GraphQLObjectType'.`);
+    }
+    const fieldsInfo = this.getFieldsInfo(type, true);
+    return of(fieldsInfo.map(fieldInfoToColumnDefinitionMapper));
   }
 
-  getArgsQuery(target: string): Observable<string> {
+  /**
+   * Gets the fields' request body for the provided query
+   * @param target
+   * @param subField
+   * @param maxDepth
+   * @returns
+   */
+  getQueryFieldsBody(target: string, subField: string | string[] = '', maxDepth: number = 5): Observable<string> {
+    return of(this.getFieldsInfoBody(this.getQueryFieldsInfo(target, subField, false, maxDepth)));
+  }
+
+  /**
+   * Gets the fields' request body for the provided type
+   * @param target
+   * @param subField
+   * @param maxDepth
+   * @returns
+   */
+  getTypeFieldsBody(typeName: string, maxDepth: number = 5): Observable<string> {
+    if (!this.metadata) {
+      throw new Error(
+        `Schema must be initialized first with 'getMetadataFromSchema' or 'getMetadataFromIntrospection'`,
+      );
+    }
+    const type = this.metadata.getType(typeName);
+    if (!isObjectType(type)) {
+      throw new Error(`The type '${type}' is not of type 'GraphQLObjectType'.`);
+    }
+    const fieldsInfo = this.getFieldsInfo(type, false, maxDepth);
+    return of(this.getFieldsInfoBody(fieldsInfo));
+  }
+
+  /**
+   * Gets the args' request body for the provided query
+   * @param target
+   * @returns
+   */
+  getQueryArgsBody(target: string): Observable<string> {
     if (!this.metadata) {
       throw new Error(
         `Schema must be initialized first with 'getMetadataFromSchema' or 'getMetadataFromIntrospection'`,
@@ -142,11 +195,51 @@ export class GraphQLMetadataService {
     if (!isSet(targetQuery)) {
       throw new Error(`The target query '${target}' cannot be found.`);
     }
-
-    return of('');
+    return of(
+      !targetQuery.args?.length
+        ? ''
+        : `(${targetQuery.args.reduce(
+            (acc, { name, type }, idx) => acc + `${idx !== 0 ? ',' : ''}${name}: $${name}`,
+            '',
+          )})`,
+    );
   }
 
-  protected getFieldsInfoQuery(fieldsInfo: Array<FieldInfo>): string {
+  /**
+   * Gets the operation args request body for the provided query
+   * @param target
+   * @returns
+   */
+  getOperationArgsBody(target: string): Observable<string> {
+    if (!this.metadata) {
+      throw new Error(
+        `Schema must be initialized first with 'getMetadataFromSchema' or 'getMetadataFromIntrospection'`,
+      );
+    }
+    const Query = this.metadata.getQueryType();
+    if (!isSet(Query)) {
+      throw new Error(`The current schema does't expose any Query root object.`);
+    }
+    const queryType = this.metadata.getType(Query.name);
+    if (!isObjectType(queryType)) {
+      throw new Error(`The Query root object does't seem to be of type 'GraphQLObjectType'.`);
+    }
+    const queries = queryType.getFields();
+    const targetQuery = queries[target];
+    if (!isSet(targetQuery)) {
+      throw new Error(`The target query '${target}' cannot be found.`);
+    }
+    return of(
+      !targetQuery.args?.length
+        ? ''
+        : `(${targetQuery.args.reduce(
+            (acc, { name, type }, idx) => acc + `${idx !== 0 ? ',' : ''}$${name}: ${type}`,
+            '',
+          )})`,
+    );
+  }
+
+  protected getFieldsInfoBody(fieldsInfo: Array<FieldInfo>): string {
     return fieldsInfo.reduce((acc, info) => {
       acc += info.name;
       if (!info.fields.length) {
@@ -154,7 +247,7 @@ export class GraphQLMetadataService {
         return acc;
       }
       acc += ' {\n';
-      acc += this.getFieldsInfoQuery(info.fields);
+      acc += this.getFieldsInfoBody(info.fields);
       acc += '}\n';
       return acc;
     }, '');
@@ -162,7 +255,7 @@ export class GraphQLMetadataService {
 
   protected getQueryFieldsInfo(
     target: string,
-    subField: string = '',
+    subField: string | string[] = '',
     includeEmptyObjects: boolean = false,
     maxDepth: number = 5,
   ): Array<FieldInfo> {
@@ -188,7 +281,7 @@ export class GraphQLMetadataService {
     if (!isObjectType(returnType)) {
       throw new Error(`The return type of the query '${target}' is not of type 'GraphQLObjectType'.`);
     }
-    const subFields = subField.split('.');
+    const subFields = Array.isArray(subField) ? subField : subField.split('.');
     const depth = subFields.length + maxDepth;
     let fieldsInfo: Array<FieldInfo> | undefined = this.getFieldsInfo(returnType, includeEmptyObjects, depth);
     if (subField.length) {

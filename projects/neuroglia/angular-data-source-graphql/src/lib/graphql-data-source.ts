@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import buildQuery from 'odata-query';
 import { HttpRequestInfo, ODataQueryResultDto, logHttpRequest } from '@neuroglia/angular-rest-core';
 import { CombinedParams, QueryableDataSource } from '@neuroglia/angular-data-source-queryable';
@@ -37,9 +37,9 @@ export class GraphQLDataSource<T = any> extends QueryableDataSource<T> {
    * Builds the query
    * @param combinedParams
    */
-  protected buildQuery(combinedParams: CombinedParams<T>): string {
+  protected buildQuery(combinedParams: CombinedParams<T>): Observable<string> {
     if (this.queryBuilder) {
-      return this.queryBuilder(this.target, this.args, this.fields, combinedParams);
+      return this.queryBuilder(this.target, this.args, this.fields, combinedParams, this.variablesMapper);
     }
     const operationName = 'QueryDataSource';
     const select = combinedParams[0]?.select;
@@ -83,7 +83,7 @@ export class GraphQLDataSource<T = any> extends QueryableDataSource<T> {
         .filter(([key, value]) => key != 'select' && (!Array.isArray(value) ? value != null : !!value?.length)),
     );
     const variables = this.variablesMapper ? this.variablesMapper(this.args, combinedParams) : { options };
-    return JSON.stringify({ operationName, query, variables });
+    return of(JSON.stringify({ operationName, query, variables }));
   }
 
   /**

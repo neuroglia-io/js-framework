@@ -7,4 +7,4 @@ import { GraphQLQueryArguments } from './graphql-query-arguments';
 export type GraphQLVariablesMapper = <T = any>(
   args: GraphQLQueryArguments | null,
   combinedParams: CombinedParams<T>,
-) => any;
+) => GraphQLQueryArguments;
