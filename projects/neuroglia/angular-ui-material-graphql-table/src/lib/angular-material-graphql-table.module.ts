@@ -22,10 +22,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NeurogliaNgMatQueryableDataTableModule } from '@neuroglia/angular-ui-material-queryable-table';
-import { NeurogliaNgMatODataDataTableComponent } from './angular-material-odata-table.component';
+import { NeurogliaNgMatGraphQLDataTableComponent } from './angular-material-graphql-table.component';
 
 @NgModule({
-  declarations: [NeurogliaNgMatODataDataTableComponent],
+  declarations: [NeurogliaNgMatGraphQLDataTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -52,6 +52,6 @@ import { NeurogliaNgMatODataDataTableComponent } from './angular-material-odata-
 
     NeurogliaNgUiJsonPresenterModule,
   ],
-  exports: [NeurogliaNgMatODataDataTableComponent],
+  exports: [NeurogliaNgMatGraphQLDataTableComponent],
 })
-export class NeurogliaNgMatODataDataTableModule {}
+export class NeurogliaNgMatGraphQLDataTableModule {}

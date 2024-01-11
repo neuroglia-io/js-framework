@@ -1,11 +1,11 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, fakeAsync } from '@angular/core/testing';
 
-import { NeurogliaNgMatODataDataTableComponent } from './angular-material-odata-table.component';
+import { NeurogliaNgMatGraphQLDataTableComponent } from './angular-material-graphql-table.component';
 import { provideHttpClient } from '@angular/common/http';
 import { NamedLoggingServiceFactory } from '@neuroglia/angular-logging';
-import { HttpErrorObserverService, ODataQueryResultDto, UrlHelperService } from '@neuroglia/angular-rest-core';
+import { HttpErrorObserverService, UrlHelperService } from '@neuroglia/angular-rest-core';
 import { KeycloakService } from 'keycloak-angular';
-import { Metadata, ODataTableStore } from '@neuroglia/angular-ngrx-component-store-odata-table';
+import { GraphQLTableStore, GraphQLTableConfig } from '@neuroglia/angular-ngrx-component-store-graphql-table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NeurogliaNgCommonModule } from '@neuroglia/angular-common';
@@ -29,46 +29,152 @@ import { NeurogliaNgUiJsonPresenterModule } from '@neuroglia/angular-ui-json-pre
 import { combineLatest, filter, from, take } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  QueryableTableConfig,
   expandRowColumnDefinition,
   selectRowColumnDefinition,
 } from '@neuroglia/angular-ngrx-component-store-queryable-table';
 import { humanCase } from '@neuroglia/common';
+import {
+  GRAPHQL_DATA_SOURCE_VARIABLES_MAPPER,
+  GraphQLQueryArguments,
+  GraphQLVariablesMapper,
+} from '@neuroglia/angular-data-source-graphql';
+import { CombinedParams } from '@neuroglia/angular-data-source-queryable';
+import {
+  GraphQLEnumType,
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLScalarType,
+  GraphQLSchema,
+  IntrospectionQuery,
+  buildClientSchema,
+  getIntrospectionQuery,
+  getNamedType,
+} from 'graphql';
 
-const testEndpoint = 'https://services.radzen.com/odata/Northwind/';
+const testEndpoint = 'https://swapi-graphql.netlify.app/.netlify/functions/index';
 
-const config: QueryableTableConfig = {
-  dataSourceType: 'odata',
+const config: GraphQLTableConfig = {
+  dataSourceType: 'graphql',
   serviceUrl: testEndpoint,
-  target: 'NorthwindProducts',
+  target: 'allPlanets',
+  targetSubField: 'planets',
+  countSubField: 'data.allPlanets.totalCount', //for OData like responses: [ 'data', '@odata.count' ]
+  dataSubField: 'data.allPlanets.planets',
   useMetadata: true,
   columnDefinitions: [],
 };
 
-describe('NeurogliaNgMatDataTableComponent', () => {
-  let expectedMetadata: Metadata;
-  let expectedProductsResponse: ODataQueryResultDto<unknown>;
-  let expectedProductsWithSuppliersResponse: ODataQueryResultDto<unknown>;
-  let fixture: ComponentFixture<NeurogliaNgMatODataDataTableComponent>;
-  let component: NeurogliaNgMatODataDataTableComponent;
+const getPlanetsQuery = `query GetPlanets($first: Int, $last: Int, $after: String, $before: String) {
+  allPlanets(first: $first, last: $last, after: $after, before: $before) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    planets {
+      name
+      id
+      climates
+      created
+      diameter
+      edited
+      gravity
+      orbitalPeriod
+      population
+      rotationPeriod
+      surfaceWater
+      terrains
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        climates
+        created
+        diameter
+        edited
+        gravity
+        id
+        name
+        population
+        orbitalPeriod
+        rotationPeriod
+        surfaceWater
+        terrains
+      }
+    }
+  }
+}`;
+
+const variablesMapper: GraphQLVariablesMapper = (
+  args: GraphQLQueryArguments | null,
+  combinedParams: CombinedParams<any>,
+): GraphQLQueryArguments => {
+  const [_, __, pagingParam] = combinedParams;
+  const variables: any = {};
+  if (pagingParam?.top) {
+    variables.first = pagingParam.top;
+    if (pagingParam.skip) {
+      variables.after = btoa(`arrayconnection:${pagingParam.skip - 1}`);
+    }
+  }
+  return variables;
+};
+
+describe('NeurogliaNgMatGraphQLDataTableComponent', () => {
+  let store: GraphQLTableStore;
+  let expectedMetadata: GraphQLSchema;
+  let expectedPlanetFields: string[];
+  let expectedPlanetResponse: any;
+  let fixture: ComponentFixture<NeurogliaNgMatGraphQLDataTableComponent>;
+  let component: NeurogliaNgMatGraphQLDataTableComponent;
   let componentElement: HTMLElement;
 
   beforeAll((done) => {
+    const query = getIntrospectionQuery();
     combineLatest([
-      from(fetch(testEndpoint + '$metadata?$format=json').then((res) => res.json())),
-      from(fetch(testEndpoint + config.target + '?$count=true').then((res) => res.json())),
-      from(fetch(testEndpoint + config.target + '?$count=true&expand=Supplier').then((res) => res.json())),
-    ]).subscribe({
-      next: ([metadata, products, productsWithSuppliers]) => {
-        expectedMetadata = metadata;
-        expectedProductsResponse = products;
-        expectedProductsWithSuppliersResponse = productsWithSuppliers;
-        done();
-      },
-      error: (err) => {
-        throw err;
-      },
-    });
+      from(
+        fetch(testEndpoint, {
+          headers: {
+            'content-type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({ query }),
+        }).then((res) => res.json()),
+      ),
+      from(
+        fetch(testEndpoint, {
+          headers: {
+            'content-type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({ query: getPlanetsQuery }),
+        }).then((res) => res.json()),
+      ),
+    ])
+      .pipe(take(1))
+      .subscribe({
+        next: ([introspection, planetsResponse]: [{ data: IntrospectionQuery }, any]) => {
+          expectedMetadata = buildClientSchema(introspection.data);
+          const planetType = expectedMetadata.getType('Planet') as GraphQLObjectType;
+          expectedPlanetFields = Object.values(planetType!.getFields())
+            .filter((field) => {
+              const namedType = getNamedType(field.type);
+              const isNavigationProperty = !(
+                namedType instanceof GraphQLScalarType || namedType instanceof GraphQLEnumType
+              );
+              const isCollection = field.type instanceof GraphQLList;
+              return !field.args?.length && !isNavigationProperty && !isCollection;
+            })
+            .map((field) => field.name);
+          expectedPlanetResponse = planetsResponse;
+          done();
+        },
+        error: (err) => {
+          throw err;
+        },
+      });
   });
 
   beforeEach(async () => {
@@ -81,7 +187,8 @@ describe('NeurogliaNgMatDataTableComponent', () => {
         HttpErrorObserverService,
         UrlHelperService,
         KeycloakService,
-        ODataTableStore,
+        GraphQLTableStore,
+        { provide: GRAPHQL_DATA_SOURCE_VARIABLES_MAPPER, useValue: variablesMapper },
       ],
       imports: [
         NoopAnimationsModule,
@@ -109,12 +216,12 @@ describe('NeurogliaNgMatDataTableComponent', () => {
 
         NeurogliaNgUiJsonPresenterModule,
       ],
-      declarations: [NeurogliaNgMatODataDataTableComponent],
+      declarations: [NeurogliaNgMatGraphQLDataTableComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NeurogliaNgMatODataDataTableComponent);
+    fixture = TestBed.createComponent(NeurogliaNgMatGraphQLDataTableComponent);
     component = fixture.componentInstance;
     componentElement = fixture.nativeElement;
     fixture.detectChanges();
@@ -134,12 +241,7 @@ describe('NeurogliaNgMatDataTableComponent', () => {
     fixture.componentRef.setInput('configuration', config);
     fixture.detectChanges();
     return fixture.whenStable().then(() => {
-      let expectedColumns = Object.entries(expectedMetadata['BlazorWasm7Mssql.Models.Northwind'].NorthwindProduct)
-        .filter(
-          ([key, info]: [string, any]) =>
-            !key.startsWith('$') && !info.$Collection && info.$Kind !== 'NavigationProperty',
-        )
-        .map(([key]) => key);
+      let expectedColumns = [...expectedPlanetFields];
       if (config.enableSelection === true) {
         expectedColumns = [selectRowColumnDefinition.name, ...expectedColumns];
       }

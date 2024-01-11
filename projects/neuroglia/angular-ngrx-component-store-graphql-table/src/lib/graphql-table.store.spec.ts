@@ -139,6 +139,9 @@ describe('GraphQL Table Store', () => {
           expectedPlanetResponse = planetsResponse;
           done();
         },
+        error: (err) => {
+          throw err;
+        },
       });
   });
 

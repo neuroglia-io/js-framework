@@ -12,4 +12,4 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MATERIAL_QUERYABLE_TABLE_STORE, useClass: MaterialODataTableStore }],
 })
-export class NeurogliaNgMatDataTableComponent extends NeurogliaNgMatQueryableDataTableComponent {}
+export class NeurogliaNgMatODataDataTableComponent extends NeurogliaNgMatQueryableDataTableComponent {}
