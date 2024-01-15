@@ -244,57 +244,56 @@ describe('NeurogliaNgMatGraphQLDataTableComponent', () => {
     it('should display the data table', async () => {
       fixture.componentRef.setInput('configuration', config);
       fixture.detectChanges();
-      return fixture.whenStable().then(async () => {
-        let expectedColumns = [...expectedPlanetFields];
-        if (config.enableSelection === true) {
-          expectedColumns = [selectRowColumnDefinition.name, ...expectedColumns];
-        }
-        if (config.enableRowExpansion === true) {
-          expectedColumns = [expandRowColumnDefinition.name, ...expectedColumns];
-        }
-        const expectedColumnsCount = expectedColumns.length;
-        const expectedData = dataSelector(expectedPlanetResponse).slice(0, expectedDefaultPageSize);
-        const facade = componentElement.querySelector('neuroglia-mat-queryable-table-facade');
-        const queryableTableEntry = componentElement.querySelector('neuroglia-mat-queryable-table-table');
-        const responsiveTable = componentElement.querySelector('.responsive-table > table');
-        const thead = responsiveTable?.querySelector('thead');
-        const headers = Array.from(thead?.querySelectorAll('th') || []);
-        const tbody = responsiveTable?.querySelector('tbody');
-        const rows = Array.from(tbody?.querySelectorAll('tr') || []);
-        const tfoot = responsiveTable?.querySelector('tfoot');
-        const footer = componentElement.querySelector('.table-footer');
-        const enableColumnSettings = footer?.querySelector('.column-settings');
-        const progressBar = await loader.getHarness(MatProgressBarHarness);
-        const paginator = await loader.getHarness(MatPaginatorHarness);
+      await fixture.whenStable();
+      let expectedColumns = [...expectedPlanetFields];
+      if (config.enableSelection === true) {
+        expectedColumns = [selectRowColumnDefinition.name, ...expectedColumns];
+      }
+      if (config.enableRowExpansion === true) {
+        expectedColumns = [expandRowColumnDefinition.name, ...expectedColumns];
+      }
+      const expectedColumnsCount = expectedColumns.length;
+      const expectedData = dataSelector(expectedPlanetResponse).slice(0, expectedDefaultPageSize);
+      const facade = componentElement.querySelector('neuroglia-mat-queryable-table-facade');
+      const queryableTableEntry = componentElement.querySelector('neuroglia-mat-queryable-table-table');
+      const responsiveTable = componentElement.querySelector('.responsive-table > table');
+      const thead = responsiveTable?.querySelector('thead');
+      const headers = Array.from(thead?.querySelectorAll('th') || []);
+      const tbody = responsiveTable?.querySelector('tbody');
+      const rows = Array.from(tbody?.querySelectorAll('tr') || []);
+      const tfoot = responsiveTable?.querySelector('tfoot');
+      const footer = componentElement.querySelector('.table-footer');
+      const enableColumnSettings = footer?.querySelector('.column-settings');
+      const progressBar = await loader.getHarness(MatProgressBarHarness);
+      const paginator = await loader.getHarness(MatPaginatorHarness);
 
-        expect(component).withContext('component').toBeDefined();
-        expect(facade).withContext('facade').toBeDefined();
-        expect(progressBar).withContext('progressBar').toBeDefined();
-        expect(await progressBar.getValue())
-          .withContext('progressBar value')
-          .toBe(100);
-        expect(queryableTableEntry).withContext('queryableTableEntry').toBeDefined();
-        expect(responsiveTable).withContext('responsiveTable').toBeDefined();
-        expect(thead).withContext('thead').toBeDefined();
-        expect(tbody).withContext('tbody').toBeDefined();
-        expect(tfoot).withContext('tfoot').toBeDefined();
-        expect(footer).withContext('footer').toBeDefined();
-        if (config.enableColumnSettings === false) {
-          expect(enableColumnSettings).withContext('enableColumnSettings').toBeFalsy();
-        } else {
-          expect(enableColumnSettings).withContext('enableColumnSettings').toBeDefined();
-        }
-        expect(paginator).withContext('paginator').toBeDefined();
-        expect(headers.length).withContext('headers count').toBe(expectedColumnsCount);
-        expect(rows.length).withContext('rows count').toBe(expectedDefaultPageSize);
-        expectedColumns.forEach((column, index) => {
-          const humanColumn = humanCase(column, true);
-          expect(headers[index].textContent).withContext(`header '${humanColumn}'(#${index})`).toContain(humanColumn);
-        });
-        expectedData.forEach((data, index) => {
-          const firstCell = rows[index].querySelector('neuroglia-mat-queryable-table-cell-default');
-          expect(firstCell?.textContent?.trim()).toEqual(data[expectedPlanetFields[0]]);
-        });
+      expect(component).withContext('component').toBeDefined();
+      expect(facade).withContext('facade').toBeDefined();
+      expect(progressBar).withContext('progressBar').toBeDefined();
+      expect(await progressBar.getValue())
+        .withContext('progressBar value')
+        .toBe(100);
+      expect(queryableTableEntry).withContext('queryableTableEntry').toBeDefined();
+      expect(responsiveTable).withContext('responsiveTable').toBeDefined();
+      expect(thead).withContext('thead').toBeDefined();
+      expect(tbody).withContext('tbody').toBeDefined();
+      expect(tfoot).withContext('tfoot').toBeDefined();
+      expect(footer).withContext('footer').toBeDefined();
+      if (config.enableColumnSettings === false) {
+        expect(enableColumnSettings).withContext('enableColumnSettings').toBeFalsy();
+      } else {
+        expect(enableColumnSettings).withContext('enableColumnSettings').toBeDefined();
+      }
+      expect(paginator).withContext('paginator').toBeDefined();
+      expect(headers.length).withContext('headers count').toBe(expectedColumnsCount);
+      expect(rows.length).withContext('rows count').toBe(expectedDefaultPageSize);
+      expectedColumns.forEach((column, index) => {
+        const humanColumn = humanCase(column, true);
+        expect(headers[index].textContent).withContext(`header '${humanColumn}'(#${index})`).toContain(humanColumn);
+      });
+      expectedData.forEach((data, index) => {
+        const firstCell = rows[index].querySelector('neuroglia-mat-queryable-table-cell-default');
+        expect(firstCell?.textContent?.trim()).toEqual(data[expectedPlanetFields[0]]);
       });
     });
   });
@@ -303,34 +302,30 @@ describe('NeurogliaNgMatGraphQLDataTableComponent', () => {
     it('should display the second page with 10 results per page', async () => {
       fixture.componentRef.setInput('configuration', config);
       fixture.detectChanges();
+      await fixture.whenStable();
       const expectedPageSize = 10;
       const expectedPageIndex = 1;
-      return fixture
-        .whenStable()
-        .then(() => loader.getHarness(MatPaginatorHarness))
-        .then((paginator) => {
-          return paginator
-            .setPageSize(expectedPageSize)
-            .then(() => paginator.goToNextPage())
-            .then(() => fixture.whenStable());
-        })
-        .then(async () => {
-          const start = expectedPageSize * expectedPageIndex;
-          const expectedData = dataSelector(expectedPlanetResponse).slice(start, start + expectedPageSize);
-          const facade = componentElement.querySelector('neuroglia-mat-queryable-table-facade');
-          const responsiveTable = componentElement.querySelector('.responsive-table > table');
-          const tbody = responsiveTable?.querySelector('tbody');
-          const rows = Array.from(tbody?.querySelectorAll('tr') || []);
-          expect(component).withContext('component').toBeDefined();
-          expect(facade).withContext('facade').toBeDefined();
-          expect(responsiveTable).withContext('responsiveTable').toBeDefined();
-          expect(tbody).withContext('tbody').toBeDefined();
-          expect(rows.length).withContext('rows count').toBe(expectedPageSize);
-          expectedData.forEach((data, index) => {
-            const firstCell = rows[index].querySelector('neuroglia-mat-queryable-table-cell-default');
-            expect(firstCell?.textContent?.trim()).toEqual(data[expectedPlanetFields[0]]);
-          });
-        });
+      const paginator = await loader.getHarness(MatPaginatorHarness);
+      await paginator
+        .setPageSize(expectedPageSize)
+        .then(() => paginator.goToNextPage())
+        .then(() => fixture.whenStable());
+      const start = expectedPageSize * expectedPageIndex;
+      const expectedData = dataSelector(expectedPlanetResponse).slice(start, start + expectedPageSize);
+      const facade = componentElement.querySelector('neuroglia-mat-queryable-table-facade');
+      const responsiveTable = componentElement.querySelector('.responsive-table > table');
+      const tbody = responsiveTable?.querySelector('tbody');
+      const rows = Array.from(tbody?.querySelectorAll('tr') || []);
+
+      expect(component).withContext('component').toBeDefined();
+      expect(facade).withContext('facade').toBeDefined();
+      expect(responsiveTable).withContext('responsiveTable').toBeDefined();
+      expect(tbody).withContext('tbody').toBeDefined();
+      expect(rows.length).withContext('rows count').toBe(expectedPageSize);
+      expectedData.forEach((data, index) => {
+        const firstCell = rows[index].querySelector('neuroglia-mat-queryable-table-cell-default');
+        expect(firstCell?.textContent?.trim()).toEqual(data[expectedPlanetFields[0]]);
+      });
     });
   });
 });
