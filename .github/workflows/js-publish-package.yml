@@ -9,13 +9,16 @@ on:
       name:
         required: true
         type: string
+      publish:
+        required: true
+        type: string
     secrets:
       NPM_TOKEN:
         required: true
 
 jobs:
   publish:
-    if: (github.event_name == 'push' && github.ref_name == 'main') || github.event_name =='workflow_dispatch'
+    if: inputs.publish == 'true' && ((github.event_name == 'push' && github.ref_name == 'main') || github.event_name =='workflow_dispatch')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

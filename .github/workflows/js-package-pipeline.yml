@@ -23,9 +23,28 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       package-config: ${{ steps.package-config.outputs.package }}
+      need-publish: ${{ steps.detection.outputs.changed }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: List changed files
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          list-files: 'json'
+          filters: |
+            ${{ inputs.package }}: 'projects/neuroglia/${{ inputs.package }}/src/**'
+    
+      - name: Build files changes key
+        id: files
+        run: echo "key=${{ inputs.package }}_files" >> "$GITHUB_OUTPUT"
+
+      - name: Detect source changes (ignore if only tests changed)
+        id: detection
+        run: |
+          changed=`echo '${{ steps.changes.outputs[steps.files.outputs.key] }}' | jq 'any(. | (endswith(".spec.ts") | not ) )' --compact-output`
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
       
       - name: Read packages configuration file
         id: package-config
@@ -36,6 +55,9 @@ jobs:
           package=`cat ${workspaceRoot}$packageRoot/package.json | jq --argjson package "$package" '$package + { dependencies: (.peerDependencies//{})|[keys[]|select(startswith("@neuroglia"))] }' --compact-output`
           echo "package=$package" >> "$GITHUB_OUTPUT"
       
+      - name: Defined output 'need-publish' as
+        run: echo "${{ steps.detection.outputs.changed }}"
+
       - name: Defined output 'package-config' as
         run: echo "${{ steps.package-config.outputs.package }}"
 
@@ -94,6 +116,7 @@ jobs:
     with:
       name: ${{ fromJSON(needs.config.outputs.package-config).name }}
       path: ${{ fromJSON(needs.config.outputs.package-config).path }}
+      publish: ${{ needs.config.outputs.need-publish }}
 
   cleanup:
     if: ${{ always() }}
